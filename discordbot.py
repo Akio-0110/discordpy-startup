@@ -16,6 +16,10 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
+    await ctx.send('Logged in as')
+    await ctx.send(bot.user.name)
+    await ctx.send(bot.user.id)
+    await ctx.send('------')
 
 @bot.command()
 async def ping(ctx):
