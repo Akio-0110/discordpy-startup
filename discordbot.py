@@ -21,6 +21,10 @@ async def on_ready():
     print(bot.user.id)
     print('------')
 
+@bot.command(name="こんにちは")
+async def hello(ctx):
+    await ctx.send(f"どうも、{ctx.message.author.name}さん！")
+
 @bot.command()
 async def ping(ctx):
     await ctx.send('pong')
