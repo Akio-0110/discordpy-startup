@@ -3,6 +3,8 @@ import os
 import traceback
 import discord
 import asyncio
+client = discord.Client()
+message = discord.Message()
 
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
