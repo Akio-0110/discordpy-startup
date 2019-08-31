@@ -8,11 +8,11 @@ bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
 
 
-@bot.command(name="こんにちは")
+@bot.command(name="/こんにちわ")
 async def hello(ctx):
     await ctx.send(f"どうも、{ctx.message.author.name}さん！")
     await ctx.send(f"どうも、{ctx.message.author}さん！")
-    
+
 @bot.event
 async def on_command_error(ctx, error):
     await ctx.send(str(error))
@@ -21,12 +21,12 @@ async def on_command_error(ctx, error):
     await ctx.send(bot.user.id)
     await ctx.send('------')
 
-@bot.event
-async def on_ready():
-    print('Logged in as')
-    print(bot.user.name)
-    print(bot.user.id)
-    print('------')
+#@bot.event
+#async def on_ready():
+#    print('Logged in as')
+#    print(bot.user.name)
+#    print(bot.user.id)
+#    print('------')
 
 @bot.command()
 async def ping(ctx):
