@@ -13,8 +13,7 @@ async def hello(ctx):
     await ctx.send(f"どうも、{ctx.message.author.name}さん！")
     await ctx.send(f"どうも、{ctx.message.author}さん！")
 
-    send_id = ctx.send.id(ctx.message.author.id)
-    await ctx.send_id(f"どうも、{ctx.message.author.name}さん！", send_id)
+    await ctx.send_id(f"どうも、{ctx.message.author.name}さん！", username = ctx.message.author.name)
 
 @bot.event
 async def on_command_error(ctx, error):
