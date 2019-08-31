@@ -12,7 +12,9 @@ token = os.environ['DISCORD_BOT_TOKEN']
 async def hello(ctx):
     await ctx.send(f"どうも、{ctx.message.author.name}さん！")
     await ctx.send(f"どうも、{ctx.message.author}さん！")
-    await send(f"どうも、{ctx.message.author.name}さん！", id = ctx.message.author.id)
+    await bot.send(f"どうも、{ctx.message.author.name}さん！")
+    await bot.send(f"どうも、{ctx.message.author}さん！")
+    await bot.send(f"どうも、{ctx.message.author.name}さん！", id = ctx.message.author.id)
 
 @bot.event
 async def on_command_error(ctx, error):
