@@ -3,7 +3,7 @@ import os
 import traceback
 import discord
 import asyncio
-import pymysql.cursors
+#import MySQLdb
 
 
 
@@ -15,9 +15,9 @@ async def hello(ctx):
     await ctx.author.send(f"どうも、{ctx.message.author.name}さん！")
     await ctx.author.send(f"どうも、{ctx.message.author}さん！")
 
-#@bot.command(name="make")
-#async def Make(ctx, arg):
-    #await ctx.channel.send(f"{arg}を作成しました。")
+@bot.command(name="make")
+async def Make(ctx, arg):
+    await ctx.channel.send(f"{arg}を作成しました。")
     #con = MySQLdb.connect(
     #    user='b600998caa803a',
     #    passwd='7d7aec23',
