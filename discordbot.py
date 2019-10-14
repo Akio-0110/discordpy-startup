@@ -5,7 +5,7 @@ import discord
 import asyncio
 #import MySQLdb
 
-int number
+#int number
 
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
