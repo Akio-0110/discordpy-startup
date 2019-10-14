@@ -58,7 +58,8 @@ async def Make(ctx, arg):
 
 @bot.command(name="in")
 async def hello(ctx):
-    await ctx.channel.send(f"{ctx.message.author.name}さんが入室しました")
+    if (number is None) number = 0
+    await ctx.channel.send(f"{number}人目：{ctx.message.author.name}さんが入室しました")
 
 @bot.event
 async def on_command_error(ctx, error):
