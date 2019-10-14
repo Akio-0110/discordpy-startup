@@ -9,9 +9,12 @@ token = os.environ['DISCORD_BOT_TOKEN']
 
 @bot.command(name="こんにちは")
 async def hello(ctx):
-    await ctx.channel.send(f"どうも、{ctx.message.author.name}さん！")
-    await ctx.channel.send(f"どうも、{ctx.message.author}さん！")
-    ch = client.get_channel(84319995256905728)
+    await ctx.author.send(f"どうも、{ctx.message.author.name}さん！")
+    await ctx.author.send(f"どうも、{ctx.message.author}さん！")
+
+@bot.command(name="in")
+async def hello(ctx):
+    await ctx.channel.send(f"{ctx.message.author.name}さんが入室しました")
 
 @bot.event
 async def on_command_error(ctx, error):
