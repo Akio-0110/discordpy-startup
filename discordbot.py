@@ -16,8 +16,8 @@ async def Hello(ctx):
     await ctx.author.send(f"どうも、{ctx.message.author}さん！")
 
 @bot.command(name="make")
-async def Make(ctx, *arg1):
-    await ctx.channel.send(f"{arg1}を作成しました。")
+async def Make(ctx, arg):
+    await ctx.channel.send(f"{arg}を作成しました。")
     #con = MySQLdb.connect(
     #    user='b600998caa803a',
     #    passwd='7d7aec23',
