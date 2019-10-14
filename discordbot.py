@@ -5,7 +5,7 @@ import discord
 import asyncio
 #import MySQLdb
 
-int number;
+int number
 
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
@@ -58,7 +58,7 @@ async def Make(ctx, arg):
 
 @bot.command(name="in")
 async def hello(ctx):
-    if (number is None) number = 0
+    #if (number is None) number = 0
     await ctx.channel.send(f"{number}人目：{ctx.message.author.name}さんが入室しました")
 
 @bot.event
