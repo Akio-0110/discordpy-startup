@@ -7,11 +7,10 @@ import asyncio
 bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
 
-
 @bot.command(name="こんにちは")
 async def hello(ctx):
-    await ctx.send(f"どうも、{ctx.message.author.name}さん！")
-    await ctx.send(f"どうも、{ctx.message.author}さん！")
+    await ctx.author.send(f"どうも、{ctx.message.author.name}さん！")
+    await ctx.author.send(f"どうも、{ctx.message.author}さん！")
     ch = client.get_channel(84319995256905728)
 
 @bot.event
