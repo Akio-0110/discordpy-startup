@@ -15,9 +15,9 @@ async def Hello(ctx):
     await ctx.author.send(f"どうも、{ctx.message.author.name}さん！")
     await ctx.author.send(f"どうも、{ctx.message.author}さん！")
 
-@bot.command(name="make")
-async def Make(ctx, arg1):
-    await ctx.channel.send(f"{arg1}を作成しました。")
+#@bot.command(name="make")
+#async def Make(ctx, *arg1):
+    #await ctx.channel.send(f"{arg1}を作成しました。")
     #con = MySQLdb.connect(
     #    user='b600998caa803a',
     #    passwd='7d7aec23',
@@ -51,7 +51,7 @@ async def Make(ctx, arg1):
     #await ctx.channel.send(f"game_stop = {row}")
 
 @bot.command(name="f")
-async def Close(ctx, arg1):
+async def Close(ctx):
     cursor.close()
     con.close()
     await ctx.channel.send(f"データベースを初期化します")
