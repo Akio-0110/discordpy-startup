@@ -3,7 +3,6 @@ import os
 import traceback
 import discord
 import asyncio
-import MySQLdb
 
 
 
