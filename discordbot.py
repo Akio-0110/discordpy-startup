@@ -11,13 +11,13 @@ bot = commands.Bot(command_prefix='/')
 token = os.environ['DISCORD_BOT_TOKEN']
 
 @bot.command(name="こんにちは")
-async def Hello(ctx):
+async def hello(ctx):
     await ctx.author.send(f"どうも、{ctx.message.author.name}さん！")
     await ctx.author.send(f"どうも、{ctx.message.author}さん！")
 
-@bot.command(name="make")
-async def Make(ctx, arg):
-    await ctx.channel.send(f"{arg}を作成しました。")
+#@bot.command(name="make")
+#async def Make(ctx, arg):
+    #await ctx.channel.send(f"{arg}を作成しました。")
     #con = MySQLdb.connect(
     #    user='b600998caa803a',
     #    passwd='7d7aec23',
@@ -50,11 +50,11 @@ async def Make(ctx, arg):
     #await ctx.channel.send(f"game_phase = {row}")
     #await ctx.channel.send(f"game_stop = {row}")
 
-@bot.command(name="f")
-async def Close(ctx):
+#@bot.command(name="f")
+#async def Close(ctx):
     #cursor.close()
     #con.close()
-    await ctx.channel.send(f"データベースを初期化します")
+    #await ctx.channel.send(f"データベースを初期化します")
 
 @bot.command(name="in")
 async def hello(ctx):
