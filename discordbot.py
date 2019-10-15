@@ -5,7 +5,7 @@ import discord
 import asyncio
 import mysql.connector
 from mysql.connector import errorcode
-ß
+
 #int number
 
 bot = commands.Bot(command_prefix='/')
