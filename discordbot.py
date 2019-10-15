@@ -3,8 +3,9 @@ import os
 import traceback
 import discord
 import asyncio
-#import MySQLdb
-
+import mysql.connector
+from mysql.connector import errorcode
+ß
 #int number
 
 bot = commands.Bot(command_prefix='/')
