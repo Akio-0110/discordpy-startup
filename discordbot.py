@@ -1,83 +1,96 @@
+from discord.ext import commands
+import os
+import traceback
 import discord
 import asyncio
-#import MySQLdb
 
 #int number
 
-client = discord.Client()
-token = "DISCORD_BOT_TOKEN"
+bot = commands.Bot(command_prefix='/')
+token = os.environ['DISCORD_BOT_TOKEN']
 
-#Usage_avalon="""
-# コマンド
-#   m      : 村作成
-#   n      : コメント
-#   s      : 成功
-#   f      : 失敗
-#   v      : 承認
-#   r      : 却下
-#"""
+@bot.command(name="こんにちは")
+async def hello(ctx):
+    await ctx.author.send(f"どうも、{ctx.message.author.name}さん！")
+    await ctx.author.send(f"どうも、{ctx.message.author}さん！")
 
-#################################
-# SQL文
-#################################
-# 新規登録
-#createSQL= \
-#    "INSERT INTO \
-#        loan_user_data ( \
-#            username,\
-#            loan,\
-#            datecreated,\
-#            updatedate\
-#        ) \
-#        VALUES( \
-#            %s,\
-#            %s,\
-#            now(),\
-#            now() \
-#        )"
-# データ更新
-#updateSQL= \
-#    "UPDATE \
-#        loan_user_data \
-#    SET \
-#        loan = %s ,\
-#        updatedate = now() \
-#    WHERE \
-#        username = %s "
+@bot.command(name="make")
+async def Make(ctx, arg):
+    await ctx.channel.send(f"{arg}を作成しました。")
+    #con = MySQLdb.connect(
+    #    user='b600998caa803a',
+    #    passwd='7d7aec23',
+    #    host='us-cdbr-iron-east-02.cleardb.net',
+    #    db='heroku_0b2656996c2477a')
+    #await ctx.channel.send(f"データベースにアクセスしました。")
+    #cur = con.cursor()
+    #cursor.execute('select * from avalon_data')
+    #row = cursor.fetchone()
 
-#################################
-# ログイン時のアクション
-#################################
-#@client.event
+    #await ctx.channel.send(f"game_status = {row}")
+    #await ctx.channel.send(f"quest_cnt = {row}")
+    #await ctx.channel.send(f"vote_cnt = {row}")
+    #await ctx.channel.send(f"game_phase = {row}")
+    #await ctx.channel.send(f"game_stop = {row}")
+    #game_status = 1
+    #quest_cnt = 2
+    #vote_cnt = 3
+    #game_phase = 4
+    #game_stop = 5
+    #cursor.excute("insert into avalon_data
+    #  (game_status, quest_cnt, vote_cnt, game_phase, game_stop)
+    #    values (%d, %d, %d, %d, %d)",
+    #        (game_status, quest_cnt, vote_cnt, game_phase, game_stop))
+    #cursor.execute('select * from avalon_data')
+    #row = cursor.fetchone()
+    #await ctx.channel.send(f"game_status = {row}")
+    #await ctx.channel.send(f"quest_cnt = {row}")
+    #await ctx.channel.send(f"vote_cnt = {row}")
+    #await ctx.channel.send(f"game_phase = {row}")
+    #await ctx.channel.send(f"game_stop = {row}")
+
+#@bot.command(name="f")
+#async def Close(ctx):
+    #cursor.close()
+    #con.close()
+    #await ctx.channel.send(f"データベースを初期化します")
+
+@bot.command(name="in")
+async def hello(ctx):
+    #if (number is None) number = 0
+    #await ctx.channel.send(f"{number}人目：{ctx.message.author.name}さんが入室しました")
+    await ctx.channel.send(f"人目：{ctx.message.author.name}さんが入室しました")
+
+@bot.event
+async def on_command_error(ctx, error):
+    await ctx.send(str(error))
+    await ctx.send('Logged in as')
+    await ctx.send(bot.user.name)
+    await ctx.send(bot.user.id)
+    await ctx.send('------')
+
+#@bot.event
 #async def on_ready():
 #    print('Logged in as')
-#    print(client.user.name)
-#    print(client.user.id)
+#    print(bot.user.name)
+#    print(bot.user.id)
 #    print('------')
 
-    #################################
-    # ヘルプコマンド:?help
-    #################################
-#    if message.content.startswith("h"):
-#        if client.user != message.author:
-#            m = Usage_avalon
-#            await client.send_message(message.channel, m)
+@bot.command()
+async def ping(ctx):
+    await ctx.send('pong')
+    await ctx.send('goodbye')
 
-#################################
-# DB接続処理
-#################################
-#def get_dbconnect():
-#    for cnt in range( 1, 4 ):
-#        try:
-#            connector = MySQLdb.connect( host="us-cdbr-iron-east-02.cleardb.net", db="heroku_0b2656996c2477a", user="b600998caa803a", passwd="7d7aec23", charset="utf8")
-#            cur = connector.cursor()
-#            break
-#        except Exception as e:
-#            print("DB接続に失敗しました。[" + str(cnt)  + "回目]" )
-#    else:
-#        print("DB接続に3回失敗しました。")
-#        raise
-#
-#    return connector,cur
+@bot.command()
+async def add(ctx, a: int, b: int):
+    await ctx.send(a+b)
 
-client.run(token)
+@bot.command()
+async def multiply(ctx, a: int, b: int):
+    await ctx.send(a*b)
+
+@bot.command()
+async def greet(ctx):
+    await ctx.send(":smiley: :wave: Hello, there!")
+
+bot.run(token)
