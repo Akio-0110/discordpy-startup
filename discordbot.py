@@ -7,15 +7,15 @@ import asyncio
 client = discord.Client()
 token = "DISCORD_BOT_TOKEN"
 
-Usage_avalon="""
- コマンド
-   m      : 村作成
-   n      : コメント
-   s      : 成功
-   f      : 失敗
-   v      : 承認
-   r      : 却下
-"""
+#Usage_avalon="""
+# コマンド
+#   m      : 村作成
+#   n      : コメント
+#   s      : 成功
+#   f      : 失敗
+#   v      : 承認
+#   r      : 却下
+#"""
 
 #################################
 # SQL文
@@ -58,10 +58,10 @@ async def on_ready():
     #################################
     # ヘルプコマンド:?help
     #################################
-    if message.content.startswith("h"):
-        if client.user != message.author:
-            m = Usage_avalon
-            await client.send_message(message.channel, m)
+#    if message.content.startswith("h"):
+#        if client.user != message.author:
+#            m = Usage_avalon
+#            await client.send_message(message.channel, m)
 
 #################################
 # DB接続処理
