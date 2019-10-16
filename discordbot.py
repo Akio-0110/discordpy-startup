@@ -2,6 +2,7 @@ from discord.ext import commands
 import os
 import discord
 import asyncio
+import MySQLdb
 
 #int number
 
