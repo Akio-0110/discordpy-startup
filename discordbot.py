@@ -14,9 +14,9 @@ token = os.environ['DISCORD_BOT_TOKEN']
 #    await ctx.author.send(f"どうも、{ctx.message.author.name}さん！")
 #    await ctx.author.send(f"どうも、{ctx.message.author}さん！")
 
-@bot.command(name="make")
-async def Make(ctx, arg):
-    await ctx.channel.send(f"{arg}を作成しました。")
+#@bot.command(name="make")
+#async def Make(ctx, arg):
+#    await ctx.channel.send(f"{arg}を作成しました。")
     #con = MySQLdb.connect(
     #    user='b600998caa803a',
     #    passwd='7d7aec23',
@@ -55,11 +55,11 @@ async def Make(ctx, arg):
     #con.close()
     #await ctx.channel.send(f"データベースを初期化します")
 
-@bot.command(name="in")
-async def hello(ctx):
+#@bot.command(name="in")
+#async def hello(ctx):
     #if (number is None) number = 0
     #await ctx.channel.send(f"{number}人目：{ctx.message.author.name}さんが入室しました")
-    await ctx.channel.send(f"人目：{ctx.message.author.name}さんが入室しました")
+#    await ctx.channel.send(f"人目：{ctx.message.author.name}さんが入室しました")
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -76,21 +76,21 @@ async def on_command_error(ctx, error):
 #    print(bot.user.id)
 #    print('------')
 
-@bot.command()
-async def ping(ctx):
-    await ctx.send('pong')
-    await ctx.send('goodbye')
+#@bot.command()
+#async def ping(ctx):
+#    await ctx.send('pong')
+#    await ctx.send('goodbye')
 
-@bot.command()
-async def add(ctx, a: int, b: int):
-    await ctx.send(a+b)
+#@bot.command()
+#async def add(ctx, a: int, b: int):
+#    await ctx.send(a+b)
 
-@bot.command()
-async def multiply(ctx, a: int, b: int):
-    await ctx.send(a*b)
+#@bot.command()
+#async def multiply(ctx, a: int, b: int):
+#    await ctx.send(a*b)
 
-@bot.command()
-async def greet(ctx):
-    await ctx.send(":smiley: :wave: Hello, there!")
+#@bot.command()
+#async def greet(ctx):
+#    await ctx.send(":smiley: :wave: Hello, there!")
 
 bot.run(token)
