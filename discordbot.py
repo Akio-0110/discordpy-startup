@@ -1,13 +1,13 @@
 from discord.ext import commands
 import os
-import traceback
 import discord
 import asyncio
 
 #int number
 
 bot = commands.Bot(command_prefix='/')
-token = os.environ['DISCORD_BOT_TOKEN']
+#token = os.environ['DISCORD_BOT_TOKEN']
+token = 'DISCORD_BOT_TOKEN'
 
 @bot.command(name="こんにちは")
 async def hello(ctx):
