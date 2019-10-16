@@ -1,6 +1,6 @@
 import discord
 import asyncio
-import MySQLdb
+#import MySQLdb
 
 #int number
 
@@ -66,18 +66,18 @@ async def on_ready():
 #################################
 # DB接続処理
 #################################
-def get_dbconnect():
-    for cnt in range( 1, 4 ):
-        try:
-            connector = MySQLdb.connect( host="us-cdbr-iron-east-02.cleardb.net", db="heroku_0b2656996c2477a", user="b600998caa803a", passwd="7d7aec23", charset="utf8")
-            cur = connector.cursor()
-            break
-        except Exception as e:
-            print("DB接続に失敗しました。[" + str(cnt)  + "回目]" )
-    else:
-        print("DB接続に3回失敗しました。")
-        raise
-
-    return connector,cur
+#def get_dbconnect():
+#    for cnt in range( 1, 4 ):
+#        try:
+#            connector = MySQLdb.connect( host="us-cdbr-iron-east-02.cleardb.net", db="heroku_0b2656996c2477a", user="b600998caa803a", passwd="7d7aec23", charset="utf8")
+#            cur = connector.cursor()
+#            break
+#        except Exception as e:
+#            print("DB接続に失敗しました。[" + str(cnt)  + "回目]" )
+#    else:
+#        print("DB接続に3回失敗しました。")
+#        raise
+#
+#    return connector,cur
 
 client.run(token)
