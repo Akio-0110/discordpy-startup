@@ -5,7 +5,7 @@ import asyncio
 #int number
 
 client = discord.Client()
-token = os.environ['DISCORD_BOT_TOKEN']
+token = 'DISCORD_BOT_TOKEN'
 
 Usage_avalon="""
  コマンド
