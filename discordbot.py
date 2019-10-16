@@ -5,7 +5,7 @@ import asyncio
 #int number
 
 client = discord.Client()
-token = 'DISCORD_BOT_TOKEN'
+token = "DISCORD_BOT_TOKEN"
 
 Usage_avalon="""
  コマンド
@@ -21,29 +21,29 @@ Usage_avalon="""
 # SQL文
 #################################
 # 新規登録
-createSQL= \
-    "INSERT INTO \
-        loan_user_data ( \
-            username,\
-            loan,\
-            datecreated,\
-            updatedate\
-        ) \
-        VALUES( \
-            %s,\
-            %s,\
-            now(),\
-            now() \
-        )"
+#createSQL= \
+#    "INSERT INTO \
+#        loan_user_data ( \
+#            username,\
+#            loan,\
+#            datecreated,\
+#            updatedate\
+#        ) \
+#        VALUES( \
+#            %s,\
+#            %s,\
+#            now(),\
+#            now() \
+#        )"
 # データ更新
-updateSQL= \
-    "UPDATE \
-        loan_user_data \
-    SET \
-        loan = %s ,\
-        updatedate = now() \
-    WHERE \
-        username = %s "
+#updateSQL= \
+#    "UPDATE \
+#        loan_user_data \
+#    SET \
+#        loan = %s ,\
+#        updatedate = now() \
+#    WHERE \
+#        username = %s "
 
 #################################
 # ログイン時のアクション
