@@ -6,13 +6,13 @@ import asyncio
 #int number
 
 #bot = commands.Bot(command_prefix='/')
-bot = commands.Bot()
+bot = discord.Client()
 token = os.environ['DISCORD_BOT_TOKEN']
 
-@bot.command(name="こんにちは")
-async def hello(ctx):
-    await ctx.author.send(f"どうも、{ctx.message.author.name}さん！")
-    await ctx.author.send(f"どうも、{ctx.message.author}さん！")
+#@bot.command(name="こんにちは")
+#async def hello(ctx):
+#    await ctx.author.send(f"どうも、{ctx.message.author.name}さん！")
+#    await ctx.author.send(f"どうも、{ctx.message.author}さん！")
 
 @bot.command(name="make")
 async def Make(ctx, arg):
