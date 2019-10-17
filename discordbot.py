@@ -1,7 +1,7 @@
 import os
 import discord
 import asyncio
-#import MySQLdb
+import MySQLdb
 
 client = discord.Client()
 token = os.environ['DISCORD_BOT_TOKEN']
@@ -9,15 +9,15 @@ token = os.environ['DISCORD_BOT_TOKEN']
 #################################
 # Usage文
 #################################
-Usage_avalon="""
- コマンド
-   h   : ヘルプ（コマンド一覧）
-   m   : 村作成
-   v   : 承認
-   q   : 却下
-   s   : 成功
-   f   : 失敗
-"""
+#Usage_avalon="""
+# コマンド
+#   h   : ヘルプ（コマンド一覧）
+#   m   : 村作成
+#   v   : 承認
+#   q   : 却下
+#   s   : 成功
+#   f   : 失敗
+#"""
 
 #@bot.command(name="こんにちは")
 #async def hello(ctx):
