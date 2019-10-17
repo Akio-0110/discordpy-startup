@@ -12,14 +12,14 @@ token = os.environ['DISCORD_BOT_TOKEN']
 #################################
 # Usage文
 #################################
-#Usage_avalon="""
-# コマンド
-#   m   : 村作成
-#   v   : 承認
-#   q   : 却下
-#   s   : 成功
-#   f   : 失敗
-#"""
+Usage_avalon="""
+ コマンド
+   m   : 村作成
+   v   : 承認
+   q   : 却下
+   s   : 成功
+   f   : 失敗
+"""
 
 #@bot.command(name="こんにちは")
 #async def hello(ctx):
@@ -73,23 +73,23 @@ token = os.environ['DISCORD_BOT_TOKEN']
     #await ctx.channel.send(f"{number}人目：{ctx.message.author.name}さんが入室しました")
 #    await ctx.channel.send(f"人目：{ctx.message.author.name}さんが入室しました")
 
-#@client.event
-#async def on_command_error(ctx, error):
-#    await ctx.send(str(error))
-#    await ctx.send('Logged in as')
-#    await ctx.send(client.user.name)
-#    await ctx.send(client.user.id)
-#    await ctx.send('------')
+@client.event
+async def on_command_error(ctx, error):
+    await ctx.send(str(error))
+    await ctx.send('Logged in as')
+    await ctx.send(client.user.name)
+    await ctx.send(client.user.id)
+    await ctx.send('------')
 
-#@client.event
-#async def on_massage(message):
+@client.event
+async def on_massage(message):
     #################################
     # ヘルプコマンド:?help
     #################################
-    #if message.content.startswith("h"):
-    #    if bot.user != message.author:
-    #        m = Usage_avalon
-    #        await bot.send_message(message.channel, m)
+    if message.content.startswith("h"):
+        if bot.user != message.author:
+            m = Usage_avalon
+            await bot.send_message(message.channel, m)
 #            await client.send_message(message.channel, m)
 
 #@bot.command()
@@ -109,4 +109,4 @@ token = os.environ['DISCORD_BOT_TOKEN']
 #async def greet(ctx):
 #    await ctx.send(":smiley: :wave: Hello, there!")
 
-bot.run(token)
+client.run(token)
