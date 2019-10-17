@@ -6,9 +6,20 @@ import MySQLdb
 
 #int number
 
-#bot = commands.Bot(command_prefix='/')
-bot = discord.Client()
+client = discord.Client()
 token = os.environ['DISCORD_BOT_TOKEN']
+
+#################################
+# Usage文
+#################################
+Usage_avalon="""
+ コマンド
+   m   : 村作成
+   v   : 承認
+   q   : 却下
+   s   : 成功
+   f   : 失敗
+"""
 
 #@bot.command(name="こんにちは")
 #async def hello(ctx):
@@ -62,20 +73,24 @@ token = os.environ['DISCORD_BOT_TOKEN']
     #await ctx.channel.send(f"{number}人目：{ctx.message.author.name}さんが入室しました")
 #    await ctx.channel.send(f"人目：{ctx.message.author.name}さんが入室しました")
 
-@bot.event
+@client.event
 async def on_command_error(ctx, error):
     await ctx.send(str(error))
     await ctx.send('Logged in as')
-    await ctx.send(bot.user.name)
-    await ctx.send(bot.user.id)
+    await ctx.send(client.user.name)
+    await ctx.send(client.user.id)
     await ctx.send('------')
 
-#@bot.event
-#async def on_ready():
-#    print('Logged in as')
-#    print(bot.user.name)
-#    print(bot.user.id)
-#    print('------')
+@client.event
+async def on_massage(message):
+    #################################
+    # ヘルプコマンド:?help
+    #################################
+    if message.content.startswith("h"):
+        if bot.user != message.author:
+            m = Usage_avalon
+            await bot.send_message(message.channel, m)
+#            await client.send_message(message.channel, m)
 
 #@bot.command()
 #async def ping(ctx):
