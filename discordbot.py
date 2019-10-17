@@ -13,6 +13,7 @@ token = os.environ['DISCORD_BOT_TOKEN']
 #################################
 Usage_avalon="""
  コマンド
+   h   : ヘルプ（コマンド一覧）
    m   : 村作成
    v   : 承認
    q   : 却下
@@ -81,14 +82,14 @@ Usage_avalon="""
 #    await ctx.send('------')
 
 @client.event
-async def on_massage(message):
+async def on_massage(ctx, message):
     #################################
     # ヘルプコマンド:?help
     #################################
     if message.content.startswith("h"):
-        if client.user != message.author:
+        if client.user != ctx.message.author:
             m = Usage_avalon
-            await client.author.send(m)
+            await ctx.author.send(m)
             #await client.send_message(message.channel, m)
 
 #@bot.command()
