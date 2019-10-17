@@ -1,7 +1,7 @@
 import os
 import discord
 import asyncio
-import MySQLdb
+#import MySQLdb
 
 client = discord.Client()
 token = os.environ['DISCORD_BOT_TOKEN']
