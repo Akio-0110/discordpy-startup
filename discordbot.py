@@ -86,9 +86,9 @@ async def on_massage(message):
     # ヘルプコマンド:?help
     #################################
     if message.content.startswith("h"):
-        await message.channel.send('メッセージ受付ました')
-        if client.user != message.author:
-            m = Usage_avalon
+#        await message.channel.send('メッセージ受付ました')
+#        if client.user != message.author:
+#            m = Usage_avalon
             #await message.author.send(m)
             #await client.send_message(message.channel, m)
 
