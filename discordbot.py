@@ -82,14 +82,14 @@ Usage_avalon="""
 #    await ctx.send('------')
 
 @client.event
-async def on_massage(ctx, message):
+async def on_massage(message):
     #################################
     # ヘルプコマンド:?help
     #################################
     if message.content.startswith("h"):
-        if client.user != ctx.message.author:
+        if client.user != message.author:
             m = Usage_avalon
-            await ctx.author.send(m)
+            await message.author.send(m)
             #await client.send_message(message.channel, m)
 
 #@bot.command()
