@@ -73,23 +73,23 @@ Usage_avalon="""
     #await ctx.channel.send(f"{number}人目：{ctx.message.author.name}さんが入室しました")
 #    await ctx.channel.send(f"人目：{ctx.message.author.name}さんが入室しました")
 
-@client.event
-async def on_command_error(ctx, error):
-    await ctx.send(str(error))
-    await ctx.send('Logged in as')
-    await ctx.send(client.user.name)
-    await ctx.send(client.user.id)
-    await ctx.send('------')
+#@client.event
+#async def on_command_error(ctx, error):
+#    await ctx.send(str(error))
+#    await ctx.send('Logged in as')
+#    await ctx.send(client.user.name)
+#    await ctx.send(client.user.id)
+#    await ctx.send('------')
 
-@client.event
-async def on_massage(message):
+#@client.event
+#async def on_massage(message):
     #################################
     # ヘルプコマンド:?help
     #################################
-    if message.content.startswith("h"):
-        if client.user != message.author:
-            m = Usage_avalon
-            await client.send_message(message.channel, m)
+#    if message.content.startswith("h"):
+#        if client.user != message.author:
+#            m = Usage_avalon
+#            await client.send_message(message.channel, m)
 #            await client.send_message(message.channel, m)
 
 #@bot.command()
