@@ -80,12 +80,12 @@ async def on_command_error(ctx, error):
     await ctx.send(client.user.id)
     await ctx.send('------')
 
-@client.event
-async def on_massage(message):
+#@client.event
+#async def on_massage(message):
     #################################
     # ヘルプコマンド:?help
     #################################
-    if message.content.startswith("h"):
+#    if message.content.startswith("h"):
 #        await message.channel.send('メッセージ受付ました')
 #        if client.user != message.author:
 #            m = Usage_avalon
