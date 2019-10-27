@@ -7,7 +7,7 @@ from mysql.connector import errorcode
 #from discord import Game
 #from discord.ext.commands import Bot
 
-TOKEN = 'NjEyODEyMTk2NTAxNTIwMzg0.Xan1dw.SI6zzUOixE1WZcuQI2XK0jS1rQE'
+TOKEN = DISCORD_BOT_TOKEN
 client = discord.Client()
 
 # MySQL接続
