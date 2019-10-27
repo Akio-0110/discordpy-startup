@@ -1,4 +1,4 @@
-# Work with Python 3.6
+# Work with Python 3.6.6
 import random
 #import asyncio
 import discord
