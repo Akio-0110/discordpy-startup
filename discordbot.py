@@ -57,7 +57,7 @@ usage_avalon3="""
 @client.event
 async def on_ready():
     # テーブル作成
-    sql = "create table if not exists `avalon_user` ( \
+    sql = "create table if not exists `avalon_data` ( \
     `id` int, \
     `game_status` int, \
     `quest_cnt` int, \
