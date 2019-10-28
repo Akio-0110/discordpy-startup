@@ -114,7 +114,7 @@ async def on_message(ctx):
         game_stop=i[5]
         game_member_num=i[6]
 
-    print(f"game_status = {game_status}, quest_cnt = {quest_cnt}, vote_cnt = {vote_cnt}, game_phase = {game_phase}, game_stop = {game_stop}, game_member_num = {game_member_num}")
+    #print(f"game_status = {game_status}, quest_cnt = {quest_cnt}, vote_cnt = {vote_cnt}, game_phase = {game_phase}, game_stop = {game_stop}, game_member_num = {game_member_num}")
 
     # help : 村作成
     if ctx.content == 'h' or ctx.content == 'help':
