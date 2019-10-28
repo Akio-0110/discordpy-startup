@@ -56,9 +56,31 @@ usage_avalon3="""
 
 @client.event
 async def on_ready():
+    # テーブル作成
+    sql = "create table if not exists `avalon_user` ( \
+    `id` int, \
+    `game_status` int, \
+    `quest_cnt` int, \
+    `vote_cnt` int, \
+    `game_phase` int, \
+    `game_stop` int, \
+    `game_member_num` int, \
+    primary key (`id`) \
+    )"
+    db.execute(sql)
+    # テーブル作成
+    sql = "create table if not exists `avalon_user` ( \
+    `id` int, \
+    `name` varchar(255), \
+    `user_id` bigint, \
+    primary key (`id`) \
+    )"
+    db.execute(sql)
     sql = "update `avalon_data` set \
+    `id`= 0, \
     `game_status`= 0, \
     `quest_cnt`= 0, \
+    `vote_cnt`= 0, \
     `game_phase`= 0, \
     `game_stop`= 0, \
     `game_member_num`= 0"
@@ -81,27 +103,6 @@ async def on_ready():
 
 @client.event
 async def on_message(ctx):
-    # テーブル作成
-    sql = "create table if not exists `avalon_user` ( \
-    `id` int, \
-    `game_status` int, \
-    `quest_cnt` int, \
-    `vote_cnt` int, \
-    `game_phase` int, \
-    `game_stop` int, \
-    `game_member_num` int, \
-    primary key (`id`) \
-    )"
-    db.execute(sql)
-    # テーブル作成
-    sql = "create table if not exists `avalon_user` ( \
-    `id` int, \
-    `name` varchar(255), \
-    `user_id` bigint, \
-    primary key (`id`) \
-    )"
-    db.execute(sql)
-
     sql = 'SELECT * FROM `avalon_data` where id = 0'
     db.execute(sql)
     rows = db.fetchall()
