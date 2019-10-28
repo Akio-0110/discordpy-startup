@@ -1,4 +1,5 @@
 # Work with Python 3.6.6
+import os
 import random
 #import asyncio
 import discord
@@ -7,7 +8,7 @@ from mysql.connector import errorcode
 #from discord import Game
 #from discord.ext.commands import Bot
 
-TOKEN = DISCORD_BOT_TOKEN
+TOKEN = os.environ['DISCORD_BOT_TOKEN']
 client = discord.Client()
 
 # MySQL接続
