@@ -315,4 +315,4 @@ async def on_message(ctx):
     # MySQL切断
     #cnt.close()
 
-client.run(TOKEN)
+#client.run(TOKEN)
