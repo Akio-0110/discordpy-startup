@@ -5,6 +5,8 @@ import asyncio
 import discord
 import mysql.connector
 from mysql.connector import errorcode
+#from mysql.connector import pooling
+
 #from discord import Game
 
 TOKEN = os.environ['DISCORD_BOT_TOKEN']
@@ -12,17 +14,15 @@ client = discord.Client()
 
 # MySQL接続
 cnt = mysql.connector.connect(
-    host='us-cdbr-iron-east-02.cleardb.net',
+    host=os.environ['DB_HOST'],
     port='3306',
-    db='heroku_0b2656996c2477a',
-    user='b600998caa803a',
-    password='7d7aec23',
-    charset='utf8'
+    db=os.environ['DB_DATABASE'],
+    user=os.environ['DB_USERNAME'],
+    password=os.environ['DB_PASSWORD'],
+    charset='utf8',
+    connection_timeout=3600,
+    autocommit=True
 )
-
-# コネクションが切れた時に再接続してくれるよう設定
-cnt.ping(reconnect=True)
-
 # カーソル取得
 db = cnt.cursor(buffered=True)
 
@@ -56,6 +56,11 @@ usage_avalon3="""
 
 @client.event
 async def on_ready():
+
+    # テーブル作成
+    #sql = "set session max_excution_time=1000"
+    #db.execute(sql)
+
     # テーブル作成
     sql = "create table if not exists `avalon_data` ( \
     `id` int, \
@@ -68,6 +73,10 @@ async def on_ready():
     primary key (`id`) \
     )"
     db.execute(sql)
+
+    # テーブル削除
+    sql = 'drop table if exists avalon_user'
+    db.execute(sql)
     # テーブル作成
     sql = "create table if not exists `avalon_user` ( \
     `id` int, \
@@ -76,14 +85,24 @@ async def on_ready():
     primary key (`id`) \
     )"
     db.execute(sql)
+    # sql = "insert into `avalon_data` ( \
+    # `id`, \
+    # `game_status`, \
+    # `quest_cnt`, \
+    # `vote_cnt`, \
+    # `game_phase`, \
+    # `game_stop`, \
+    # `game_member_num` ) \
+    # value (%s,%s,%s,%s,%s,%s,%s)"
+    # db.execute(sql, (0,0,0,0,0,1,0))
     sql = "update `avalon_data` set \
-    `id`= 0, \
     `game_status`= 0, \
     `quest_cnt`= 0, \
     `vote_cnt`= 0, \
     `game_phase`= 0, \
-    `game_stop`= 0, \
-    `game_member_num`= 0"
+    `game_stop`= 1, \
+    `game_member_num`= 0 \
+    where id = 0"
     db.execute(sql)
     # テーブル作成
     sql = "create table if not exists `avalon_user` ( \
@@ -93,16 +112,24 @@ async def on_ready():
     primary key (`id`) \
     )"
     db.execute(sql)
-    # await ctx.channel.send(f"こんにちは")
-    sql = 'SELECT * FROM `avalon_data`'
+    sql = 'select * from `avalon_data` where id = 0'
     db.execute(sql)
     rows = db.fetchall()
     for i in rows:
-        print(f"{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}")
-    print("Logged in as " + client.user.name)
+        print(f"データ：{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}")
+        print("Logged in as " + client.user.name)
 
 @client.event
 async def on_message(ctx):
+    try :
+        # コネクションが切れた時に再接続してくれるよう設定
+        cnt.ping(reconnect=True)
+    except mysql.connector.errors.OperationalError:
+        await ctx.channel.send(f"タイムアウトしました。\nもう一度コマンドを入力してください")
+        # カーソル終了
+        db.close()
+        cnt.cursor(buffered=True)
+
     sql = 'SELECT * FROM `avalon_data` where id = 0'
     db.execute(sql)
     rows = db.fetchall()
@@ -114,7 +141,7 @@ async def on_message(ctx):
         game_stop=i[5]
         game_member_num=i[6]
 
-    #print(f"game_status = {game_status}, quest_cnt = {quest_cnt}, vote_cnt = {vote_cnt}, game_phase = {game_phase}, game_stop = {game_stop}, game_member_num = {game_member_num}")
+    print(f"現在の状態：game_status = {game_status}, quest_cnt = {quest_cnt}, vote_cnt = {vote_cnt}, game_phase = {game_phase}, game_stop = {game_stop}, game_member_num = {game_member_num}")
 
     # help : 村作成
     if ctx.content == 'h' or ctx.content == 'help':
@@ -162,7 +189,6 @@ async def on_message(ctx):
             val1 = f"{gm_num}"
             val2 = f"{ctx.author.name}"
             val3 = f"{ctx.author.id}"
-
             db.execute(sql, (val1,val2,val3))
             sql = f"SELECT id FROM `avalon_user`"
             db.execute(sql)
@@ -181,12 +207,6 @@ async def on_message(ctx):
         #await ctx.channel.send(f"game_status = {game_status}, command = {ctx.content}")
         if (game_status == 1) and (ctx.content == 's' or ctx.content == 'start'):
             if game_member_num > 4:
-                #await ctx.channel.send(f"{ctx.content}コマンドは無効です。")
-                # await ctx.author.send(f"{gm_num}人目:{name[0]}が村に入室しました。\
-                # msg = client.get_user(user_id[0])
-                # await ctx.author.send(f"{user_id[0]}")
-                #await msg.send(f"ゲームを開始します。")
-                await ctx.channel.send("ゲームを開始します。\n配役の公開機能を後で実装します。")
                 sql = f"update `avalon_data` set `game_status`=2 where id = 0"
                 db.execute(sql)
                 quest_cnt = 1
@@ -198,6 +218,26 @@ async def on_message(ctx):
                 game_phase = 1
                 sql = f"update `avalon_data` set `game_phase`={game_phase} where id = 0"
                 db.execute(sql)
+                await ctx.channel.send("ゲームを開始します。\n配役の公開機能を後で実装します。")
+                ary = [['name1', 1], ['name2', 2]]
+                for i in range(game_member_num) :
+                    sql = f"select * from `avalon_user` where id = {i+1}"
+                    #print(sql)
+                    db.execute(sql)
+                    rows = db.fetchone()
+                    num = i + 1
+                    #print(rows)
+                    for j in rows :
+                        #print(j)
+                        ary.append([rows[1], rows[2]])
+                        break
+                print(ary)
+                print(ary.pop(0))
+                print(ary.pop(0))
+                print(ary)
+                #msg = client.get_user(user_id[0])
+                #await msg.send(f"ゲームを開始します。")
+                await ctx.channel.send(f"第{quest_cnt}クエスト、{vote_cnt}回目です。選出してください。")
             else :
                 await ctx.channel.send(f"５人以上入室してからゲームを開始してください。\
                 \n現在{game_member_num}人です。\
@@ -209,8 +249,18 @@ async def on_message(ctx):
             `quest_cnt`= 0, \
             `vote_cnt`= 0, \
             `game_phase`= 0, \
-            `game_stop`= 0, \
+            `game_stop`= 1, \
             `game_member_num`= 0"
+            db.execute(sql)
+            sql = 'drop table avalon_user'
+            db.execute(sql)
+            # テーブル作成
+            sql = "create table if not exists `avalon_user` ( \
+            `id` int, \
+            `name` varchar(255), \
+            `user_id` bigint, \
+            primary key (`id`) \
+            )"
             db.execute(sql)
         else :
             await ctx.channel.send(f"{ctx.content}コマンドは無効です。")
@@ -245,7 +295,7 @@ async def on_message(ctx):
         `quest_cnt`= 0, \
         `vote_cnt`= 0, \
         `game_phase`= 0, \
-        `game_stop`= 0, \
+        `game_stop`= 1, \
         `game_member_num`= 0"
         db.execute(sql)
         sql = 'drop table avalon_user'
