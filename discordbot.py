@@ -118,6 +118,8 @@ async def on_ready():
     for i in rows:
         print(f"データ：{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}")
         print("Logged in as " + client.user.name)
+
+@client.event
 async def on_message(ctx):
     try :
         # コネクションが切れた時に再接続してくれるよう設定
