@@ -316,3 +316,4 @@ async def on_message(ctx):
     #cnt.close()
 
 #client.run(TOKEN)
+client.close(TOKEN)
