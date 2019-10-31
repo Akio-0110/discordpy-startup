@@ -212,26 +212,26 @@ async def on_message(ctx):
                         #print(j)
                         ary.append([rows[1], rows[2], i+1])
                         break
-                print(ary)
-                print(ary.pop(0))
-                print(ary.pop(0))
-                print(ary)
-                ary[1][0] = 'とく'
-                ary[2][0] = 'いわ'
-                ary[3][0] = 'ざわ'
-                ary[4][0] = 'コケ'
-                print(ary)
+                # print(ary)
+                # print(ary.pop(0))
+                # print(ary.pop(0))
+                # print(ary)
+                # ary[1][0] = 'とく'
+                # ary[2][0] = 'いわ'
+                # ary[3][0] = 'ざわ'
+                # ary[4][0] = 'コケ'
+                # print(ary)
                 random.shuffle(ary)
-                print(ary)
+                # print(ary)
                 # role  1 : マーリン、2 : パーシヴァル、3 : ガラハッド、4 : 情弱、
                 #       9 : モルガナ、10 : モードレッド、 11 : 暗殺者、12 : オベロン
                 role = [1, 2, 4, 9, 11]
-                print(role)
+                # print(role)
                 random.shuffle(role)
-                print(role)
+                # print(role)
                 for i in range(game_member_num) :
                     ary[i][2] = role[i]
-                print(ary)
+                # print(ary)
 
                 #msg = client.get_user(user_id[0])
                 #await msg.send(f"ゲームを開始します。")
