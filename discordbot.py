@@ -9,7 +9,7 @@ from mysql.connector import errorcode
 
 #from discord import Game
 
-#TOKEN = os.environ['DISCORD_BOT_TOKEN']
+TOKEN = os.environ['DISCORD_BOT_TOKEN']
 client = discord.Client()
 
 # MySQL接続
@@ -56,11 +56,12 @@ usage_avalon3="""
 
 @client.event
 async def on_ready():
-
-    # テーブル作成
-    #sql = "set session max_excution_time=1000"
-    #db.execute(sql)
-
+    # テーブル削除
+    sql = 'drop table if exists avalon_data'
+    db.execute(sql)
+    # テーブル削除
+    sql = 'drop table if exists avalon_user'
+    db.execute(sql)
     # テーブル作成
     sql = "create table if not exists `avalon_data` ( \
     `id` int, \
@@ -73,37 +74,17 @@ async def on_ready():
     primary key (`id`) \
     )"
     db.execute(sql)
-
-    # テーブル削除
-    sql = 'drop table if exists avalon_user'
-    db.execute(sql)
-    # テーブル作成
-    sql = "create table if not exists `avalon_user` ( \
-    `id` int, \
-    `name` varchar(255), \
-    `user_id` bigint, \
-    primary key (`id`) \
-    )"
-    db.execute(sql)
-    # sql = "insert into `avalon_data` ( \
-    # `id`, \
-    # `game_status`, \
-    # `quest_cnt`, \
-    # `vote_cnt`, \
-    # `game_phase`, \
-    # `game_stop`, \
-    # `game_member_num` ) \
-    # value (%s,%s,%s,%s,%s,%s,%s)"
-    # db.execute(sql, (0,0,0,0,0,1,0))
-    sql = "update `avalon_data` set \
-    `game_status`= 0, \
-    `quest_cnt`= 0, \
-    `vote_cnt`= 0, \
-    `game_phase`= 0, \
-    `game_stop`= 1, \
-    `game_member_num`= 0 \
-    where id = 0"
-    db.execute(sql)
+    # データ挿入
+    sql = "insert into `avalon_data` ( \
+    `id`, \
+    `game_status`, \
+    `quest_cnt`, \
+    `vote_cnt`, \
+    `game_phase`, \
+    `game_stop`, \
+    `game_member_num` ) \
+    value (%s,%s,%s,%s,%s,%s,%s)"
+    db.execute(sql, (0,0,0,0,0,1,0))
     # テーブル作成
     sql = "create table if not exists `avalon_user` ( \
     `id` int, \
@@ -116,7 +97,7 @@ async def on_ready():
     db.execute(sql)
     rows = db.fetchall()
     for i in rows:
-        print(f"データ：{i[0]}, {i[1]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}")
+        #print(f"データ：{i[1]}, {i[2]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}")
         print("Logged in as " + client.user.name)
 
 @client.event
@@ -219,7 +200,7 @@ async def on_message(ctx):
                 sql = f"update `avalon_data` set `game_phase`={game_phase} where id = 0"
                 db.execute(sql)
                 await ctx.channel.send("ゲームを開始します。\n配役の公開機能を後で実装します。")
-                ary = [['name1', 1], ['name2', 2]]
+                ary = [['name1', 1, 1], ['name2', 2, 2]]
                 for i in range(game_member_num) :
                     sql = f"select * from `avalon_user` where id = {i+1}"
                     #print(sql)
@@ -229,12 +210,29 @@ async def on_message(ctx):
                     #print(rows)
                     for j in rows :
                         #print(j)
-                        ary.append([rows[1], rows[2]])
+                        ary.append([rows[1], rows[2], i+1])
                         break
                 print(ary)
                 print(ary.pop(0))
                 print(ary.pop(0))
                 print(ary)
+                ary[1][0] = 'とく'
+                ary[2][0] = 'いわ'
+                ary[3][0] = 'ざわ'
+                ary[4][0] = 'コケ'
+                print(ary)
+                random.shuffle(ary)
+                print(ary)
+                # role  1 : マーリン、2 : パーシヴァル、3 : ガラハッド、4 : 情弱、
+                #       9 : モルガナ、10 : モードレッド、 11 : 暗殺者、12 : オベロン
+                role = [1, 2, 4, 9, 11]
+                print(role)
+                random.shuffle(role)
+                print(role)
+                for i in range(game_member_num) :
+                    ary[i][2] = role[i]
+                print(ary)
+
                 #msg = client.get_user(user_id[0])
                 #await msg.send(f"ゲームを開始します。")
                 await ctx.channel.send(f"第{quest_cnt}クエスト、{vote_cnt}回目です。選出してください。")
@@ -268,7 +266,10 @@ async def on_message(ctx):
 
     # connect check
     # elif ctx.content == 'c':
-
+    #     ary = [[1, 'あき', 100], [2, 'とく', 110], [3, 'いわ', 120], [4, 'ざわ', 130], [5, 'コケ', 140]]
+    #     await ctx.channel.send(f"{ary}")
+    #     random.shuffle(ary)
+    #     await ctx.channel.send(f"{ary}")
 
         # SQLクエリ実行（データ追加）
         #sql = 'INSERT INTO avalon_data(name) VALUES("nero claudius")';
