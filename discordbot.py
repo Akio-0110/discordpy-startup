@@ -97,7 +97,7 @@ async def on_ready():
     db.execute(sql)
     rows = db.fetchall()
     for i in rows:
-        #print(f"データ：{i[1]}, {i[2]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}")
+        print(f"データ：{i[1]}, {i[2]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}")
         print("Logged in as " + client.user.name)
 
 @client.event
