@@ -25,7 +25,7 @@ cnt = mysql.connector.connect(
     autocommit=True
 )
 # カーソル取得
-db = cnt.cursor(buffered=True
+db = cnt.cursor(buffered=True)
 
 # role  1 : マーリン、2 : パーシヴァル、3 : ガラハッド、4 : 情弱、
 #       9 : モードレッド、10 : モルガナ、 11 : 暗殺者、12 : オベロン
@@ -295,9 +295,9 @@ async def on_message(ctx):
                     if check_num > 4 and check_num < 11 :
                         await ctx.channel.send(f"{role_list_display(deck_num)}")
                     else:
-                        await ctx.channel.send(f"{comment}コマンドは無効です。")
+                        await ctx.channel.send(f"無効コマンドです：{comment}")
                 except :
-                    await ctx.channel.send(f"{comment}コマンドは無効です。")
+                    await ctx.channel.send(f"無効コマンドです：{comment}")
             elif comment[0:5] == 'deck ':
                 deck_cmd = comment.lstrip("deck ")
                 try :
@@ -305,9 +305,9 @@ async def on_message(ctx):
                     if check_num > 4 and check_num < 11 :
                         await ctx.channel.send(f"{role_list_display(deck_num)}")
                     else:
-                        await ctx.channel.send(f"{comment}コマンドは無効です。")
+                        await ctx.channel.send(f"無効コマンドです：{comment}")
                 except :
-                    await ctx.channel.send(f"{comment}コマンドは無効です。")
+                    await ctx.channel.send(f"無効コマンドです：{comment}")
             elif comment[0:7] == 'デッキリスト ':
                 deck_cmd = comment.lstrip("デッキリスト ")
                 try :
@@ -315,11 +315,11 @@ async def on_message(ctx):
                     if check_num > 4 and check_num < 11 :
                         await ctx.channel.send(f"{role_list_display(deck_num)}")
                     else:
-                        await ctx.channel.send(f"{comment}コマンドは無効です。")
+                        await ctx.channel.send(f"無効コマンドです：{comment}")
                 except :
-                    await ctx.channel.send(f"{comment}コマンドは無効です。")
+                    await ctx.channel.send(f"無効コマンドです：{comment}")
             else:
-                await ctx.channel.send(f"{comment}コマンドは無効です。")
+                await ctx.channel.send(f"無効コマンドです：{comment}")
         else :
             await ctx.channel.send(f"無効コマンドです：{comment}")
 
@@ -510,7 +510,7 @@ async def on_message(ctx):
             )"
             db.execute(sql)
         else :
-            await ctx.channel.send(f"{comment}コマンドは無効です。")
+            await ctx.channel.send(f"無効コマンドです：{comment}")
 
 
     # connect check
