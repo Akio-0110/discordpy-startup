@@ -30,22 +30,22 @@ db = cnt.cursor(buffered=True)
 # role  1 : マーリン、2 : パーシヴァル、3 : ガラハッド、4 : 情弱、
 #       9 : モードレッド、10 : モルガナ、 11 : 暗殺者、12 : オベロン
 avalon_role = [
-[0, 'マーリン'],
-[1, 'パーシヴァル'],
-[2, 'ガラハッド'],
-[3, 'アーサーの忠実なる家来'],
-[4, 'アーサーの忠実なる家'],
-[5, 'アーサーの忠実なる家来'],
-[6, 'アーサーの忠実なる家来'],
-[7, 'アーサーの忠実なる家来'],
-[8, 'モードレッド'],
-[9, 'モルガナ'],
-[10, 'モードレッドの手下（暗殺者）'],
-[11, 'モードレッドの手下'],
-[12, 'オベロン'],
-[13, 'モードレッドの手下'],
-[14, 'モードレッドの手下'],
-[15, 'モードレッドの手下']
+[0, 'マーリン', 'マーリン'],
+[1, 'パーシヴァル', 'パーシヴァル'],
+[2, 'ガラハッド', 'ガラハッド'],
+[3, 'アーサーの忠実なる家来', '家来'],
+[4, 'アーサーの忠実なる家', '家来'],
+[5, 'アーサーの忠実なる家来', '家来'],
+[6, 'アーサーの忠実なる家来', '家来'],
+[7, 'アーサーの忠実なる家来', '家来'],
+[8, 'モードレッド', 'モドレ'],
+[9, 'モルガナ', 'モルガナ'],
+[10, 'モードレッドの手下（暗殺者）', '暗殺者'],
+[11, 'モードレッドの手下', '手下'],
+[12, 'オベロン', 'オベロン'],
+[13, 'モードレッドの手下', '手下'],
+[14, 'モードレッドの手下', '手下'],
+[15, 'モードレッドの手下', '手下']
 ]
 
 avalon_role_auto = [
@@ -138,9 +138,9 @@ def role_list_display(num):
         role_check = f"役職{i}"
         for k in j:
             if role_check == f"役職{i}":
-                role_check = f"{role_check}:{avalon_role[k][1]}"
+                role_check = f"{role_check}:{avalon_role[k][2]}"
             else:
-                role_check = f"{role_check}, {avalon_role[k][1]}"
+                role_check = f"{role_check}, {avalon_role[k][2]}"
         if i == 1:
             role_out = f"{role_check}\n"
         else:
@@ -403,9 +403,9 @@ async def on_message(ctx):
         if game_status == 1 :
             for i in range(16):
                 if i < 4:
-                    await ctx.channel.send(f"{avalon_role[i][0]}:青役職：{avalon_role[i][1]}")
+                    await ctx.channel.send(f"{avalon_role[i][0]}:青役職：{avalon_role[i][2]}")
                 elif i >= 8 and i <=12:
-                    await ctx.channel.send(f"{avalon_role[i][0]}:赤役職：{avalon_role[i][1]}")
+                    await ctx.channel.send(f"{avalon_role[i][0]}:赤役職：{avalon_role[i][2]}")
             await ctx.channel.send(f"入室人数に合わせて\nコマンド(role 役職番号,役職番号,役職番号,役職番号,役職番号)と入力してください。")
         else :
             await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
@@ -504,7 +504,7 @@ async def on_message(ctx):
                 #msg = client.get_user(user_id[0])
                 #await msg.send(f"ゲームを開始します。")
                 await ctx.channel.send(f"第{quest_cnt}クエスト、{vote_cnt}回目です。選出してください。")
-                await ctx.channel.send('h')
+                await ctx.channel.send('status')
             else :
                 await ctx.channel.send(f"５人以上入室してからゲームを開始してください。\
                 \n現在{game_member_num}人です。\
