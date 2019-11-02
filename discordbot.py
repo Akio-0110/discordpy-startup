@@ -237,13 +237,13 @@ async def on_message(ctx):
             sql = f"{sql}ゲーム開始準備の状態です。"
         elif game_status == 2:
             if game_phase == 0:
-                sql = f"({quest_cnt}クエの{vote_cnt}回目の選出です。)"
+                sql = f"{quest_cnt}クエの{vote_cnt}回目の選出です。"
             elif game_phase == 1:
-                sql = f"({quest_cnt}クエの{vote_cnt}回目の選出判定中です。)"
+                sql = f"{quest_cnt}クエの{vote_cnt}回目の選出判定中です。"
             elif game_phase == 2:
-                sql = f"({quest_cnt}クエの{vote_cnt}回目のクエスト中です。)"
+                sql = f"{quest_cnt}クエの{vote_cnt}回目のクエスト中です。"
             elif game_phase == 3:
-                sql = f"({quest_cnt-1}の乙女選択中です。)"
+                sql = f"{quest_cnt-1}の乙女選択中です。"
         elif game_status == 3:
             sql = f"{sql}暗殺者の検討中です。"
         await ctx.channel.send(f"{sql}")
@@ -456,9 +456,9 @@ async def on_message(ctx):
                 vote_cnt = 1
                 sql = f"update `avalon_data` set `vote_cnt`={vote_cnt} where id = 0"
                 db.execute(sql)
-                game_phase = 1
-                sql = f"update `avalon_data` set `game_phase`={game_phase} where id = 0"
-                db.execute(sql)
+                # game_phase = 1
+                # sql = f"update `avalon_data` set `game_phase`={game_phase} where id = 0"
+                # db.execute(sql)
                 await ctx.channel.send("ゲームを開始します。")
                 ary = [['name1', 1, 1], ['name2', 2, 2]]
                 if  game_member_num == 5:
@@ -495,13 +495,13 @@ async def on_message(ctx):
                         role[i] = rows[3]
                         break
 
-                print(ary)
-                print(ary.pop(0))
-                print(ary.pop(0))
+                # print(ary)
+                # print(ary.pop(0))
+                # print(ary.pop(0))
                 random.shuffle(ary)
-                print(ary)
-                print(f"game_role = {game_role}")
-                print(role)
+                # print(ary)
+                # print(f"game_role = {game_role}")
+                # print(role)
 
                 for i in range(game_member_num) :
                     if game_role == 999:
@@ -523,8 +523,8 @@ async def on_message(ctx):
                     `role` = {ary[i][2]}\
                      where id = {i+1}"
 
-                print(role)
-                print(ary)
+                # print(role)
+                # print(ary)
                 for i in range(game_member_num):
                     msg = client.get_user(user_id[i])
                     await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。", file=File(f"{avalon_role[role[i]][2]}"))
