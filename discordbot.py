@@ -6,11 +6,12 @@ import asyncio
 import discord
 import mysql.connector
 from mysql.connector import errorcode
+from discord import File
 #from mysql.connector import pooling
 
 #from discord import Game
 
-TOKEN = os.environ['DISCORD_BOT_TOKEN'
+TOKEN = os.environ['DISCORD_BOT_TOKEN']
 client = discord.Client()
 
 # MySQL接続
@@ -30,22 +31,22 @@ db = cnt.cursor(buffered=True)
 # role  1 : マーリン、2 : パーシヴァル、3 : ガラハッド、4 : 情弱、
 #       9 : モードレッド、10 : モルガナ、 11 : 暗殺者、12 : オベロン
 avalon_role = [
-[0, 'マーリン'],
-[1, 'パーシヴァル'],
-[2, 'ガラハッド'],
-[3, 'アーサーの忠実なる家来'],
-[4, 'アーサーの忠実なる家'],
-[5, 'アーサーの忠実なる家来'],
-[6, 'アーサーの忠実なる家来'],
-[7, 'アーサーの忠実なる家来'],
-[8, 'モードレッド'],
-[9, 'モルガナ'],
-[10, 'モードレッドの手下（暗殺者）'],
-[11, 'モードレッドの手下'],
-[12, 'オベロン'],
-[13, 'モードレッドの手下'],
-[14, 'モードレッドの手下'],
-[15, 'モードレッドの手下']
+[0, 'マーリン', './image/マーリン.jpeg'],
+[1, 'パーシヴァル', './image/パーシヴァル.jpeg'],
+[2, 'ガラハッド', './image/ガラハッド.jpeg'],
+[3, 'アーサーの忠実なる家来', './image/情弱１.jpeg'],
+[4, 'アーサーの忠実なる家', './image/情弱２.jpeg'],
+[5, 'アーサーの忠実なる家来', './image/情弱３.jpeg'],
+[6, 'アーサーの忠実なる家来', './image/情弱４.jpeg'],
+[7, 'アーサーの忠実なる家来', './image/情弱５.jpeg'],
+[8, 'モードレッド', './image/モードレッド.jpeg'],
+[9, 'モルガナ', './image/モルガナ.jpeg'],
+[10, 'モードレッドの手下（暗殺者）', './image/暗殺者.jpeg'],
+[11, 'モードレッドの手下', './image/モードレッドの手下１.jpeg'],
+[12, 'オベロン', './image/オベロン.jpeg'],
+[13, 'モードレッドの手下', './image/モードレッドの手下１.jpeg'],
+[14, 'モードレッドの手下', './image/モードレッドの手下２.jpeg'],
+[15, 'モードレッドの手下', './image/モードレッドの手下３.jpeg']
 ]
 
 avalon_role_auto = [
@@ -115,12 +116,12 @@ usage_avalon0 ="""
 # ゲーム開始待ち : start -> ゲーム開始
 usage_avalon1="""
  現在使えるコマンド
-   h/help   　　　     : ヘルプ（コマンド一覧）
-   in/login 　　　     : 入室
-   d/deck 人数  　     : デッキリスト
-   ds/deckset 番号     : デッキセット
-   role               : 役職番号
-   s/start  　　       : 開始
+   h/help                    : ヘルプ（コマンド一覧）
+   in/login                  : 入室
+   d/deck 人数         : デッキリスト
+   ds/deckset 番号 : デッキセット
+   role                         : 役職
+   s/start                   : 開始
 """
 usage_avalon2="""
  現在使えるコマンド
@@ -135,12 +136,9 @@ usage_avalon3="""
 def role_list_display(num):
     i=1
     for j in avalon_role_auto[num]:
-        role_check = f"役職{i}"
+        role_check = f"役職{i}:\n"
         for k in j:
-            if role_check == f"役職{i}":
-                role_check = f"{role_check}:{avalon_role[k][1]}"
-            else:
-                role_check = f"{role_check}, {avalon_role[k][1]}"
+            role_check = f"{role_check}{avalon_role[k][1]}\n"
         if i == 1:
             role_out = f"{role_check}\n"
         else:
@@ -161,6 +159,7 @@ async def on_ready():
     `id` int, \
     `game_status` int, \
     `game_role` int, \
+    `select_member` int, \
     `quest_cnt` int, \
     `vote_cnt` int, \
     `game_phase` int, \
@@ -174,13 +173,14 @@ async def on_ready():
     `id`, \
     `game_status`, \
     `game_role`, \
+    `select_member`, \
     `quest_cnt`, \
     `vote_cnt`, \
     `game_phase`, \
     `game_stop`, \
     `game_member_num` ) \
-    value (%s,%s,%s,%s,%s,%s,%s,%s)"
-    db.execute(sql, (0,0,0,0,0,0,1,0))
+    value (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    db.execute(sql, (0,0,0,0,0,0,0,1,0))
     # テーブル作成
     sql = "create table if not exists `avalon_user` ( \
     `id` int, \
@@ -194,7 +194,6 @@ async def on_ready():
     db.execute(sql)
     rows = db.fetchall()
     for i in rows:
-        print(f"データ：{i[1]}, {i[2]}, {i[2]}, {i[3]}, {i[4]}, {i[5]}, {i[6]}")
         print("Logged in as " + client.user.name)
 
 @client.event
@@ -220,13 +219,35 @@ async def on_message(ctx):
     for i in rows:
         game_status=i[1]
         game_role=i[2]
-        quest_cnt=i[3]
-        vote_cnt=i[4]
-        game_phase=i[5]
-        game_stop=i[6]
-        game_member_num=i[7]
+        select_member=i[3]
+        quest_cnt=i[4]
+        vote_cnt=i[5]
+        game_phase=i[6]
+        game_stop=i[7]
+        game_member_num=i[8]
 
-    print(f"現在の状態：game_status = {game_status}, game_role={game_role}, quest_cnt = {quest_cnt}, vote_cnt = {vote_cnt}, game_phase = {game_phase}, game_stop = {game_stop}, game_member_num = {game_member_num}")
+    print(f"現在の状態：\ngame_status = {game_status}\ngame_role={game_role}\nquest_cnt = {quest_cnt}\nvote_cnt = {vote_cnt}\ngame_phase = {game_phase}\ngame_stop = {game_stop}\ngame_member_num = {game_member_num}")
+
+    # status : 状態表示
+    if comment == 'status' or comment == '状態':
+        sql = '現在の状態は'
+        if game_status == 0:
+            sql = f"{sql}部屋作成待ち状態です。"
+        elif game_status == 1:
+            sql = f"{sql}ゲーム開始準備の状態です。"
+        elif game_status == 2:
+            if game_phase == 0:
+                sql = f"({quest_cnt}クエの{vote_cnt}回目の選出です。)"
+            elif game_phase == 1:
+                sql = f"({quest_cnt}クエの{vote_cnt}回目の選出判定中です。)"
+            elif game_phase == 2:
+                sql = f"({quest_cnt}クエの{vote_cnt}回目のクエスト中です。)"
+            elif game_phase == 3:
+                sql = f"({quest_cnt-1}の乙女選択中です。)"
+        elif game_status == 3:
+            sql = f"{sql}暗殺者の検討中です。"
+        await ctx.channel.send(f"{sql}")
+        await ctx.channel.send('h')
 
     # help : 村作成
     if comment == 'h' or comment == 'help' or comment == 'ヘルプ':
@@ -253,10 +274,10 @@ async def on_message(ctx):
             db.execute(sql)
             sql = f"update `avalon_data` set `game_member_num`=1 where id = 0"
             db.execute(sql)
-            await ctx.channel.send(f"{ctx.author.name}が村を作成し、入室しました。 \
-            \n現在１人です。\n５人以上集まればゲームを開始できます。")
+            await ctx.channel.send(f"{ctx.author.name}が部屋を作成し、入室しました。 \
+            \n現在１人です。\n５人以上集まればゲームを開始できます。\n{usage_avalon1}")
         else :
-            await ctx.channel.send(f"無効コマンドです：{comment}")
+            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
     # login : 村入室
     elif comment == 'in' or comment == 'login' or comment == 'ログイン' or comment == '入室':
@@ -281,7 +302,7 @@ async def on_message(ctx):
             db.execute(sql)
             user_id = db.fetchone()
         else :
-            await ctx.channel.send(f"無効コマンドです：{comment}")
+            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
     # deck number: デッキリスト
     elif comment[0:2] == 'd ' or comment[0:5] == 'deck ' or comment[0:7] == 'デッキリスト ':
@@ -292,36 +313,36 @@ async def on_message(ctx):
                 deck_cmd = comment.lstrip("d ")
                 try :
                     deck_num = int(deck_cmd)
-                    if check_num > 4 and check_num < 11 :
+                    if deck_num > 4 and deck_num < 11 :
                         await ctx.channel.send(f"{role_list_display(deck_num)}")
                     else:
-                        await ctx.channel.send(f"無効コマンドです：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                 except :
-                    await ctx.channel.send(f"無効コマンドです：{comment}")
+                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
             elif comment[0:5] == 'deck ':
                 deck_cmd = comment.lstrip("deck ")
                 try :
                     deck_num = int(deck_cmd)
-                    if check_num > 4 and check_num < 11 :
+                    if deck_num > 4 and deck_num < 11 :
                         await ctx.channel.send(f"{role_list_display(deck_num)}")
                     else:
-                        await ctx.channel.send(f"無効コマンドです：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                 except :
-                    await ctx.channel.send(f"無効コマンドです：{comment}")
+                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
             elif comment[0:7] == 'デッキリスト ':
                 deck_cmd = comment.lstrip("デッキリスト ")
                 try :
                     deck_num = int(deck_cmd)
-                    if check_num > 4 and check_num < 11 :
+                    if deck_num > 4 and deck_num < 11 :
                         await ctx.channel.send(f"{role_list_display(deck_num)}")
                     else:
-                        await ctx.channel.send(f"無効コマンドです：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                 except :
-                    await ctx.channel.send(f"無効コマンドです：{comment}")
+                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
             else:
-                await ctx.channel.send(f"無効コマンドです：{comment}")
+                await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
         else :
-            await ctx.channel.send(f"無効コマンドです：{comment}")
+            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
     # deck set: デッキ設定
     elif comment[0:3] == 'ds ' or comment[0:8] == 'deckset ' or comment[0:7] == 'デッキセット ':
@@ -337,12 +358,12 @@ async def on_message(ctx):
                         sql = f"update `avalon_data` set `game_role`={game_role} where id = 0"
                         await ctx.channel.send(f"デッキを{game_role}に設定しました。")
                     else:
-                        await ctx.channel.send(f"無効コマンドです：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                         sql = f"update `avalon_data` set `game_role`=0 where id = 0"
                         await ctx.channel.send(f"デッキを0に設定しました。")
                     db.execute(sql)
                 except :
-                    await ctx.channel.send(f"無効コマンドです：{comment}")
+                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
             elif comment[0:8] == 'deckset ':
                 deck_cmd = comment.lstrip("deckset ")
                 try :
@@ -352,12 +373,12 @@ async def on_message(ctx):
                         sql = f"update `avalon_data` set `game_role`={game_role} where id = 0"
                         await ctx.channel.send(f"デッキを{game_role}に設定しました。")
                     else:
-                        await ctx.channel.send(f"無効コマンドです：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                         sql = f"update `avalon_data` set `game_role`=0 where id = 0"
                         await ctx.channel.send(f"デッキを0に設定しました。")
                     db.execute(sql)
                 except :
-                    await ctx.channel.send(f"無効コマンドです：{comment}")
+                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
             elif comment[0:7] == 'デッキセット ':
                 deck_cmd = comment.lstrip("デッキセット ")
                 try :
@@ -367,16 +388,16 @@ async def on_message(ctx):
                         sql = f"update `avalon_data` set `game_role`={game_role} where id = 0"
                         await ctx.channel.send(f"デッキを{game_role}に設定しました。")
                     else:
-                        await ctx.channel.send(f"無効コマンドです：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                         sql = f"update `avalon_data` set `game_role`=0 where id = 0"
                         await ctx.channel.send(f"デッキを0に設定しました。")
                     db.execute(sql)
                 except :
-                    await ctx.channel.send(f"無効コマンドです：{comment}")
+                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
             else :
-                await ctx.channel.send(f"無効コマンドです：{comment}")
+                await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
         else :
-            await ctx.channel.send(f"無効コマンドです：{comment}")
+            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
     # role number : 役職カスタマイズ
     elif comment == 'role' or comment == '役職':
@@ -388,7 +409,7 @@ async def on_message(ctx):
                     await ctx.channel.send(f"{avalon_role[i][0]}:赤役職：{avalon_role[i][1]}")
             await ctx.channel.send(f"入室人数に合わせて\nコマンド(role 役職番号,役職番号,役職番号,役職番号,役職番号)と入力してください。")
         else :
-            await ctx.channel.send(f"無効コマンドです：{comment}")
+            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
     # role number : 役職カスタマイズ
     elif comment[0:5] == 'role ' or comment[0:3] == '役職 ':
@@ -411,19 +432,16 @@ async def on_message(ctx):
 
             print(role_list)
             # print(deck_cmd_match)
-            sql_role = f"選択役職"
+            sql_role = f"選択役職:\n"
             for k in range(game_member_num):
                 sql = f"update `avalon_user` set `role`={role_list[k]} where id = {k}"
                 db.execute(sql)
-                if sql_role == f"選択役職":
-                    sql_role = f"{sql_role}:{avalon_role[role_list[k]][1]}"
-                else:
-                    sql_role = f"{sql_role}, {avalon_role[role_list[k]][1]}"
+                sql_role = f"{sql_role}{avalon_role[role_list[k]][1]}\n"
             #print(sql)
             await ctx.channel.send(f"デッキをカスタマイズしました")
             await ctx.channel.send(f"{sql_role}")
         else :
-            await ctx.channel.send(f"無効コマンドです：{comment}")
+            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
     # start game : ゲームを開始する
     elif comment == 's' or comment == 'start' or comment == 'stop' or comment == '開始' or comment == '停止':
@@ -441,19 +459,25 @@ async def on_message(ctx):
                 game_phase = 1
                 sql = f"update `avalon_data` set `game_phase`={game_phase} where id = 0"
                 db.execute(sql)
-                await ctx.channel.send("ゲームを開始します。\n配役の公開機能を後で実装します。")
+                await ctx.channel.send("ゲームを開始します。")
                 ary = [['name1', 1, 1], ['name2', 2, 2]]
                 if  game_member_num == 5:
+                    user_id = [10,10,10,10,10]
                     role = [0, 1, 3, 8, 10]
                 elif  game_member_num == 6:
+                    user_id = [10,10,10,10,10,10]
                     role = [0, 1, 3, 3, 8, 10]
                 elif  game_member_num == 6:
+                    user_id = [10,10,10,10,10,10,10]
                     role = [0, 1, 3, 3, 8, 9, 10]
                 elif  game_member_num == 6:
+                    user_id = [10,10,10,10,10,10,10,10]
                     role = [0, 1, 3, 3, 3, 8, 9, 10]
                 elif  game_member_num == 6:
+                    user_id = [10,10,10,10,10,10,10,10,10]
                     role = [0, 1, 3, 3, 3, 3, 8, 9, 10]
                 elif  game_member_num == 6:
+                    user_id = [10,10,10,10,10,10,10,10,10,10]
                     role = [0, 1, 3, 3, 3, 3, 8, 9, 10, 12]
 
                 for i in range(game_member_num) :
@@ -466,13 +490,24 @@ async def on_message(ctx):
                     for j in rows :
                         #print(j)
                         ary.append([rows[1], rows[2], rows[3]])
+                        # name[i] = rows[1]
+                        user_id[i] = rows[2]
                         role[i] = rows[3]
                         break
 
+                print(ary)
+                print(ary.pop(0))
+                print(ary.pop(0))
                 random.shuffle(ary)
-                # print(ary)
+                print(ary)
+                print(f"game_role = {game_role}")
+                print(role)
+
                 for i in range(game_member_num) :
-                    role[i] = ary[i][2]
+                    if game_role == 999:
+                        role[i] = ary[i][2]
+                    else:
+                        role[i] = avalon_role_auto[game_member_num][game_role-1][i]
 
                 # print(role)
                 random.shuffle(role)
@@ -481,9 +516,50 @@ async def on_message(ctx):
                     ary[i][2] = role[i]
                 # print(ary)
 
-                #msg = client.get_user(user_id[0])
-                #await msg.send(f"ゲームを開始します。")
-                await ctx.channel.send(f"第{quest_cnt}クエスト、{vote_cnt}回目です。選出してください。")
+                for i in range(game_member_num) :
+                    sql = f"update `avalon_user` set \
+                    `name` = {ary[i][0]},\
+                    `user_id` = {ary[i][1]},\
+                    `role` = {ary[i][2]}\
+                     where id = {i+1}"
+
+                print(role)
+                print(ary)
+                for i in range(game_member_num):
+                    msg = client.get_user(user_id[i])
+                    await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。", file=File(f"{avalon_role[role[i]][2]}"))
+                    if role[i] == 0 : # マーリン
+                        role_info = '赤陣営は\n'
+                        for j in range(game_member_num):
+                            if (role[j] >= 9):
+                                role_info = f"{role_info}{ary[j][0]}\n"
+                        role_info = f"{role_info}です。\nバレないようにクエスト勝利へ導いてください。"
+                        await msg.send(f"{role_info}")
+                    elif role[i] == 1 : # パーシヴァル
+                        role_info = 'マーリンとモルガナを確認することができます。\n'
+                        for j in range(game_member_num):
+                            if (role[j] == 0 or role[j] == 9):
+                                role_info = f"{role_info}{ary[j][0]}\n"
+                        role_info = f"{role_info}がマーリンとモルガナです。\n役職によって１人とは限りません。"
+                        await msg.send(f"{role_info}")
+                    elif role[i] == 2 : # ガラハッド
+                        role_info = f"{role_info}パーシヴァルと暗殺者を確認することができます。\n"
+                        for j in range(game_member_num):
+                            if (role[j] == 1 or role[j] == 10):
+                                role_info = f"{role_info}{ary[j][0]}\n"
+                        role_info = f"{role_info}がパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
+                        await msg.send(f"{role_info}")
+                    elif role[i] >= 8 and role[i] <= 11 : # 赤陣営
+                        role_info = '赤陣営は\n'
+                        for j in range(game_member_num):
+                            if (role[j] >= 8 and role[j] <= 11):
+                                role_info = f"{role_info}{ary[j][0]}\n"
+                        role_info = f"{role_info}です。"
+                        await msg.send(f"{role_info}")
+
+                    # await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。\n{file:{attachment:{avalon_role[i][2]}}}")
+                await ctx.channel.send('ゲームを開始します。')
+                await ctx.channel.send('status')
             else :
                 await ctx.channel.send(f"５人以上入室してからゲームを開始してください。\
                 \n現在{game_member_num}人です。\
@@ -506,11 +582,13 @@ async def on_message(ctx):
             `id` int, \
             `name` varchar(255), \
             `user_id` bigint, \
+            `role` int, \
             primary key (`id`) \
             )"
             db.execute(sql)
+            await ctx.channel.send('status')
         else :
-            await ctx.channel.send(f"無効コマンドです：{comment}")
+            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
 
     # connect check
@@ -561,6 +639,13 @@ async def on_message(ctx):
         )"
         db.execute(sql)
         await ctx.channel.send(f"データを初期化しました。")
+
+    # elif comment == 'l':
+#        embed = discord.Embed()
+#        embed.set_image(url=f"avalon_role[0][2]")
+        # await ctx.channel.send("マーリン",file=File(f"{avalon_role[0][2]}"))
+        # await ctx.channel.send(file=f"avalon_role[0][2]")
+
 
     # カーソル終了
     #db.close()
