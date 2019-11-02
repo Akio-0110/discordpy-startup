@@ -25,7 +25,7 @@ cnt = mysql.connector.connect(
     autocommit=True
 )
 # カーソル取得
-db = cnt.cursor(buffered=True)
+db = cnt.cursor(buffered=True
 
 # role  1 : マーリン、2 : パーシヴァル、3 : ガラハッド、4 : 情弱、
 #       9 : モードレッド、10 : モルガナ、 11 : 暗殺者、12 : オベロン
