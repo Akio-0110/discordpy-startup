@@ -10,7 +10,7 @@ from mysql.connector import errorcode
 
 #from discord import Game
 
-TOKEN = os.environ['DISCORD_BOT_TOKEN'
+TOKEN = os.environ['DISCORD_BOT_TOKEN']
 client = discord.Client()
 
 # MySQL接続
@@ -292,17 +292,17 @@ async def on_message(ctx):
                 deck_cmd = comment.lstrip("d ")
                 try :
                     deck_num = int(deck_cmd)
-                    if check_num > 4 and check_num < 11 :
+                    if deck_num > 4 and deck_num < 11 :
                         await ctx.channel.send(f"{role_list_display(deck_num)}")
                     else:
-                        await ctx.channel.send(f"無効コマンドです：{comment}")
+                        await ctx.channel.send(f"xxx無効コマンドです：{comment}")
                 except :
-                    await ctx.channel.send(f"無効コマンドです：{comment}")
+                    await ctx.channel.send(f"yyy無効コマンドです：{comment}")
             elif comment[0:5] == 'deck ':
                 deck_cmd = comment.lstrip("deck ")
                 try :
                     deck_num = int(deck_cmd)
-                    if check_num > 4 and check_num < 11 :
+                    if deck_num > 4 and deck_num < 11 :
                         await ctx.channel.send(f"{role_list_display(deck_num)}")
                     else:
                         await ctx.channel.send(f"無効コマンドです：{comment}")
@@ -312,7 +312,7 @@ async def on_message(ctx):
                 deck_cmd = comment.lstrip("デッキリスト ")
                 try :
                     deck_num = int(deck_cmd)
-                    if check_num > 4 and check_num < 11 :
+                    if deck_num > 4 and deck_num < 11 :
                         await ctx.channel.send(f"{role_list_display(deck_num)}")
                     else:
                         await ctx.channel.send(f"無効コマンドです：{comment}")
@@ -321,7 +321,7 @@ async def on_message(ctx):
             else:
                 await ctx.channel.send(f"無効コマンドです：{comment}")
         else :
-            await ctx.channel.send(f"無効コマンドです：{comment}")
+            await ctx.channel.send(f"zzz無効コマンドです：{comment}")
 
     # deck set: デッキ設定
     elif comment[0:3] == 'ds ' or comment[0:8] == 'deckset ' or comment[0:7] == 'デッキセット ':
@@ -506,6 +506,7 @@ async def on_message(ctx):
             `id` int, \
             `name` varchar(255), \
             `user_id` bigint, \
+            `role` int, \
             primary key (`id`) \
             )"
             db.execute(sql)
