@@ -498,6 +498,8 @@ async def on_message(ctx):
                 # print(ary)
                 # print(ary.pop(0))
                 # print(ary.pop(0))
+                ary.pop(0)
+                ary.pop(0)
                 random.shuffle(ary)
                 # print(ary)
                 # print(f"game_role = {game_role}")
