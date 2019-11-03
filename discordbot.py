@@ -456,10 +456,6 @@ async def on_message(ctx):
                 vote_cnt = 1
                 sql = f"update `avalon_data` set `vote_cnt`={vote_cnt} where id = 0"
                 db.execute(sql)
-                # game_phase = 1
-                # sql = f"update `avalon_data` set `game_phase`={game_phase} where id = 0"
-                # db.execute(sql)
-                await ctx.channel.send("ゲームを開始します。")
                 ary = [['name1', 1, 1], ['name2', 2, 2]]
                 if  game_member_num == 5:
                     user_id = [10,10,10,10,10]
