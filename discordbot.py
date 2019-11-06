@@ -1052,6 +1052,7 @@ async def on_message(ctx):
                                 embed = discord.Embed(title="投票結果:成功",description=f"{vote_msg}")
 
                             embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出\nリーダは{avalon_user[select_member][1]}です。",value=sql)
+                            sql = player_display(game_member_num, avalon_user, select_member)
                             await msgch.send(embed=embed, file=File(f"{file}"))
 
         # init : 初期化
