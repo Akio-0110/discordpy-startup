@@ -1153,10 +1153,10 @@ async def on_message(ctx):
                             select_member_num = int(select_member_match[0])
                             if avalon_user[select_member_num-1][3] == 0:
                                 kill_msg = "見事マーリンを当てました。"
-                                embed = discord.Embed(title="暗殺成功:赤陣営の勝利",description=f"{vote_msg}\n{sql}")
+                                embed = discord.Embed(title="暗殺成功:赤陣営の勝利",description=f"{kill_msg}\n{sql}")
                             else:
                                 kill_msg = "マーリンを暗殺できませんでした。"
-                                embed = discord.Embed(title="暗殺失敗:青陣営の勝利",description=f"{vote_msg}\n{sql}")
+                                embed = discord.Embed(title="暗殺失敗:青陣営の勝利",description=f"{kill_msg}\n{sql}")
                             await msgch.send(embed=embed)
                             sql = "update `avalon_data` set \
                             `game_status`= 0, \
