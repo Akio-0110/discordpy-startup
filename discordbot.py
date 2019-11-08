@@ -624,6 +624,9 @@ async def on_message(ctx):
                     else:
                         sql_role = f"{sql_role}\n{avalon_role[role_list[k]][1]}"
                 #print(sql)
+
+                sql = f"update `avalon_data` set `game_role`= 999 where id = 0"
+                db.execute(sql)
                 await msgch.send(f"デッキをカスタマイズしました")
                 embed = discord.Embed(title="選択役職",description=sql_role)
                 await msgch.send(embed=embed)
