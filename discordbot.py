@@ -633,7 +633,10 @@ async def on_message(ctx):
 
             # otome : 乙女設定
             elif comment == 'o' or comment == 'otome' or comment == '乙女':
-                game_otome = (game_otome + 1)%2
+                if game_otome == 0:
+                    game_otome = 1
+                else:
+                    game_otome = 0
                 sql = f"update `avalon_user` set `game_otome` = {game_otome} where id =0"
                 db.execute(sql)
                 if game_otome == 1:
@@ -644,7 +647,10 @@ async def on_message(ctx):
                 await msgch.send(embed=embed)
             # otome : エクスカリバー設定
             elif comment == 'e' or comment == 'excalibur' or comment == 'エクスカリバー':
-                game_excalibur = (game_excalibur + 1)%2
+                if game_excalibur == 0:
+                    game_excalibur = 1
+                else:
+                    game_excalibur = 0
                 sql = f"update `avalon_user` set `game_excalibur` = {game_excalibur} where id =0"
                 db.execute(sql)
                 if game_excalibur == 1:
