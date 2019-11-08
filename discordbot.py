@@ -338,6 +338,9 @@ async def on_message(ctx):
 
         # help : ヘルプ
         if comment == 'h' or comment == 'help' or comment == 'ヘルプ':
+            print(ctx.author.name)
+            print(ctx.author.display_name)
+            print(ctx.channel.user_name)
             if game_status == 0:
                 embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon0)
             elif game_status == 1:
