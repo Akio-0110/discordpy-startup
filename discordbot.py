@@ -381,10 +381,62 @@ async def on_message(ctx):
             # make : 部屋作成
             if comment == 'm' or comment == 'make' or comment == '作成':
                 if game_status == 0:
+                    sql = 'drop table if exists avalon_data'
+                    db.execute(sql)
+                    sql = 'drop table if exists avalon_user'
+                    db.execute(sql)
+                    sql = 'drop table if exists avalon_quest'
+                    db.execute(sql)
+                    # テーブル作成
+                    sql = "create table if not exists `avalon_data` ( \
+                    `id` int, \
+                    `game_status` int, \
+                    `game_role` int, \
+                    `select_member` int, \
+                    `quest_cnt` int, \
+                    `quest_success_cnt` int, \
+                    `quest_fail_cnt` int, \
+                    `vote_cnt` int, \
+                    `game_phase` int, \
+                    `game_stop` int, \
+                    `game_member_num` int, \
+                    `game_member1` int, \
+                    `game_member2` int, \
+                    `game_member3` int, \
+                    `game_member4` int, \
+                    `game_member5` int, \
+                    `channel_id` bigint, \
+                    primary key (`id`) \
+                    )"
+                    db.execute(sql)
+                    # データ挿入
+                    sql = "insert into `avalon_data` ( \
+                    `id`, \
+                    `game_status`, \
+                    `game_role`, \
+                    `select_member`, \
+                    `quest_cnt`, \
+                    `quest_success_cnt`, \
+                    `quest_fail_cnt`, \
+                    `vote_cnt`, \
+                    `game_phase`, \
+                    `game_stop`, \
+                    `game_member_num` ) \
+                    value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                    db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0))
+                    # テーブル作成 ユーザ情報
+                    sql = "create table if not exists `avalon_user` ( \
+                    `id` int, \
+                    `name` varchar(255), \
+                    `user_id` bigint, \
+                    `role` int, \
+                    primary key (`id`) \
+                    )"
+                    db.execute(sql)
                     sql = f"insert into `avalon_user` (`id`, `name`, `user_id`, `role`) \
                     values (%s, %s, %s, %s)"
                     val1 = "1"
-                    val2 = f"{ctx.author.name}"
+                    val2 = f"{ctx.author.display_name}"
                     val3 = f"{ctx.author.id}"
                     db.execute(sql, (val1,val2,val3,'1'))
                     sql = f"update `avalon_data` set `game_status`=1 where id = 0"
