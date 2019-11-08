@@ -614,6 +614,11 @@ async def on_message(ctx):
                 embed = discord.Embed(title="選択役職",description=sql_role)
                 await msgch.send(embed=embed)
 
+                sql = f"select role from `avalon_user`"
+                db.execute(sql)
+                rows = db.fetchall()
+                print(rows)
+
             # start game : ゲームを開始する
             elif comment == 's' or comment == 'start' or comment == '開始':
                 #await msgch.send(f"game_status = {game_status}, command = {comment}")
