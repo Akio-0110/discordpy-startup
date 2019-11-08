@@ -276,8 +276,8 @@ async def on_ready():
     `vote_cnt`, \
     `game_phase`, \
     `game_stop`, \
-    `game_member_num` \
-    `game_otome` \
+    `game_member_num`, \
+    `game_otome`, \
     `game_excalibur` ) \
     value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
@@ -390,6 +390,8 @@ async def on_message(ctx):
                     `game_phase` int, \
                     `game_stop` int, \
                     `game_member_num` int, \
+                    `game_otome` int, \
+                    `game_excalibur` int, \
                     `game_member1` int, \
                     `game_member2` int, \
                     `game_member3` int, \
@@ -411,9 +413,11 @@ async def on_message(ctx):
                     `vote_cnt`, \
                     `game_phase`, \
                     `game_stop`, \
-                    `game_member_num` ) \
-                    value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-                    db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0))
+                    `game_member_num`, \
+                    `game_otome`, \
+                    `game_excalibur` ) \
+                    value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+                    db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
                     # テーブル作成 ユーザ情報
                     sql = "create table if not exists `avalon_user` ( \
                     `id` int, \
@@ -1334,6 +1338,8 @@ async def on_message(ctx):
             `vote_cnt`= 0, \
             `game_phase`= 0, \
             `game_stop`= 1, \
+            `game_otome` = 0, \
+            `game_excalibur` = 0, \
             `game_member_num`= 0, \
             `game_member1`= NULL, \
             `game_member2`= NULL, \
