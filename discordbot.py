@@ -338,9 +338,6 @@ async def on_message(ctx):
 
         # help : ヘルプ
         if comment == 'h' or comment == 'help' or comment == 'ヘルプ':
-            print(ctx.author.name)
-            print(ctx.author.display_name)
-            print(ctx.channel.user_name)
             if game_status == 0:
                 embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon0)
             elif game_status == 1:
@@ -448,7 +445,7 @@ async def on_message(ctx):
                     db.execute(sql)
                     sql = f"update `avalon_data` set `channel_id`={ctx.channel.id} where id = 0"
                     db.execute(sql)
-                    await ctx.channel.send(f"{ctx.author.name}が部屋を作成し、入室しました。 \
+                    await ctx.channel.send(f"{ctx.author.display_name}が部屋を作成し、入室しました。 \
                     \n現在１人です。\n５人以上集まればゲームを開始できます。")
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon1)
                     await ctx.channel.send(embed=embed)
@@ -461,15 +458,15 @@ async def on_message(ctx):
                 if game_member_num < 10:
                     gm_num = game_member_num + 1
                     if gm_num < 5:
-                        await msgch.send(f"{gm_num}人目:{ctx.author.name}が入室しました。")
+                        await msgch.send(f"{gm_num}人目:{ctx.author.display_name}が入室しました。")
                     else:
-                        await msgch.send(f"{gm_num}人目:{ctx.author.name}が入室しました。\n5人以上入室したため、開始コマンド(s)でゲームを開始することができます。")
+                        await msgch.send(f"{gm_num}人目:{ctx.author.display_name}が入室しました。\n5人以上入室したため、開始コマンド(s)でゲームを開始することができます。")
                     sql = f"update `avalon_data` set `game_member_num` = {gm_num} where id = 0"
                     db.execute(sql)
                     sql = f"insert into `avalon_user` (`id`, `name`, `user_id`, `role`) \
                     values (%s, %s, %s, %s)"
                     val1 = f"{gm_num}"
-                    val2 = f"{ctx.author.name}"
+                    val2 = f"{ctx.author.display_name}"
                     val3 = f"{ctx.author.id}"
                     db.execute(sql, (val1,val2,val3,'1'))
                     sql = f"SELECT id FROM `avalon_user`"
