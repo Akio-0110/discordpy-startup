@@ -614,10 +614,10 @@ async def on_message(ctx):
                 embed = discord.Embed(title="選択役職",description=sql_role)
                 await msgch.send(embed=embed)
 
-                sql = f"select role from `avalon_user`"
-                db.execute(sql)
-                rows = db.fetchall()
-                print(rows)
+                # sql = f"select role from `avalon_user`"
+                # db.execute(sql)
+                # rows = db.fetchall()
+                # print(rows)
 
             # start game : ゲームを開始する
             elif comment == 's' or comment == 'start' or comment == '開始':
@@ -657,18 +657,16 @@ async def on_message(ctx):
                         rows = db.fetchone()
                         ary.append([rows[0], rows[1], rows[2], rows[3]])
                         user_id[i] = rows[2]
-                        print(rows[3])
+                        # print(rows[3])
                         role[i] = rows[3]
 
-                    print(role)
+                    # print(role)
                     ary.pop(0)
                     ary.pop(0)
                     random.shuffle(ary)
 
                     for i in range(game_member_num) :
-                        if game_role == 999:
-                            role[i] = ary[i][3]
-                        else:
+                        if game_role != 999:
                             role[i] = avalon_role_auto[game_member_num][game_role-1][i]
 
                     # print(role)
@@ -688,7 +686,7 @@ async def on_message(ctx):
                         # print(sql)
                         db.execute(sql)
 
-                    # print(role)
+                    print(role)
                     # print(ary)
 
                     for i in range(game_member_num):
