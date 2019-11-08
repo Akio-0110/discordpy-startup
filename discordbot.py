@@ -637,7 +637,7 @@ async def on_message(ctx):
                     game_otome = 1
                 else:
                     game_otome = 0
-                sql = f"update `avalon_user` set `game_otome` = {game_otome} where id =0"
+                sql = f"update `avalon_data` set `game_otome` = {game_otome} where id =0"
                 db.execute(sql)
                 if game_otome == 1:
                     op_msg = "乙女を有効にしました。\n無効にする場合、もう一度コマンドを入力してください。"
@@ -651,7 +651,7 @@ async def on_message(ctx):
                     game_excalibur = 1
                 else:
                     game_excalibur = 0
-                sql = f"update `avalon_user` set `game_excalibur` = {game_excalibur} where id =0"
+                sql = f"update `avalon_data` set `game_excalibur` = {game_excalibur} where id =0"
                 db.execute(sql)
                 if game_excalibur == 1:
                     op_msg = "エクスカリバーを有効にしました。\n無効にする場合、もう一度コマンドを入力してください。"
