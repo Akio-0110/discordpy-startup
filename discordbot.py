@@ -1262,10 +1262,14 @@ async def on_message(ctx):
         if comment == '?' or comment == '？' or comment == '状態':
             if game_status == 0:
                 sql = f"部屋作成待ち状態です。\nゲームを始めるには部屋を作成してください。\nコマンド：m/make/作成"
+                embed = discord.Embed(title=f"現在の状況",description=sql)
+                await ctx.channel.send(embed=embed)
             elif game_status == 1:
                 sql = f"ゲーム開始準備の状態です。\
                 \n５人以上の入室(in)と役職(d,ds,role)を選択して、\
                 開始コマンド(s)を実行してください。"
+                embed = discord.Embed(title=f"現在の状況",description=sql)
+                await msgch.send(embed=embed)
             elif game_status == 2:
                 if game_phase == 0:
                     sql = f"{quest_cnt}クエの{vote_cnt}回目の選出です。"
@@ -1276,11 +1280,14 @@ async def on_message(ctx):
                 elif game_phase == 3:
                     sql = f"{quest_cnt-1}の乙女選択中です。"
                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, select_member)}"
-                embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n３人選出例：s 1,2,3",value=sql)
+                embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n３人選出例：s 1,2,3",description=sql)
+                await msgch.send(embed=embed)
             elif game_status == 3:
                 sql = f"{sql}暗殺フェーズです。"
+                embed = discord.Embed(title=f"現在の状況",description=sql)
+                await msgch.send(embed=embed)
             if game_status != 2:
-                embed.add_field(name=f"現在の状況",value=sql)
+
 
         # init : 初期化
         elif comment == 'i' or comment == 'init':
