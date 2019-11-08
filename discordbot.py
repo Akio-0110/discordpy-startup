@@ -1286,8 +1286,6 @@ async def on_message(ctx):
                 sql = f"{sql}暗殺フェーズです。"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
                 await msgch.send(embed=embed)
-            if game_status != 2:
-
 
         # init : 初期化
         elif comment == 'i' or comment == 'init':
