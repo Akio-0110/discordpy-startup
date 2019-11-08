@@ -433,6 +433,7 @@ async def on_message(ctx):
                     await ctx.channel.send(embed=embed)
                 else :
                     await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+
         elif game_status == 1:
             msgch = client.get_channel(channel_id)
             # login : 部屋入室
@@ -573,7 +574,7 @@ async def on_message(ctx):
                         # await msgch.send(f"{avalon_role[i][0]}:青陣営：{avalon_role[i][1]}")
                     elif i == 10:
                         red_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
-                    elif i > 11 and i <=14:
+                    elif i >= 11 and i <=14:
                         red_role = f"{red_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
                 embed = discord.Embed(title="青陣営",description=blue_role)
                 embed.add_field(name="赤陣営",value=red_role)
