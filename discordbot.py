@@ -253,6 +253,8 @@ async def on_ready():
     `game_phase` int, \
     `game_stop` int, \
     `game_member_num` int, \
+    `game_otome` int, \
+    `game_excalibur` int, \
     `game_member1` int, \
     `game_member2` int, \
     `game_member3` int, \
@@ -274,9 +276,11 @@ async def on_ready():
     `vote_cnt`, \
     `game_phase`, \
     `game_stop`, \
-    `game_member_num` ) \
-    value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0))
+    `game_member_num` \
+    `game_otome` \
+    `game_excalibur` ) \
+    value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
     # テーブル作成 ユーザ情報
     sql = "create table if not exists `avalon_user` ( \
     `id` int, \
@@ -320,10 +324,12 @@ async def on_message(ctx):
             game_phase=i[8]
             game_stop=i[9]
             game_member_num=i[10]
+            game_otome=[11]
+            game_excalibur=[12]
             if game_status == 2 and game_phase != 0:
-                game_member = [i[11],i[12],i[13],i[14],i[15]]
+                game_member = [i[13],i[14],i[15],i[16],i[17]]
             if game_status >= 1:
-                channel_id = i[16]
+                channel_id = i[18]
             break
 
         sql = f"現在の状態：\
@@ -336,7 +342,9 @@ async def on_message(ctx):
         \nvote_cnt = {vote_cnt}\
         \ngame_phase = {game_phase}\
         \ngame_stop = {game_stop}\
-        \ngame_member_num = {game_member_num}"
+        \ngame_member_num = {game_member_num}\
+        \ngame_otome = {game_otome}\
+        \ngame_excalibur = {game_excalibur}"
 
         print(sql)
 
@@ -619,6 +627,29 @@ async def on_message(ctx):
                 # rows = db.fetchall()
                 # print(rows)
 
+            # otome : 乙女設定
+            elif comment == 'o' or comment == 'otome' or comment == '乙女':
+                game_otome = int((game_otome + 1)%2)
+                sql = f"update `avalon_user` set `game_otome` = {game_otome} where id =0"
+                db.execute(sql)
+                if game_otome == 1:
+                    op_msg = "乙女を有効にしました。\n無効にする場合、もう一度コマンドを入力してください。"
+                else:
+                    op_msg = "乙女を無効にしました。\n有効にする場合、もう一度コマンドを入力してください。"
+                embed = discord.Embed(title="オプション設定",description=op_msg)
+                await msgch.send(embed=embed)
+            # otome : エクスカリバー設定
+            elif comment == 'e' or comment == 'excalibur' or comment == 'エクスカリバー':
+                game_excalibur = int((game_excalibur + 1)%2)
+                sql = f"update `avalon_user` set `game_excalibur` = {game_excalibur} where id =0"
+                db.execute(sql)
+                if game_excalibur == 1:
+                    op_msg = "エクスカリバーを有効にしました。\n無効にする場合、もう一度コマンドを入力してください。"
+                else:
+                    op_msg = "エクスカリバーを無効にしました。\n有効にする場合、もう一度コマンドを入力してください。"
+                embed = discord.Embed(title="オプション設定",description=op_msg)
+                await msgch.send(embed=embed)
+
             # start game : ゲームを開始する
             elif comment == 's' or comment == 'start' or comment == '開始':
                 #await msgch.send(f"game_status = {game_status}, command = {comment}")
@@ -686,7 +717,7 @@ async def on_message(ctx):
                         # print(sql)
                         db.execute(sql)
 
-                    print(role)
+                    # print(role)
                     # print(ary)
 
                     for i in range(game_member_num):
