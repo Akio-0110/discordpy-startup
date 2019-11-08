@@ -600,7 +600,7 @@ async def on_message(ctx):
                 # print(role_list)
                 # print(deck_cmd_match)
                 for k in range(game_member_num):
-                    sql = f"update `avalon_user` set `role`={role_list[k]} where id = {k}"
+                    sql = f"update `avalon_user` set `role`={role_list[k]} where id = {k+1}"
                     db.execute(sql)
                     if k == 0:
                         sql_role = f"{avalon_role[role_list[k]][1]}"
@@ -657,8 +657,10 @@ async def on_message(ctx):
                         rows = db.fetchone()
                         ary.append([rows[0], rows[1], rows[2], rows[3]])
                         user_id[i] = rows[2]
+                        print(rows[3])
                         role[i] = rows[3]
 
+                    print(role)
                     ary.pop(0)
                     ary.pop(0)
                     random.shuffle(ary)
