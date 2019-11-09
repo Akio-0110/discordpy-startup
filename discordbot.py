@@ -270,6 +270,9 @@ async def on_ready():
     `game_member3` int, \
     `game_member4` int, \
     `game_member5` int, \
+    `game_otome1` int, \
+    `game_otome2` int, \
+    `game_otome3` int, \
     `channel_id` bigint, \
     primary key (`id`) \
     )"
@@ -407,6 +410,9 @@ async def on_message(ctx):
                     `game_member3` int, \
                     `game_member4` int, \
                     `game_member5` int, \
+                    `game_otome1` int, \
+                    `game_otome2` int, \
+                    `game_otome3` int, \
                     `channel_id` bigint, \
                     primary key (`id`) \
                     )"
@@ -682,6 +688,10 @@ async def on_message(ctx):
                     vote_cnt = 1
                     sql = f"update `avalon_data` set `vote_cnt`={vote_cnt} where id = 0"
                     db.execute(sql)
+                    if game_otome == 1:
+                        game_otome1 = game_member_num - 1
+                        sql = f"update `avalon_data` set `game_otome1`={game_otome1} where id = 0"
+                        db.execute(sql)
                     ary = [[1,'name1', 1, 1], [2, 'name2', 2, 2]]
                     if  game_member_num == 5:
                         user_id = [10,10,10,10,10]
@@ -848,7 +858,10 @@ async def on_message(ctx):
                 `game_member2`= NULL, \
                 `game_member3`= NULL, \
                 `game_member4`= NULL, \
-                `game_member5`= NULL"
+                `game_member5`= NULL, \
+                `game_otome1` = NULL, \
+                `game_otome2` = NULL, \
+                `game_otome3` = NULL"
                 db.execute(sql)
                 sql = 'drop table avalon_user'
                 db.execute(sql)
@@ -879,8 +892,8 @@ async def on_message(ctx):
                             quest_data = [0,0,0,0,0,0,0,0,0]
                         elif game_member_num == 10:
                             quest_data = [0,0,0,0,0,0,0,0,0,0]
-                        select_member = re.compile('\d+')
-                        select_member_match = select_member.findall(comment)
+                        select_member_com = re.compile('\d+')
+                        select_member_match = select_member_com.findall(comment)
                         # 重複チェック
                         if len(select_member_match) == len(set(select_member_match)):
                             if len(select_member_match) != quest_member_num[game_member_num][quest_cnt-1][0]:
@@ -1139,9 +1152,6 @@ async def on_message(ctx):
                             else:
                                 base_num = 1
 
-                            game_phase = 0
-                            quest_cnt += 1
-                            vote_cnt = 1
                             if fail_cnt >= base_num:
                                 quest_fail_cnt += 1
                                 file = './image/クエスト失敗.jpeg'
@@ -1152,6 +1162,9 @@ async def on_message(ctx):
                                 embed = discord.Embed(title="投票結果:成功",description=f"{vote_msg}\n{member_msg}")
 
                             if quest_success_cnt == 3:
+                                game_phase = 0
+                                quest_cnt += 1
+                                vote_cnt = 1
                                 for k in range(game_member_num):
                                     if avalon_user[k][3] == 0:
                                         kill_flag = 1
@@ -1171,7 +1184,10 @@ async def on_message(ctx):
                                     `game_member2`= NULL, \
                                     `game_member3`= NULL, \
                                     `game_member4`= NULL, \
-                                    `game_member5`= NULL \
+                                    `game_member5`= NULL, \
+                                    `game_otome1` = NULL, \
+                                    `game_otome2` = NULL, \
+                                    `game_otome3` = NULL \
                                     where id = 0"
                                     db.execute(sql)
                                     for k in range(game_member_num):
@@ -1198,7 +1214,10 @@ async def on_message(ctx):
                                     `game_member2`= NULL, \
                                     `game_member3`= NULL, \
                                     `game_member4`= NULL, \
-                                    `game_member5`= NULL \
+                                    `game_member5`= NULL, \
+                                    `game_otome1` = NULL, \
+                                    `game_otome2` = NULL, \
+                                    `game_otome3` = NULL \
                                     where id = 0"
                                     db.execute(sql)
                                     sql = "配役は以下の通りです。"
@@ -1206,6 +1225,9 @@ async def on_message(ctx):
                                         sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
                                     embed.add_field(name=f"クエスト：青陣営勝利",value=f"{sql}")
                             elif quest_fail_cnt == 3:
+                                game_phase = 0
+                                quest_cnt += 1
+                                vote_cnt = 1
                                 sql = f"update `avalon_data` set \
                                 `game_status`= 0, \
                                 `game_role`= 1, \
@@ -1220,7 +1242,10 @@ async def on_message(ctx):
                                 `game_member2`= NULL, \
                                 `game_member3`= NULL, \
                                 `game_member4`= NULL, \
-                                `game_member5`= NULL \
+                                `game_member5`= NULL, \
+                                `game_otome1` = NULL, \
+                                `game_otome2` = NULL, \
+                                `game_otome3` = NULL \
                                 where id = 0"
                                 db.execute(sql)
                                 sql = "配役は以下の通りです。"
@@ -1229,19 +1254,81 @@ async def on_message(ctx):
                                 embed.add_field(name=f"クエスト：赤陣営勝利", \
                                 value=f"{sql}")
                             else:
+                                if game_otome == 1 and (quest_cnt >= 2 and quest_cnt <= 4):
+                                    game_phase = game_phase + 1
+                                    sql = f"update `avalon_data` set \
+                                    `game_phase`= {game_phase}, \
+                                    `quest_success_cnt` = {quest_success_cnt}, \
+                                    `quest_fail_cnt` = {quest_fail_cnt} \
+                                    where id = 0"
+                                    db.execute(sql)
+                                    otome_select = [game_otome1, game_otome2, game_otome3]
+                                    sql = player_display(game_member_num, avalon_user, select_member)
+                                    embed.add_field(name=f"第{quest_cnt}クエスト終了",value=f"{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:\ns/select/選出 番号です。")
+                                else:
+                                    game_phase = 0
+                                    quest_cnt += 1
+                                    vote_cnt = 1
+                                    sql = f"update `avalon_data` set \
+                                    `game_phase`= {game_phase}, \
+                                    `select_member`= {select_member}, \
+                                    `quest_cnt`= {quest_cnt}, \
+                                    `quest_success_cnt` = {quest_success_cnt}, \
+                                    `quest_fail_cnt` = {quest_fail_cnt}, \
+                                    `vote_cnt` = {vote_cnt} \
+                                    where id = 0"
+                                    db.execute(sql)
+                                    sql = player_display(game_member_num, avalon_user, select_member)
+                                    embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
+                            await msgch.send(embed=embed, file=File(f"{file}"))
+
+            elif game_phase == 3: #乙女フェーズ
+                otome_select = [game_otome1, game_otome2, game_otome3]
+                if comment[0:2] == 's ' or comment[0:7] == 'select ' or comment[0:3] == '選択 ':
+                    if ctx.author.id == avalon_user[otome_select[quest_cnt-2]][2]:
+                        select_member_com = re.compile('\d+')
+                        select_member_match = select_member_com.findall(comment)
+                        # 重複チェック
+                        if len(select_member_match) != 1:
+                            await ctx.author.send(f"選択人数は1人です：{comment}")
+                        else :
+                            otome_check = 0
+                            otome_num = int(select_member_match[0]
+                            for i in range(quest_cnt-1):
+                                if game_otome[i] == None:
+                                    break
+                                elif int(select_member_match[0]) == game_otome[i]:
+                                    await ctx.author.send(f"乙女使用者は選出できません。")
+                                    otome_check = otome_check + 1
+                                    break
+
+                            if otome_check == 0 and otome_num >= 1 and otome_num <= game_member_num:
+                                msg = client.get_user(avalon_user[otome_num][2])
+                                if avalon_user[otome_num][3] < 10:
+                                    otome_msg = f"{avalon_user[otome_num][1]}は青陣営です"
+                                    file=File(f"./image/忠誠カード青.jpeg")
+                                else:
+                                    otome_msg = f"{avalon_user[otome_num][1]}は赤陣営です"
+                                    file=File(f"./image/忠誠カード赤.jpeg")
+                                embed = discord.Embed(title="乙女結果",description=otome_msg)
+                                await msg.send(embed=embed, file=file)
+                                # await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。")
+                                game_phase = 0
+                                quest_cnt += 1
+                                vote_cnt = 1
+                                select_member += 1
                                 sql = f"update `avalon_data` set \
                                 `game_phase`= {game_phase}, \
                                 `select_member`= {select_member}, \
                                 `quest_cnt`= {quest_cnt}, \
-                                `quest_success_cnt` = {quest_success_cnt}, \
-                                `quest_fail_cnt` = {quest_fail_cnt}, \
                                 `vote_cnt` = {vote_cnt} \
                                 where id = 0"
                                 db.execute(sql)
                                 sql = player_display(game_member_num, avalon_user, select_member)
-                                print()
                                 embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
-                            await msgch.send(embed=embed, file=File(f"{file}"))
+                                await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed, file=File(f"{file}"))
+                    else:
+                        await msgch.send(f"あなた({ctx.author.display_name})は選出リーダではありません。")
 
         elif game_status == 3:
             msgch = client.get_channel(channel_id)
@@ -1308,7 +1395,10 @@ async def on_message(ctx):
                             `game_member2`= NULL, \
                             `game_member3`= NULL, \
                             `game_member4`= NULL, \
-                            `game_member5`= NULL \
+                            `game_member5`= NULL, \
+                            `game_otome1` = NULL, \
+                            `game_otome2` = NULL, \
+                            `game_otome3` = NULL \
                             where id = 0"
                             db.execute(sql)
                         else:
@@ -1361,7 +1451,10 @@ async def on_message(ctx):
             `game_member2`= NULL, \
             `game_member3`= NULL, \
             `game_member4`= NULL, \
-            `game_member5`= NULL \
+            `game_member5`= NULL, \
+            `game_otome1` = NULL, \
+            `game_otome2` = NULL, \
+            `game_otome3` = NULL \
             where id = 0"
             db.execute(sql)
             sql = 'drop table avalon_user'
