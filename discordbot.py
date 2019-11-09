@@ -1284,12 +1284,16 @@ async def on_message(ctx):
                                     embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
                             await msgch.send(embed=embed, file=File(f"{file}"))
 
-            elif game_phase == 3: #乙女フェーズ
+            elif game_phase == 4: #乙女フェーズ
                 otome_select = [game_otome1, game_otome2, game_otome3]
-                if comment[0:2] == 's ' or comment[0:7] == 'select ' or comment[0:3] == '選択 ':
+                if comment[0:2] == 's ' or comment[0:7] == 'survey ' or comment[0:3] == '調査 ':
+                    print(コマンドを受け付けました。)
+                    print(ctx.author.id)
+                    print(avalon_user[otome_select[quest_cnt-2]][2])
                     if ctx.author.id == avalon_user[otome_select[quest_cnt-2]][2]:
                         select_member_com = re.compile('\d+')
                         select_member_match = select_member_com.findall(comment)
+                        print(select_member_match)
                         # 重複チェック
                         if len(select_member_match) != 1:
                             await ctx.author.send(f"選択人数は1人です：{comment}")
