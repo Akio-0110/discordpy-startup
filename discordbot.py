@@ -1494,6 +1494,6 @@ async def on_message(ctx):
             otome_msg = f"赤陣営です"
             file="./image/忠誠カード赤.jpeg"
             embed = discord.Embed(title="乙女結果",description=otome_msg)
-            await ctx.channel.send(embed=embed, file=File(f"{file}"))
+            await ctx.channel.send(embed=embed, file=File(f"{avalon_role[role[0]][2]}"))
 
 client.run(TOKEN)
