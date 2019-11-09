@@ -1272,7 +1272,7 @@ async def on_message(ctx):
                                     await msgch.send(embed=embed, file=File(f"{file}"))
                                     sql = player_display(game_member_num, avalon_user, select_member)
                                     embed = discord.Embed(title="乙女選出",description=f"{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:\ns/select/選出 番号です。")
-                                    await msgch.send(embed=embed, file=File(f"{file}"))
+                                    await msg.send(embed=embed)
                                 else:
                                     game_phase = 0
                                     quest_cnt += 1
@@ -1341,9 +1341,9 @@ async def on_message(ctx):
                                 db.execute(sql)
                                 sql = player_display(game_member_num, avalon_user, select_member)
                                 embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
-                                await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed, file=File(f"{file}"))
+                                await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed
                             else:
-                                await msgch.send(f"選択番号は1〜{game_member_num}にしてください")
+                                await msg.send(f"選択番号は1〜{game_member_num}にしてください")
                     else:
                         await msgch.send(f"あなた({ctx.author.display_name})は選出リーダではありません。")
 
@@ -1486,5 +1486,12 @@ async def on_message(ctx):
             )"
             db.execute(sql)
             await ctx.channel.send(f"データを初期化しました。")
+
+        # init : 初期化
+    elif comment == 'c':
+        otome_msg = f"赤陣営です"
+        file="./image/忠誠カード赤.jpeg"
+        embed = discord.Embed(title="乙女結果",description=otome_msg)
+        await ctx.channel.send(embed=embed, file=File(file))
 
 client.run(TOKEN)
