@@ -1299,7 +1299,7 @@ async def on_message(ctx):
                             for i in range(quest_cnt-1):
                                 if otome_select[i] == None:
                                     break
-                                elif int(select_member_match[0]) == game_otome[i]:
+                                elif int(select_member_match[0]) == otome_select[i]:
                                     await ctx.author.send(f"乙女使用者は選出できません。")
                                     otome_check = otome_check + 1
                                     break
