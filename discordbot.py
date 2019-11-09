@@ -345,7 +345,6 @@ async def on_message(ctx):
                 game_otome2 = i[20]
                 game_otome3 = i[21]
             if game_status >= 1:
-
                 channel_id = i[1]
             break
 
@@ -1298,7 +1297,7 @@ async def on_message(ctx):
                             otome_check = 0
                             otome_num = int(select_member_match[0])-1
                             for i in range(quest_cnt-1):
-                                if game_otome[i] == None:
+                                if otome_select[i] == None:
                                     break
                                 elif int(select_member_match[0]) == game_otome[i]:
                                     await ctx.author.send(f"乙女使用者は選出できません。")
