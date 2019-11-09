@@ -1338,7 +1338,7 @@ async def on_message(ctx):
                                 embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
                                 await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed, file=File(f"{file}"))
                             else:
-                                await msgch.send(f"選択番号は1〜{game_member_num}にしてください"))
+                                await msgch.send(f"選択番号は1〜{game_member_num}にしてください")
                     else:
                         await msgch.send(f"あなた({ctx.author.display_name})は選出リーダではありません。")
 
