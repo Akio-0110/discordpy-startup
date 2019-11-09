@@ -1039,7 +1039,7 @@ async def on_message(ctx):
                                 file = "./image/承認.jpeg"
                                 await msgch.send(embed=embed, file=File(f"{file}"))
                                 for k in range(game_member_num):
-                                    if game_quest[k]%2 == 1:
+                                    if avalon_quest[k]%2 == 1:
                                         msg = client.get_user(user_ary[k][2])
                                         msg.send("成功の場合 : s\n失敗の場合 : f\nを入力してください")
                             # 却下
