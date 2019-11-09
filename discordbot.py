@@ -1490,7 +1490,7 @@ async def on_message(ctx):
 
         # init : 初期化
         elif comment == 'c':
-            print(glob.glob("./*"))
+            print(glob.glob("./image/*"))
             otome_msg = f"赤陣営です"
             file="./image/忠誠カード赤.jpeg"
             embed = discord.Embed(title="乙女結果",description=otome_msg)
