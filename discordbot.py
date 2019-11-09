@@ -1146,7 +1146,11 @@ async def on_message(ctx):
                         else:
                             break
 
+                    print(f"成功：{success_cnt}")
+                    print(f"失敗：{fail_cnt}")
+
                     if fail_cnt + success_cnt == quest_member_num[game_member_num][quest_cnt-1][0]:
+                        print(f"全員投票完了")
                         select_member = int((select_member+1)%game_member_num)
 
                         # 成功失敗判断
@@ -1259,7 +1263,9 @@ async def on_message(ctx):
                             embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
                             await msgch.send(embed=embed, file=File(f"{file}"))
                         else:
+                            print("クエスト終了")
                             if game_otome == 1 and (quest_cnt >= 2 and quest_cnt <= 4):
+                                print("乙女へ遷移")
                                 game_phase = 4
                                 sql = f"update `avalon_data` set \
                                 `game_phase`= {game_phase}, \
@@ -1274,6 +1280,7 @@ async def on_message(ctx):
                                 embed = discord.Embed(title="乙女選出",description=f"{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:\ns/select/選出 番号です。")
                                 await msg.send(embed=embed)
                             else:
+                                print("次のクエへ")
                                 game_phase = 0
                                 quest_cnt += 1
                                 vote_cnt = 1
