@@ -1322,7 +1322,7 @@ async def on_message(ctx):
                                 msg = client.get_user(avalon_user[otome_num][2])
                                 if avalon_user[otome_num][3] < 10:
                                     otome_msg = f"{avalon_user[otome_num][1]}は青陣営です"
-                                    file="./image/忠誠カード青.jpeg"
+                                    file="./image/忠誠カード青.jpeg"
                                 else:
                                     otome_msg = f"{avalon_user[otome_num][1]}は赤陣営です"
                                     file="./image/忠誠カード赤.jpeg"
@@ -1489,13 +1489,13 @@ async def on_message(ctx):
             await ctx.channel.send(f"データを初期化しました。")
 
         # init : 初期化
-        elif comment == 'c':
-            otome_msg = f"赤陣営です"
-            file="./image/忠誠カード青.jpeg"
-            # print(glob.glob(avalon_role[0][2]))
-            # print(glob.glob(file))
-            # file=avalon_role[0][2]
-            embed = discord.Embed(title="乙女結果",description=otome_msg)
-            await ctx.channel.send(embed=embed, file=File(file))
+        # elif comment == 'c':
+        #     otome_msg = f"赤陣営です"
+        #     file="./image/忠誠カード青.jpeg"
+        #     # print(glob.glob(avalon_role[0][2]))
+        #     # print(glob.glob(file))
+        #     # file=avalon_role[0][2]
+        #     embed = discord.Embed(title="乙女結果",description=otome_msg)
+        #     await ctx.channel.send(embed=embed, file=File(file))
 
 client.run(TOKEN)
