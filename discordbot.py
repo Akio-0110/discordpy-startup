@@ -1041,7 +1041,7 @@ async def on_message(ctx):
                                 for k in range(game_member_num):
                                     if avalon_quest[k]%2 == 1:
                                         msg = client.get_user(avalon_user[k][2])
-                                        msg.send("成功の場合 : s\n失敗の場合 : f\nを入力してください")
+                                        await msg.send("成功の場合 : s\n失敗の場合 : f\nを入力してください")
                             # 却下
                             else:
                                 if vote_cnt != 5:
