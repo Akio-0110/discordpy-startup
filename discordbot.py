@@ -1293,7 +1293,7 @@ async def on_message(ctx):
                             await ctx.author.send(f"選択人数は1人です：{comment}")
                         else :
                             otome_check = 0
-                            otome_num = int(select_member_match[0]
+                            otome_num = int(select_member_match[0])
                             for i in range(quest_cnt-1):
                                 if game_otome[i] == None:
                                     break
