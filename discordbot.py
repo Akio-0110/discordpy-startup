@@ -341,7 +341,6 @@ async def on_message(ctx):
             game_excalibur=i[13]
             if game_status == 2 and game_phase != 0:
                 game_member = [i[14],i[15],i[16],i[17],i[18]]
-            if game_status == 2 and game_phase == 3:
                 game_otome1 = i[19]
                 game_otome2 = i[20]
                 game_otome3 = i[21]
