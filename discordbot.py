@@ -829,7 +829,7 @@ async def on_message(ctx):
                 # print(rows)
                 for i in range(game_member_num):
                     # print(rows[i+1])
-                    avalon_quest[i] = int(rows[i])
+                    avalon_quest[i] = int(rows[i+1])
             user_ary = [[1, 'name1', 1, 1], [2, 'name2', 2, 2]]
             for i in range(game_member_num) :
                 sql = f"select * from `avalon_user` where id = {i+1}"
@@ -884,18 +884,6 @@ async def on_message(ctx):
                 # start game : ゲームを開始する
                 if comment[0:2] == 's ' or comment[0:7] == 'select ' or comment[0:3] == '選択 ':
                     if ctx.author.id == avalon_user[select_member][2]:
-                        if game_member_num == 5:
-                            quest_data = [0,0,0,0,0]
-                        elif game_member_num == 6:
-                            quest_data = [0,0,0,0,0,0]
-                        elif game_member_num == 7:
-                            quest_data = [0,0,0,0,0,0,0]
-                        elif game_member_num == 8:
-                            quest_data = [0,0,0,0,0,0,0,0]
-                        elif game_member_num == 9:
-                            quest_data = [0,0,0,0,0,0,0,0,0]
-                        elif game_member_num == 10:
-                            quest_data = [0,0,0,0,0,0,0,0,0,0]
                         select_member_com = re.compile('\d+')
                         select_member_match = select_member_com.findall(comment)
                         # 重複チェック
@@ -1114,9 +1102,9 @@ async def on_message(ctx):
 
                             else:
                                 sql = f"update `avalon_quest` \
-                                set `member{i+1}` = {avalon_quest[i]%2+command_accept} \
+                                set `member{i+1}` = {avalon_quest[i]%8+command_accept} \
                                 where id = {quest_id}"
-                                avalon_quest[i] = avalon_quest[i]%2 + command_accept
+                                avalon_quest[i] = avalon_quest[i]%8 + command_accept
                                 if command_accept == 16:
                                     await msg.send(f"成功へ上書きしました。")
                                 else:
