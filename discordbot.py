@@ -1057,7 +1057,8 @@ async def on_message(ctx):
                                 for k in range(game_member_num):
                                     if avalon_quest[k]%2 == 1:
                                         msg = client.get_user(avalon_user[k][2])
-                                        await msg.send("クエストに参加しています。\n成功の場合 : s\n失敗の場合 : f\nを入力してください")
+                                        embed = discord.Embed(title="クエスト参加",description=f"成功の場合 : s\n失敗の場合 : f\nを入力してください")
+                                        await msg.send(embed=embed)
                             # 却下
                             else:
                                 if vote_cnt != 5:
@@ -1482,7 +1483,7 @@ async def on_message(ctx):
                 elif game_phase == 3:
                     sql = f"{quest_cnt-1}の乙女選択中です。"
                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, select_member)}"
-                embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{success_cnt}\n失敗{fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n３人選出例：s 1,2,3",description=sql)
+                embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n３人選出例：s 1,2,3",description=sql)
                 await msgch.send(embed=embed)
             elif game_status == 3:
                 sql = f"{sql}暗殺フェーズです。"
