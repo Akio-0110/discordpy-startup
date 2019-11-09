@@ -465,6 +465,7 @@ async def on_message(ctx):
                     await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
         elif game_status == 1:
+            print(channel_id)
             msgch = client.get_channel(channel_id)
             # login : 部屋入室
             if comment == 'in' or comment == 'login' or comment == 'ログイン' or comment == '入室':
