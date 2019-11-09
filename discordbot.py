@@ -1291,28 +1291,28 @@ async def on_message(ctx):
                     if ctx.author.id == avalon_user[otome_select[quest_cnt-2]][2]:
                         select_member_com = re.compile('\d+')
                         select_member_match = select_member_com.findall(comment)
-                        print(select_member_match)
+                        # print(select_member_match)
                         # 重複チェック
                         if len(select_member_match) != 1:
                             await ctx.author.send(f"選択人数は1人です：{comment}")
                         else :
                             otome_check = 0
                             otome_num = int(select_member_match[0])-1
-                            print("コマンドを受け付けました。")
-                            print(int(select_member_match[0]))
-                            print(f"otome_num = {otome_num}")
-                            print(f"quest_cnt-1 = {quest_cnt-1}")
+                            # print("コマンドを受け付けました。")
+                            # print(int(select_member_match[0]))
+                            # print(f"otome_num = {otome_num}")
+                            # print(f"quest_cnt-1 = {quest_cnt-1}")
                             for i in range(quest_cnt-1):
-                                print(otome_select[i])
+                                # print(otome_select[i])
                                 if otome_select[i] == None:
                                     break
-                                elif int(select_member_match[0]) == otome_select[i]:
+                                elif otome_num == otome_select[i]:
                                     await ctx.author.send(f"乙女使用者は選出できません。")
                                     otome_check = otome_check + 1
                                     break
 
                             print(f"otome_check={otome_check}")
-                            if otome_check == 0 and otome_num >= 1 and otome_num <= game_member_num:
+                            if otome_check == 0 and otome_num >= 0 and otome_num < game_member_num:
                                 msg = client.get_user(avalon_user[otome_num][2])
                                 if avalon_user[otome_num][3] < 10:
                                     otome_msg = f"{avalon_user[otome_num][1]}は青陣営です"
