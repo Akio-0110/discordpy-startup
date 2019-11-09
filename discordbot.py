@@ -1325,7 +1325,7 @@ async def on_message(ctx):
                                     file="./image/忠誠カード青.jpeg"
                                 else:
                                     otome_msg = f"{avalon_user[otome_num][1]}は赤陣営です"
-                                    file="./image/忠誠カード赤.jpeg"
+                                    file="./image/忠誠カード赤.jpeg"
                                 embed = discord.Embed(title="乙女結果",description=otome_msg)
                                 await msg.send(embed=embed, file=File(f"{file}"))
                                 # await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。")
@@ -1492,10 +1492,10 @@ async def on_message(ctx):
         elif comment == 'c':
             otome_msg = f"赤陣営です"
             file="./image/忠誠カード赤.jpeg"
-            print(glob.glob(avalon_role[0][2]))
-            print(glob.glob(file))
+            # print(glob.glob(avalon_role[0][2]))
+            # print(glob.glob(file))
             # file=avalon_role[0][2]
-            # embed = discord.Embed(title="乙女結果",description=otome_msg)
-            # await ctx.channel.send(embed=embed, file=File(file))
+            embed = discord.Embed(title="乙女結果",description=otome_msg)
+            await ctx.channel.send(embed=embed, file=File(file))
 
 client.run(TOKEN)
