@@ -453,6 +453,7 @@ async def on_message(ctx):
                     db.execute(sql)
                     sql = f"update `avalon_data` set `game_member_num`=1 where id = 0"
                     db.execute(sql)
+                    print(ctx.channel.id)
                     sql = f"update `avalon_data` set `channel_id`={ctx.channel.id} where id = 0"
                     db.execute(sql)
                     await ctx.channel.send(f"{ctx.author.display_name}が部屋を作成し、入室しました。 \
@@ -463,7 +464,6 @@ async def on_message(ctx):
                     await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
         elif game_status == 1:
-            print(channel_id)
             msgch = client.get_channel(channel_id)
             # login : 部屋入室
             if comment == 'in' or comment == 'login' or comment == 'ログイン' or comment == '入室':
