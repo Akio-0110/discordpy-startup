@@ -155,28 +155,33 @@ s/start:開始
 usage_avalon20="""
 h/help:ヘルプ（コマンド一覧）
 s/select 数字:選出
+?:現在の状態
 stop:ゲーム停止
 """
 usage_avalon21="""
 h/help:ヘルプ（コマンド一覧）
 a/accept:承認
 r/reject:却下
+?:現在の状態
 stop:ゲーム停止
 """
 usage_avalon22="""
 h/help:ヘルプ（コマンド一覧）
 s/success:成功
 f/fail:失敗
+?:現在の状態
 stop:ゲーム停止
 """
 usage_avalon23="""
 h/help:ヘルプ（コマンド一覧）
 e/excalibur 番号:エクスカリバー
+?:現在の状態
 stop:ゲーム停止
 """
 usage_avalon24="""
 h/help:ヘルプ（コマンド一覧）
 s/survey 番号:調査
+?:現在の状態
 stop:ゲーム停止
 """
 usage_avalon3="""
@@ -366,7 +371,7 @@ async def on_message(ctx):
         print(sql)
 
         # help : ヘルプ
-        if comment == 'h' or comment == 'help' or comment == 'ヘルプ':
+        if comment == 'h' or comment == 'help' or comment == 'へ':
             if game_status == 0:
                 embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon0)
             elif game_status == 1:
@@ -388,7 +393,7 @@ async def on_message(ctx):
 
         if game_status == 0:
             # make : 部屋作成
-            if comment == 'm' or comment == 'make' or comment == '作成':
+            if comment == 'm' or comment == 'make' or comment == 'さ':
                 if game_status == 0:
                     sql = 'drop table if exists avalon_data'
                     db.execute(sql)
@@ -471,7 +476,7 @@ async def on_message(ctx):
         elif game_status == 1:
             msgch = client.get_channel(channel_id)
             # login : 部屋入室
-            if comment == 'in' or comment == 'login' or comment == 'ログイン' or comment == '入室':
+            if comment == 'in' or comment == 'login' or comment == 'に':
                 if game_member_num < 10:
                     gm_num = game_member_num + 1
                     if gm_num < 5:
@@ -499,7 +504,7 @@ async def on_message(ctx):
                     await msgch.send(f"満室です。")
 
             # deck number: デッキリスト
-            elif comment[0:2] == 'd ' or comment[0:5] == 'deck ' or comment[0:7] == 'デッキリスト ':
+            elif comment[0:2] == 'd ' or comment[0:5] == 'deck ' or comment[0:2] == 'り ':
                 if comment[0:2] == 'd ':
                     deck_cmd = comment.lstrip("d ")
                     # try :
@@ -532,8 +537,8 @@ async def on_message(ctx):
                             await msgch.send(f"現在このコマンドは無効です。：{comment}")
                     except :
                         await msgch.send(f"現在このコマンドは無効です。：{comment}")
-                elif comment[0:7] == 'デッキリスト ':
-                    deck_cmd = comment.lstrip("デッキリスト ")
+                elif comment[0:2] == 'り ':
+                    deck_cmd = comment.lstrip("り ")
                     try :
                         deck_num = int(deck_cmd)
                         if deck_num > 4 and deck_num < 11 :
@@ -550,7 +555,7 @@ async def on_message(ctx):
                         await msgch.send(f"現在このコマンドは無効です。：{comment}")
 
             # deck set: デッキ設定
-            elif comment[0:3] == 'ds ' or comment[0:8] == 'deckset ' or comment[0:7] == 'デッキセット ':
+            elif comment[0:3] == 'ds ' or comment[0:8] == 'deckset ' or comment[0:2] == 'せ ':
                 if comment[0:3] == 'ds ':
                     deck_cmd = comment.lstrip("ds ")
                     try :
@@ -582,8 +587,8 @@ async def on_message(ctx):
                         db.execute(sql)
                     except :
                         await msgch.send(f"現在このコマンドは無効です。：{comment}")
-                elif comment[0:7] == 'デッキセット ':
-                    deck_cmd = comment.lstrip("デッキセット ")
+                elif comment[0:2] == 'せ ':
+                    deck_cmd = comment.lstrip("せ ")
                     try :
                         game_role = int(deck_cmd)
                         # print(game_role)
@@ -599,7 +604,7 @@ async def on_message(ctx):
                         await msgch.send(f"現在このコマンドは無効です。：{comment}")
 
             # role number : 役職カスタマイズ
-            elif comment == 'role' or comment == '役職':
+            elif comment == 'role' or comment == 'や':
                 for i in range(16):
                     if i == 0:
                         blue_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
@@ -846,7 +851,7 @@ async def on_message(ctx):
             user_ary.pop(0)
             # print(user_ary)
 
-            if comment == 'stop' or comment == '停止':
+            if comment == 'stop' or comment == 'て':
                 await msgch.send("stopコマンドのため、ゲーム途中ですが、ゲームを停止します。")
                 sql = "update `avalon_data` set \
                 `game_status`= 0, \
@@ -882,7 +887,7 @@ async def on_message(ctx):
 
             elif game_phase == 0: #選出フェーズ
                 # start game : ゲームを開始する
-                if comment[0:2] == 's ' or comment[0:7] == 'select ' or comment[0:3] == '選択 ':
+                if comment[0:2] == 's ' or comment[0:7] == 'select ' or comment[0:3] == 'せ ':
                     if ctx.author.id == avalon_user[select_member][2]:
                         select_member_com = re.compile('\d+')
                         select_member_match = select_member_com.findall(comment)
@@ -957,10 +962,10 @@ async def on_message(ctx):
 
             elif game_phase == 1: #承認却下フェーズ
                 command_accept = 0
-                if comment == 'a' or comment == 'accept' or comment == 'r' or comment == 'reject' or comment == '承認' or comment == '却下':
-                    if comment == 'a' or comment == 'accept' or comment == '承認':
+                if comment == 'a' or comment == 'accept' or comment == 'r' or comment == 'reject' or comment == 'し' or comment == 'き':
+                    if comment == 'a' or comment == 'accept' or comment == 'し':
                         command_accept = 4
-                    elif comment == 'r' or comment == 'reject' or comment == '却下':
+                    elif comment == 'r' or comment == 'reject' or comment == 'き':
                         command_accept = 2
 
                     for i in range(game_member_num):
@@ -1027,9 +1032,16 @@ async def on_message(ctx):
                                 where id = 0"
                                 # print(sql)
                                 db.execute(sql)
-                                embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n個人メッセージで\n成功の場合:s\n失敗の場合:f\nを実行してください")
+                                if vote_msg != None:
+                                    embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n選出メンバーが成功失敗の投票中です。")
+                                else:
+                                    embed = discord.Embed(title="投票結果",description=f"選出メンバーが成功失敗の投票中です。")
                                 file = "./image/承認.jpeg"
                                 await msgch.send(embed=embed, file=File(f"{file}"))
+                                for k in range(game_member_num):
+                                    if game_quest[k]%2 == 1:
+                                        msg = client.get_user(user_ary[k][2])
+                                        msg.send("成功の場合 : s\n失敗の場合 : f\nを入力してください")
                             # 却下
                             else:
                                 if vote_cnt != 5:
@@ -1066,10 +1078,10 @@ async def on_message(ctx):
 
             elif game_phase == 2: #成功失敗フェーズ
                 command_accept = 0
-                if comment == 's' or comment == 'success' or comment == '成功' or comment == 'f' or comment == 'fail' or comment == '失敗':
-                    if comment == 's' or comment == 'success' or comment == '成功':
+                if comment == 's' or comment == 'success' or comment == 'せ' or comment == 'f' or comment == 'fail' or comment == 'し':
+                    if comment == 's' or comment == 'success' or comment == 'せ':
                         command_accept = 16
-                    elif comment == 'f' or comment == 'fail' or comment == '失敗':
+                    elif comment == 'f' or comment == 'fail' or comment == 'し':
                         command_accept = 8
 
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
@@ -1085,12 +1097,12 @@ async def on_message(ctx):
                                 for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                                     num = game_member[k]-1
                                     if k == 0:
-                                        if avalon_quest[num] > 8 or game_member[k]-1 == num:
+                                        if avalon_quest[num] > 8 or avalon_user[num][2] == ctx.author.id:
                                             vote_msg = f"投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
                                         else:
                                             vote_msg = f"投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
                                     else:
-                                        if avalon_quest[num] > 8 or game_member[k]-1 == num:
+                                        if avalon_quest[num] > 8 or avalon_user[num][2] == ctx.author.id:
                                             vote_msg = f"{vote_msg}\n投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
                                         else:
                                             vote_msg = f"{vote_msg}\n投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
@@ -1105,193 +1117,203 @@ async def on_message(ctx):
                                 set `member{i+1}` = {avalon_quest[i]%8+command_accept} \
                                 where id = {quest_id}"
                                 avalon_quest[i] = avalon_quest[i]%8 + command_accept
+
+                                for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
+                                    num = game_member[k]-1
+                                    if k == 0:
+                                        if avalon_quest[num] > 8 or avalon_user[num][2]:
+                                            vote_msg = f"投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                        else:
+                                            vote_msg = f"投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                    else:
+                                        if avalon_quest[num] > 8 or avalon_user[num][2]:
+                                            vote_msg = f"{vote_msg}\n投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                        else:
+                                            vote_msg = f"{vote_msg}\n投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+
                                 if command_accept == 16:
                                     await msg.send(f"成功へ上書きしました。")
                                 else:
                                     await msg.send(f"失敗へ上書きしました。")
-                            # print(avalon_quest)
-                            # print(sql)
+
                             db.execute(sql)
                             # break
-                    embed = discord.Embed(title="投票状況",description=vote_msg)
-                    await msgch.send(embed=embed)
 
-                    # judge next phase
-                    fail_cnt = 0
-                    success_cnt = 0
-                    vote_msg = f"第{quest_cnt}クエスト："
-                    member_msg = "クエスト参加メンバー"
-                    for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                        num = game_member[i]-1
-                        member_msg = f"{member_msg}\n{num+1} : {avalon_user[num][1]}"
-                        if avalon_quest[num] > 8:
-                            if avalon_quest[num] < 16:
-                                fail_cnt += 1
-                                vote_msg = f"{vote_msg}\n成功"
-                            else:
-                                success_cnt += 1
-                                vote_msg = f"{vote_msg}\n失敗"
-                        else:
-                            break
+                            embed = discord.Embed(title="投票状況",description=vote_msg)
+                            await msgch.send(embed=embed)
 
-                    print(f"成功：{success_cnt}")
-                    print(f"失敗：{fail_cnt}")
-
-                    if fail_cnt + success_cnt == quest_member_num[game_member_num][quest_cnt-1][0]:
-                        print(f"全員投票完了")
-                        select_member = int((select_member+1)%game_member_num)
-
-                        # 成功失敗判断
-                        if quest_cnt == 4 and game_member_num >= 7 and game_member_num <= 10:
-                            base_num = 2
-                        else:
-                            base_num = 1
-
-                        if fail_cnt >= base_num:
-                            quest_fail_cnt += 1
-                            file = './image/クエスト失敗.jpeg'
-                            embed = discord.Embed(title="投票結果:失敗",description=f"{vote_msg}\n{member_msg}")
-                        else:
-                            quest_success_cnt += 1
-                            file = './image/クエスト成功.jpeg'
-                            embed = discord.Embed(title="投票結果:成功",description=f"{vote_msg}\n{member_msg}")
-
-                        if quest_success_cnt == 3:
-                            game_phase = 0
-                            quest_cnt += 1
-                            vote_cnt = 1
-                            for k in range(game_member_num):
-                                if avalon_user[k][3] == 0:
-                                    kill_flag = 1
+                            # judge next phase
+                            fail_cnt = 0
+                            success_cnt = 0
+                            vote_msg = f"第{quest_cnt}クエスト："
+                            member_msg = "クエスト参加メンバー"
+                            for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
+                                num = game_member[k]-1
+                                member_msg = f"{member_msg}\n{num} : {avalon_user[num][1]}"
+                                if avalon_quest[num] > 8:
+                                    if avalon_quest[num] < 16:
+                                        fail_cnt += 1
+                                    else:
+                                        success_cnt += 1
+                                else:
                                     break
 
-                            if kill_flag == 1:
-                                sql = f"update `avalon_data` set \
-                                `game_status`= 3, \
-                                `game_role`= 1, \
-                                `quest_cnt`= 0, \
-                                `quest_success_cnt` = 0, \
-                                `quest_fail_cnt` = 0, \
-                                `vote_cnt`= 0, \
-                                `game_phase`= 0, \
-                                `game_stop`= 0, \
-                                `game_member1`= NULL, \
-                                `game_member2`= NULL, \
-                                `game_member3`= NULL, \
-                                `game_member4`= NULL, \
-                                `game_member5`= NULL, \
-                                `game_otome1` = NULL, \
-                                `game_otome2` = NULL, \
-                                `game_otome3` = NULL \
-                                where id = 0"
-                                db.execute(sql)
-                                for k in range(game_member_num):
-                                    if k == 0:
-                                        for j in range(game_member_num):
-                                            if avalon_user[j][3] == 10:
-                                                msg = client.get_user(avalon_user[j][2])
-                                        sql = "暗殺者の方はマーリンを予想してください"
-                                    sql = f"{sql}\n{k+1} : {avalon_user[k][1]}"
-                                await msg.send(sql)
-                                embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方はマーリンを予想してください。")
-                                await msgch.send(embed=embed, file=File(f"{file}"))
-                            else:
-                                sql = f"update `avalon_data` set \
-                                `game_status`= 0, \
-                                `game_role`= 1, \
-                                `quest_cnt`= 0, \
-                                `quest_success_cnt` = 0, \
-                                `quest_fail_cnt` = 0, \
-                                `vote_cnt`= 0, \
-                                `game_phase`= 0, \
-                                `game_stop`= 1, \
-                                `game_member_num`= 0, \
-                                `game_member1`= NULL, \
-                                `game_member2`= NULL, \
-                                `game_member3`= NULL, \
-                                `game_member4`= NULL, \
-                                `game_member5`= NULL, \
-                                `game_otome1` = NULL, \
-                                `game_otome2` = NULL, \
-                                `game_otome3` = NULL \
-                                where id = 0"
-                                db.execute(sql)
-                                sql = "配役は以下の通りです。"
-                                for i in range(game_member_num):
-                                    sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
-                                embed.add_field(name=f"クエスト：青陣営勝利",value=f"{sql}")
-                                await msgch.send(embed=embed, file=File(f"{file}"))
-                        elif quest_fail_cnt == 3:
-                            game_phase = 0
-                            quest_cnt += 1
-                            vote_cnt = 1
-                            sql = f"update `avalon_data` set \
-                            `game_status`= 0, \
-                            `game_role`= 1, \
-                            `quest_cnt`= 0, \
-                            `quest_success_cnt` = 0, \
-                            `quest_fail_cnt` = 0, \
-                            `vote_cnt`= 0, \
-                            `game_phase`= 0, \
-                            `game_stop`= 1, \
-                            `game_member_num`= 0, \
-                            `game_member1`= NULL, \
-                            `game_member2`= NULL, \
-                            `game_member3`= NULL, \
-                            `game_member4`= NULL, \
-                            `game_member5`= NULL, \
-                            `game_otome1` = NULL, \
-                            `game_otome2` = NULL, \
-                            `game_otome3` = NULL \
-                            where id = 0"
-                            db.execute(sql)
-                            sql = "配役は以下の通りです。"
-                            for i in range(game_member_num):
-                                sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
-                            embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
-                            await msgch.send(embed=embed, file=File(f"{file}"))
-                        else:
-                            print("クエスト終了")
-                            if game_otome == 1 and (quest_cnt >= 2 and quest_cnt <= 4):
-                                print("乙女へ遷移")
-                                game_phase = 4
-                                sql = f"update `avalon_data` set \
-                                `game_phase`= {game_phase}, \
-                                `quest_success_cnt` = {quest_success_cnt}, \
-                                `quest_fail_cnt` = {quest_fail_cnt} \
-                                where id = 0"
-                                db.execute(sql)
-                                otome_select = [game_otome1, game_otome2, game_otome3]
-                                embed.add_field(name=f"第{quest_cnt}クエスト終了",value=f"{avalon_user[otome_select[quest_cnt-2]][1]}が乙女選出者中です。")
-                                await msgch.send(embed=embed, file=File(f"{file}"))
-                                sql = player_display(game_member_num, avalon_user, select_member)
-                                embed = discord.Embed(title="乙女選出",description=f"{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:\ns/select/選出 番号です。")
-                                await msg.send(embed=embed)
-                            else:
-                                print("次のクエへ")
-                                game_phase = 0
-                                quest_cnt += 1
-                                vote_cnt = 1
-                                sql = f"update `avalon_data` set \
-                                `game_phase`= {game_phase}, \
-                                `select_member`= {select_member}, \
-                                `quest_cnt`= {quest_cnt}, \
-                                `quest_success_cnt` = {quest_success_cnt}, \
-                                `quest_fail_cnt` = {quest_fail_cnt}, \
-                                `vote_cnt` = {vote_cnt} \
-                                where id = 0"
-                                db.execute(sql)
-                                sql = player_display(game_member_num, avalon_user, select_member)
-                                embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
-                                await msgch.send(embed=embed, file=File(f"{file}"))
+                            if fail_cnt + success_cnt == quest_member_num[game_member_num][quest_cnt-1][0]:
+                                for k in range(fail_cnt+success_cnt):
+                                    if k < success_cnt:
+                                        vote_msg = f"{vote_msg}\n成功"
+                                    else:
+                                        vote_msg = f"{vote_msg}\n失敗"
+                                select_member = int((select_member+1)%game_member_num)
+
+                                # 成功失敗判断
+                                if quest_cnt == 4 and game_member_num >= 7 and game_member_num <= 10:
+                                    base_num = 2
+                                else:
+                                    base_num = 1
+
+                                if fail_cnt >= base_num:
+                                    quest_fail_cnt += 1
+                                    file = './image/クエスト失敗.jpeg'
+                                    embed = discord.Embed(title="投票結果:失敗",description=f"{vote_msg}\n{member_msg}")
+                                else:
+                                    quest_success_cnt += 1
+                                    file = './image/クエスト成功.jpeg'
+                                    embed = discord.Embed(title="投票結果:成功",description=f"{vote_msg}\n{member_msg}")
+
+                                if quest_success_cnt == 3:
+                                    game_phase = 0
+                                    quest_cnt += 1
+                                    vote_cnt = 1
+                                    for k in range(game_member_num):
+                                        if avalon_user[k][3] == 0:
+                                            kill_flag = 1
+                                            break
+
+                                    if kill_flag == 1:
+                                        sql = f"update `avalon_data` set \
+                                        `game_status`= 3, \
+                                        `game_role`= 1, \
+                                        `quest_cnt`= 0, \
+                                        `quest_success_cnt` = 0, \
+                                        `quest_fail_cnt` = 0, \
+                                        `vote_cnt`= 0, \
+                                        `game_phase`= 0, \
+                                        `game_stop`= 0, \
+                                        `game_member1`= NULL, \
+                                        `game_member2`= NULL, \
+                                        `game_member3`= NULL, \
+                                        `game_member4`= NULL, \
+                                        `game_member5`= NULL, \
+                                        `game_otome1` = NULL, \
+                                        `game_otome2` = NULL, \
+                                        `game_otome3` = NULL \
+                                        where id = 0"
+                                        db.execute(sql)
+                                        for k in range(game_member_num):
+                                            if k == 0:
+                                                for j in range(game_member_num):
+                                                    if avalon_user[j][3] == 10:
+                                                        msg = client.get_user(avalon_user[j][2])
+                                                sql = "暗殺者の方はマーリンを予想してください"
+                                            sql = f"{sql}\n{k+1} : {avalon_user[k][1]}"
+                                        await msg.send(sql)
+                                        embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方はマーリンを予想してください。")
+                                        await msgch.send(embed=embed, file=File(f"{file}"))
+                                    else:
+                                        sql = f"update `avalon_data` set \
+                                        `game_status`= 0, \
+                                        `game_role`= 1, \
+                                        `quest_cnt`= 0, \
+                                        `quest_success_cnt` = 0, \
+                                        `quest_fail_cnt` = 0, \
+                                        `vote_cnt`= 0, \
+                                        `game_phase`= 0, \
+                                        `game_stop`= 1, \
+                                        `game_member_num`= 0, \
+                                        `game_member1`= NULL, \
+                                        `game_member2`= NULL, \
+                                        `game_member3`= NULL, \
+                                        `game_member4`= NULL, \
+                                        `game_member5`= NULL, \
+                                        `game_otome1` = NULL, \
+                                        `game_otome2` = NULL, \
+                                        `game_otome3` = NULL \
+                                        where id = 0"
+                                        db.execute(sql)
+                                        sql = "配役は以下の通りです。"
+                                        for i in range(game_member_num):
+                                            sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
+                                        embed.add_field(name=f"クエスト：青陣営勝利",value=f"{sql}")
+                                        await msgch.send(embed=embed, file=File(f"{file}"))
+                                elif quest_fail_cnt == 3:
+                                    game_phase = 0
+                                    quest_cnt += 1
+                                    vote_cnt = 1
+                                    sql = f"update `avalon_data` set \
+                                    `game_status`= 0, \
+                                    `game_role`= 1, \
+                                    `quest_cnt`= 0, \
+                                    `quest_success_cnt` = 0, \
+                                    `quest_fail_cnt` = 0, \
+                                    `vote_cnt`= 0, \
+                                    `game_phase`= 0, \
+                                    `game_stop`= 1, \
+                                    `game_member_num`= 0, \
+                                    `game_member1`= NULL, \
+                                    `game_member2`= NULL, \
+                                    `game_member3`= NULL, \
+                                    `game_member4`= NULL, \
+                                    `game_member5`= NULL, \
+                                    `game_otome1` = NULL, \
+                                    `game_otome2` = NULL, \
+                                    `game_otome3` = NULL \
+                                    where id = 0"
+                                    db.execute(sql)
+                                    sql = "配役は以下の通りです。"
+                                    for i in range(game_member_num):
+                                        sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
+                                    embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
+                                    await msgch.send(embed=embed, file=File(f"{file}"))
+                                else:
+                                    if game_otome == 1 and (quest_cnt >= 2 and quest_cnt <= 4):
+                                        game_phase = 4
+                                        sql = f"update `avalon_data` set \
+                                        `game_phase`= {game_phase}, \
+                                        `quest_success_cnt` = {quest_success_cnt}, \
+                                        `quest_fail_cnt` = {quest_fail_cnt} \
+                                        where id = 0"
+                                        db.execute(sql)
+                                        otome_select = [game_otome1, game_otome2, game_otome3]
+                                        embed.add_field(name=f"第{quest_cnt}クエスト終了",value=f"{avalon_user[otome_select[quest_cnt-2]][1]}が乙女選出者中です。")
+                                        await msgch.send(embed=embed, file=File(f"{file}"))
+                                        sql = player_display(game_member_num, avalon_user, select_member)
+                                        embed = discord.Embed(title="乙女選出",description=f"{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:\ns/select/選出 番号です。")
+                                        await msg.send(embed=embed)
+                                    else:
+                                        game_phase = 0
+                                        quest_cnt += 1
+                                        vote_cnt = 1
+                                        sql = f"update `avalon_data` set \
+                                        `game_phase`= {game_phase}, \
+                                        `select_member`= {select_member}, \
+                                        `quest_cnt`= {quest_cnt}, \
+                                        `quest_success_cnt` = {quest_success_cnt}, \
+                                        `quest_fail_cnt` = {quest_fail_cnt}, \
+                                        `vote_cnt` = {vote_cnt} \
+                                        where id = 0"
+                                        db.execute(sql)
+                                        sql = player_display(game_member_num, avalon_user, select_member)
+                                        embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
+                                        await msgch.send(embed=embed, file=File(f"{file}"))
 
             elif game_phase == 4: #乙女フェーズ
                 otome_select = [game_otome1, game_otome2, game_otome3]
-                if comment[0:2] == 's ' or comment[0:7] == 'survey ' or comment[0:3] == '調査 ':
-                    if ctx.author.id == avalon_user[otome_select[quest_cnt-2]][2]:
+                otome_member = otome_select[quest_cnt-2]
+                if comment[0:2] == 's ' or comment[0:7] == 'survey ' or comment[0:3] == 'ち ':
+                    if ctx.author.id == avalon_user[otome_member][2]:
                         select_member_com = re.compile('\d+')
                         select_member_match = select_member_com.findall(comment)
-                        # print(select_member_match)
                         # 重複チェック
                         if len(select_member_match) != 1:
                             await ctx.author.send(f"選択人数は1人です：{comment}")
@@ -1346,7 +1368,7 @@ async def on_message(ctx):
                                 else:
                                     await msg.send(f"乙女使用者は選出できません。")
                     else:
-                        await msgch.send(f"あなた({ctx.author.display_name})は選出リーダではありません。")
+                        await msgch.send(f"あなた({ctx.author.display_name})は乙女の選出者ではありません。")
 
         elif game_status == 3:
             msgch = client.get_channel(channel_id)
@@ -1361,7 +1383,7 @@ async def on_message(ctx):
             avalon_user.pop(0)
 
             # kill : 暗殺
-            if comment[0:2] == 'k ' or comment[0:5] == 'kill ' or comment[0:3] == '暗殺 ':
+            if comment[0:2] == 'k ' or comment[0:5] == 'kill ' or comment[0:3] == 'あ ':
                 for i in range(game_member_num):
                     if avalon_user[i][3] == 12:
                         kill_member = i
@@ -1423,7 +1445,7 @@ async def on_message(ctx):
                             msg.send(f"暗殺メンバーは１〜{game_member_num}で選択してください。")
 
         # status : 状態表示
-        if comment == '?' or comment == '？' or comment == '状態':
+        if comment == '?' or comment == '？' or comment == 'じ':
             if game_status == 0:
                 sql = f"部屋作成待ち状態です。\nゲームを始めるには部屋を作成してください。\nコマンド：m/make/作成"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
@@ -1444,7 +1466,7 @@ async def on_message(ctx):
                 elif game_phase == 3:
                     sql = f"{quest_cnt-1}の乙女選択中です。"
                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, select_member)}"
-                embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n３人選出例：s 1,2,3",description=sql)
+                embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{success_cnt}\n失敗{fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n３人選出例：s 1,2,3",description=sql)
                 await msgch.send(embed=embed)
             elif game_status == 3:
                 sql = f"{sql}暗殺フェーズです。"
