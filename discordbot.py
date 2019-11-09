@@ -233,6 +233,16 @@ def player_role_display(member_num, ary):
 
 @client.event
 async def on_ready():
+
+    try :
+        # コネクションが切れた時に再接続してくれるよう設定
+        cnt.ping(reconnect=True)
+    except :
+        await ctx.channel.send(f"データベースの再接続をします。\nもう一度コマンドを入力してください")
+        # カーソル終了
+        db.close()
+        cnt.cursor(buffered=True)
+
     # テーブル削除
     sql = 'drop table if exists avalon_data'
     db.execute(sql)
