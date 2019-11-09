@@ -1,6 +1,7 @@
 # Work with Python 3.6.6
 import os
 import re
+import glob
 import random
 import asyncio
 import discord
@@ -1489,6 +1490,7 @@ async def on_message(ctx):
 
         # init : 初期化
         elif comment == 'c':
+            print(glob.glob(./*))
             otome_msg = f"赤陣営です"
             file="./image/忠誠カード赤.jpeg"
             embed = discord.Embed(title="乙女結果",description=otome_msg)
