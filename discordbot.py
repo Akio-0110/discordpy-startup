@@ -949,11 +949,27 @@ async def on_message(ctx):
                                                 user_name = f"{user_name}\n{user_ary[select_list[i]-1][0]}:{user_ary[select_list[i]-1][1]}"
 
                                     if vote_cnt != 5:
-                                        embed = discord.Embed(title="選出メンバー",description=f"{user_name}\n承認 : a/accept\n却下 : r/reject")
+                                        embed = discord.Embed(title="選出メンバー",description=f"{user_name}")
                                     else:
-                                        embed = discord.Embed(title="選出メンバー",description=f"{user_name}\n承認 : a/accept\n却下 : r/reject\nこの選出が却下された場合、赤陣営の勝利です。")
+                                        embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nこの選出が却下された場合、赤陣営の勝利です。")
                                     await msgch.send(embed=embed)
-                                else:
+                                    for k in range(game_member_num):
+                                        msg = client.get_user(avalon_user[k][2])
+                                        if avalon_quest[k+1]%2 == 1:
+                                            if vote_cnt != 5:
+                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されています。\n承認 : a/accept\n却下 : r/reject\nを入力してください")
+                                                await msg.send(embed=embed)
+                                            else:
+                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されています。\n承認 : a/accept\n却下 : r/reject\nを入力してください\nこの選出が却下された場合、赤陣営の勝利です。")
+                                                await msg.send(embed=embed)
+                                        else:
+                                            if vote_cnt != 5:
+                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されていません。\n承認 : a/accept\n却下 : r/reject\nを入力してください")
+                                                await msg.send(embed=embed)
+                                            else:
+                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されていません。\n承認 : a/accept\n却下 : r/reject\nを入力してください\nこの選出が却下された場合、赤陣営の勝利です。")
+                                                await msg.send(embed=embed)
+                        else:
                                     await msgch.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
                         else:
                             await msgch.send(f"重複しないメンバー選出をお願いします。：{comment}")
@@ -1041,7 +1057,7 @@ async def on_message(ctx):
                                 for k in range(game_member_num):
                                     if avalon_quest[k]%2 == 1:
                                         msg = client.get_user(avalon_user[k][2])
-                                        await msg.send("成功の場合 : s\n失敗の場合 : f\nを入力してください")
+                                        await msg.send("クエストに参加しています。\n成功の場合 : s\n失敗の場合 : f\nを入力してください")
                             # 却下
                             else:
                                 if vote_cnt != 5:
