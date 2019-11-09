@@ -606,9 +606,7 @@ async def on_message(ctx):
                         red_role = f"{red_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
                 embed = discord.Embed(title="青陣営",description=blue_role)
                 embed.add_field(name="赤陣営",value=red_role)
-                await msgch.send(embed=embed)
-                # await msgch.send(f"{avalon_role[i][0]}:赤陣営：{avalon_role[i][1]}")
-                embed = discord.Embed(title="コマンド例",description="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\nrole 0,1,2,11,12\n入室人数に合わせて設定が必要してください。")
+                embed.add_field(name="コマンド例",value="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\nrole 0,1,2,11,12\n入室人数に合わせて設定が必要してください。")
                 await msgch.send(embed=embed)
 
             # role number : 役職カスタマイズ
@@ -660,6 +658,7 @@ async def on_message(ctx):
                 else:
                     op_msg = "乙女を無効にしました。\n有効にする場合、もう一度コマンドを入力してください。"
                 embed = discord.Embed(title="オプション設定",description=op_msg)
+                await msgch.send("？？")
                 await msgch.send(embed=embed)
             # otome : エクスカリバー設定
             elif comment == 'e' or comment == 'excalibur' or comment == 'エクスカリバー':
