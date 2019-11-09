@@ -1488,10 +1488,10 @@ async def on_message(ctx):
             await ctx.channel.send(f"データを初期化しました。")
 
         # init : 初期化
-    elif comment == 'c':
-        otome_msg = f"赤陣営です"
-        file="./image/忠誠カード赤.jpeg"
-        embed = discord.Embed(title="乙女結果",description=otome_msg)
-        await ctx.channel.send(embed=embed, file=File(file))
+        elif comment == 'c':
+            otome_msg = f"赤陣営です"
+            file="./image/忠誠カード赤.jpeg"
+            embed = discord.Embed(title="乙女結果",description=otome_msg)
+            await ctx.channel.send(embed=embed, file=File(file))
 
 client.run(TOKEN)
