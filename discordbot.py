@@ -820,11 +820,11 @@ async def on_message(ctx):
             avalon_user.pop(0)
             # print(avalon_user)
 
+            avalon_quest = [1]*game_member_num
             if game_phase != 0:
                 sql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
                 db.execute(sql)
                 rows = db.fetchone()
-                avalon_quest = [1]*game_member_num
                 # print(avalon_quest)
                 # print(rows)
                 for i in range(game_member_num):
