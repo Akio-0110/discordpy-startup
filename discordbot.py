@@ -379,6 +379,8 @@ async def on_message(ctx):
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon22)
                 elif game_phase == 3:
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon23)
+                elif game_phase == 4:
+                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon24)
             elif game_status == 3:
                 embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon3)
             await ctx.channel.send(embed=embed)
@@ -1286,9 +1288,6 @@ async def on_message(ctx):
             elif game_phase == 4: #乙女フェーズ
                 otome_select = [game_otome1, game_otome2, game_otome3]
                 if comment[0:2] == 's ' or comment[0:7] == 'survey ' or comment[0:3] == '調査 ':
-                    print("コマンドを受け付けました。")
-                    print(ctx.author.id)
-                    print(avalon_user[otome_select[quest_cnt-2]][2])
                     if ctx.author.id == avalon_user[otome_select[quest_cnt-2]][2]:
                         select_member_com = re.compile('\d+')
                         select_member_match = select_member_com.findall(comment)
@@ -1299,7 +1298,12 @@ async def on_message(ctx):
                         else :
                             otome_check = 0
                             otome_num = int(select_member_match[0])-1
+                            print("コマンドを受け付けました。")
+                            print(int(select_member_match[0]))
+                            print(f"otome_num = {otome_num}")
+                            print(f"quest_cnt-1 = {quest_cnt-1}")
                             for i in range(quest_cnt-1):
+                                print(otome_select[i])
                                 if otome_select[i] == None:
                                     break
                                 elif int(select_member_match[0]) == otome_select[i]:
@@ -1307,6 +1311,7 @@ async def on_message(ctx):
                                     otome_check = otome_check + 1
                                     break
 
+                            print(f"otome_check={otome_check}")
                             if otome_check == 0 and otome_num >= 1 and otome_num <= game_member_num:
                                 msg = client.get_user(avalon_user[otome_num][2])
                                 if avalon_user[otome_num][3] < 10:
@@ -1332,6 +1337,8 @@ async def on_message(ctx):
                                 sql = player_display(game_member_num, avalon_user, select_member)
                                 embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
                                 await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed, file=File(f"{file}"))
+                            else:
+                                await msgch.send(f"選択番号は1〜{game_member_num}にしてください"))
                     else:
                         await msgch.send(f"あなた({ctx.author.display_name})は選出リーダではありません。")
 
