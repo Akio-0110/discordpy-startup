@@ -1491,7 +1491,7 @@ async def on_message(ctx):
         # init : 初期化
         elif comment == 'c':
             otome_msg = f"赤陣営です"
-            file="./image/*"
+            file="./image/忠*"
             print(glob.glob(avalon_role[0][2]))
             print(glob.glob(file))
             # file=avalon_role[0][2]
