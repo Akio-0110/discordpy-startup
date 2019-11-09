@@ -1304,22 +1304,16 @@ async def on_message(ctx):
                         else :
                             otome_check = 0
                             otome_num = int(select_member_match[0])-1
-                            # print("コマンドを受け付けました。")
-                            # print(int(select_member_match[0]))
-                            # print(f"otome_num = {otome_num}")
-                            # print(f"quest_cnt-1 = {quest_cnt-1}")
+                            msg = client.get_user(avalon_user[otome_num][2])
                             for i in range(quest_cnt-1):
                                 # print(otome_select[i])
                                 if otome_select[i] == None:
                                     break
                                 elif otome_num == otome_select[i]:
-                                    await ctx.author.send(f"乙女使用者は選出できません。")
-                                    otome_check = otome_check + 1
+                                    otome_check = 1
                                     break
 
-                            print(f"otome_check={otome_check}")
                             if otome_check == 0 and otome_num >= 0 and otome_num < game_member_num:
-                                msg = client.get_user(avalon_user[otome_num][2])
                                 if avalon_user[otome_num][3] < 10:
                                     otome_msg = f"{avalon_user[otome_num][1]}は青陣営です"
                                     file="./image/忠誠カード青.jpeg"
@@ -1338,7 +1332,7 @@ async def on_message(ctx):
                                 `select_member`= {select_member}, \
                                 `quest_cnt`= {quest_cnt}, \
                                 `vote_cnt` = {vote_cnt}, \
-                                `game_otome{quest_cnt-1} = {otome_num}` \
+                                `game_otome{quest_cnt-1}` = {otome_num} \
                                 where id = 0"
                                 print(sql)
                                 db.execute(sql)
@@ -1346,7 +1340,10 @@ async def on_message(ctx):
                                 embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",description=sql)
                                 await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed)
                             else:
-                                await msg.send(f"選択番号は1〜{game_member_num}にしてください")
+                                if otome_check == 0:
+                                    await msg.send(f"選択番号は1〜{game_member_num}にしてください")
+                                else:
+                                    await msg.send(f"乙女使用者は選出できません。")
                     else:
                         await msgch.send(f"あなた({ctx.author.display_name})は選出リーダではありません。")
 
