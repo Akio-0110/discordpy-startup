@@ -969,7 +969,7 @@ async def on_message(ctx):
                                             else:
                                                 embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されていません。\n承認 : a/accept\n却下 : r/reject\nを入力してください\nこの選出が却下された場合、赤陣営の勝利です。")
                                                 await msg.send(embed=embed)
-                        else:
+                                else:
                                     await msgch.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
                         else:
                             await msgch.send(f"重複しないメンバー選出をお願いします。：{comment}")
