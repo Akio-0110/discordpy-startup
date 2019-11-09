@@ -253,6 +253,7 @@ async def on_ready():
     # テーブル作成
     sql = "create table if not exists `avalon_data` ( \
     `id` int, \
+    `channel_id` bigint, \
     `game_status` int, \
     `game_role` int, \
     `select_member` int, \
@@ -273,7 +274,6 @@ async def on_ready():
     `game_otome1` int, \
     `game_otome2` int, \
     `game_otome3` int, \
-    `channel_id` bigint, \
     primary key (`id`) \
     )"
     db.execute(sql)
@@ -327,22 +327,23 @@ async def on_message(ctx):
         db.execute(sql)
         rows = db.fetchall()
         for i in rows:
-            game_status=i[1]
-            game_role=i[2]
-            select_member=i[3]
-            quest_cnt=i[4]
-            quest_success_cnt=i[5]
-            quest_fail_cnt=i[6]
-            vote_cnt=i[7]
-            game_phase=i[8]
-            game_stop=i[9]
-            game_member_num=i[10]
-            game_otome=i[11]
-            game_excalibur=i[12]
+            game_status=i[2]
+            game_role=i[3]
+            select_member=i[4]
+            quest_cnt=i[5]
+            quest_success_cnt=i[6]
+            quest_fail_cnt=i[7]
+            vote_cnt=i[8]
+            game_phase=i[9]
+            game_stop=i[10]
+            game_member_num=i[11]
+            game_otome=i[12]
+            game_excalibur=i[13]
             if game_status == 2 and game_phase != 0:
-                game_member = [i[13],i[14],i[15],i[16],i[17]]
+                game_member = [i[14],i[15],i[16],i[17],i[18]]
             if game_status >= 1:
-                channel_id = i[18]
+
+                channel_id = i[1]
             break
 
         sql = f"現在の状態：\
@@ -464,7 +465,6 @@ async def on_message(ctx):
                     await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
         elif game_status == 1:
-            msgch = client.get_channel(channel_id)
             # login : 部屋入室
             if comment == 'in' or comment == 'login' or comment == 'ログイン' or comment == '入室':
                 if game_member_num < 10:
@@ -659,7 +659,6 @@ async def on_message(ctx):
                 else:
                     op_msg = "乙女を無効にしました。\n有効にする場合、もう一度コマンドを入力してください。"
                 embed = discord.Embed(title="オプション設定",description=op_msg)
-                await msgch.send("？？")
                 await msgch.send(embed=embed)
             # otome : エクスカリバー設定
             elif comment == 'e' or comment == 'excalibur' or comment == 'エクスカリバー':
