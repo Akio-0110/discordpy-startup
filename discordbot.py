@@ -1095,7 +1095,7 @@ async def on_message(ctx):
                                 avalon_quest[num] = avalon_quest[num] + command_accept
 
                                 for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-
+                                    num = game_member[k]-1
                                     if k == 0:
                                         if avalon_quest[num] > 8 or game_member[k]-1 == num:
                                             vote_msg = f"投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
