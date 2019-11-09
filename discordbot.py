@@ -456,7 +456,6 @@ async def on_message(ctx):
                     db.execute(sql)
                     sql = f"update `avalon_data` set `game_member_num`=1 where id = 0"
                     db.execute(sql)
-                    print(ctx.channel.id)
                     sql = f"update `avalon_data` set `channel_id`={ctx.channel.id} where id = 0"
                     db.execute(sql)
                     await ctx.channel.send(f"{ctx.author.display_name}が部屋を作成し、入室しました。 \
@@ -1257,7 +1256,7 @@ async def on_message(ctx):
                                 value=f"{sql}")
                             else:
                                 if game_otome == 1 and (quest_cnt >= 2 and quest_cnt <= 4):
-                                    game_phase = game_phase + 1
+                                    game_phase = 4
                                     sql = f"update `avalon_data` set \
                                     `game_phase`= {game_phase}, \
                                     `quest_success_cnt` = {quest_success_cnt}, \
