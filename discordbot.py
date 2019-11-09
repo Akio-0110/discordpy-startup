@@ -1337,11 +1337,12 @@ async def on_message(ctx):
                                 `game_phase`= {game_phase}, \
                                 `select_member`= {select_member}, \
                                 `quest_cnt`= {quest_cnt}, \
-                                `vote_cnt` = {vote_cnt} \
+                                `vote_cnt` = {vote_cnt}, \
+                                `game_otome{quest_cnt-1} = {otome_num}` \
                                 where id = 0"
                                 db.execute(sql)
                                 sql = player_display(game_member_num, avalon_user, select_member)
-                                embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
+                                embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",description=sql)
                                 await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed)
                             else:
                                 await msg.send(f"選択番号は1〜{game_member_num}にしてください")
