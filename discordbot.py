@@ -1287,7 +1287,7 @@ async def on_message(ctx):
             elif game_phase == 4: #乙女フェーズ
                 otome_select = [game_otome1, game_otome2, game_otome3]
                 if comment[0:2] == 's ' or comment[0:7] == 'survey ' or comment[0:3] == '調査 ':
-                    print(コマンドを受け付けました。)
+                    print("コマンドを受け付けました。")
                     print(ctx.author.id)
                     print(avalon_user[otome_select[quest_cnt-2]][2])
                     if ctx.author.id == avalon_user[otome_select[quest_cnt-2]][2]:
