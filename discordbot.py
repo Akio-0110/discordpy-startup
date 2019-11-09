@@ -394,6 +394,7 @@ async def on_message(ctx):
                     # テーブル作成
                     sql = "create table if not exists `avalon_data` ( \
                     `id` int, \
+                    `channel_id` bigint, \
                     `game_status` int, \
                     `game_role` int, \
                     `select_member` int, \
@@ -414,7 +415,6 @@ async def on_message(ctx):
                     `game_otome1` int, \
                     `game_otome2` int, \
                     `game_otome3` int, \
-                    `channel_id` bigint, \
                     primary key (`id`) \
                     )"
                     db.execute(sql)
@@ -465,7 +465,6 @@ async def on_message(ctx):
                     await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
         elif game_status == 1:
-            print(channel_id)
             msgch = client.get_channel(channel_id)
             # login : 部屋入室
             if comment == 'in' or comment == 'login' or comment == 'ログイン' or comment == '入室':
