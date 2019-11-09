@@ -820,7 +820,7 @@ async def on_message(ctx):
             avalon_user.pop(0)
             # print(avalon_user)
 
-            avalon_quest = [1]*game_member_num
+            avalon_quest = [0]*game_member_num
             if game_phase != 0:
                 sql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
                 db.execute(sql)
@@ -902,10 +902,10 @@ async def on_message(ctx):
                                         if range_in == 1:
                                             if i < 2 :
                                                 select_list[i] = int(k)
-                                                quest_data[select_list[i]-1] = 1
+                                                avalon_quest[select_list[i]-1] = 1
                                             else :
                                                 select_list.append(int(k))
-                                                quest_data[select_list[i]-1] = 1
+                                                avalon_quest[select_list[i]-1] = 1
                                             i = i + 1
 
                                 if range_in == 1:
@@ -922,8 +922,8 @@ async def on_message(ctx):
                                         else:
                                             sql = f"{sql}%s)"
 
-                                    quest_data.insert(0, int((quest_cnt-1)*5+vote_cnt))
-                                    db.execute(sql, quest_data)
+                                    avalon_quest.insert(0, int((quest_cnt-1)*5+vote_cnt))
+                                    db.execute(sql, avalon_quest)
 
                                     i = 1
                                     for k in select_list:
