@@ -1512,8 +1512,8 @@ async def on_message(ctx):
             # テーブル作成
             # print(glob.glob("./image/アヴァロン_説明書*"))
             file=glob.glob("./image/アヴァロン_説明書*")
-            ctx.channel.send("説明書を表示します", file=File(file[0]))
-            ctx.channel.send(file=File(file[1]))
+            await ctx.channel.send("説明書を表示します", file=File(file[0]))
+            await ctx.channel.send(file=File(file[1]))
 
         # init : 初期化
         elif comment == '初期化' or comment == 'init':
