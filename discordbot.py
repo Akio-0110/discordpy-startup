@@ -1510,8 +1510,8 @@ async def on_message(ctx):
         # instruction : 説明書
         elif comment == 'i' or comment == 'instruction':
             # テーブル作成
-            print(glob.glob("./image/アヴァロン_説明書*.jpge"))
-            file="./image/アヴァロン_説明書*.jpge"
+            print(glob.glob("./image/アヴァロン_説明書*"))
+            file="./image/アヴァロン_説明書*"
             ctx.channel.send("説明書を表示します", file=File(file))
 
         # init : 初期化
