@@ -36,22 +36,25 @@ avalon_role = [
 [1, 'パーシヴァル', './image/パーシヴァル.jpeg'],
 [2, 'ガラハッド', './image/ガラハッド.jpeg'],
 [3, 'アーサーの忠実なる家来', './image/情弱１.jpeg'],
-[4, 'アーサーの忠実なる家', './image/情弱２.jpeg'],
-[5, 'アーサーの忠実なる家来', './image/情弱３.jpeg'],
-[6, 'アーサーの忠実なる家来', './image/情弱４.jpeg'],
-[7, 'アーサーの忠実なる家来', './image/情弱５.jpeg'],
-[8, 'アーサーの忠実なる家来', './image/情弱５.jpeg'],
-[9, 'アーサーの忠実なる家来', './image/情弱５.jpeg'],
+[4, 'ボールス(未対応)', './image/情弱２.jpeg'],
+[5, 'エクター・ド・マリス(未対応)', './image/情弱３.jpeg'],
+[6, 'カラドック(未対応)', './image/情弱４.jpeg'],
+[7, 'ガウェイン(未対応)', './image/情弱５.jpeg'],
+[8, 'トリスタン(未対応)', './image/情弱５.jpeg'],
+[9, 'イゾルデ(未対応)', './image/情弱５.jpeg'],
 [10, 'モードレッド', './image/モードレッド.jpeg'],
 [11, 'モルガナ', './image/モルガナ.jpeg'],
 [12, 'モードレッドの手下（暗殺者）', './image/暗殺者.jpeg'],
 [13, 'モードレッドの手下', './image/モードレッドの手下１.jpeg'],
 [14, 'オベロン', './image/オベロン.jpeg'],
-[15, 'モードレッドの手下', './image/モードレッドの手下１.jpeg'],
-[16, 'モードレッドの手下', './image/モードレッドの手下２.jpeg'],
-[17, 'モードレッドの手下', './image/モードレッドの手下３.jpeg'],
-[17, 'モードレッドの手下', './image/モードレッドの手下３.jpeg'],
-[17, 'モードレッドの手下', './image/モードレッドの手下３.jpeg']
+[15, 'アグラヴェイン(未対応)', './image/モードレッドの手下１.jpeg'],
+[16, 'クエスティングビースト(未対応)', './image/モードレッドの手下２.jpeg'],
+[17, 'ランスロット(未対応)', './image/モードレッドの手下３.jpeg'],
+[18, 'ケイ(未対応)', './image/モードレッドの手下３.jpeg'],
+[19, 'シャロット姫(未対応)', './image/モードレッドの手下３.jpeg'],
+[20, '漁夫王(未対応)', './image/モードレッドの手下３.jpeg'],
+[21, 'タークィン(未対応)', './image/モードレッドの手下３.jpeg'],
+[22, '聖ミカエル山の巨人(未対応)', './image/モードレッドの手下３.jpeg']
 ]
 
 avalon_role_auto = [
@@ -605,18 +608,23 @@ async def on_message(ctx):
 
             # role number : 役職カスタマイズ
             elif comment == 'role' or comment == 'や':
-                for i in range(16):
+                for i in range(23):
                     if i == 0:
                         blue_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
-                    elif i < 4:
+                    elif i < 10:
                         blue_role = f"{blue_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
                         # await msgch.send(f"{avalon_role[i][0]}:青陣営：{avalon_role[i][1]}")
                     elif i == 10:
                         red_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
-                    elif i >= 11 and i <=14:
+                    elif i >= 11 and i <=16:
                         red_role = f"{red_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
+                    elif i == 17:
+                        other_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
+                    elif i >= 18 and i <=22:
+                        other_role = f"{other_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
                 embed = discord.Embed(title="青陣営",description=blue_role)
                 embed.add_field(name="赤陣営",value=red_role)
+                embed.add_field(name="その他",value=other_role)
                 embed.add_field(name="コマンド例",value="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\nrole 0,1,2,11,12\n入室人数に合わせて設定が必要してください。")
                 await msgch.send(embed=embed)
 
@@ -1481,23 +1489,32 @@ async def on_message(ctx):
                 await msgch.send(embed=embed)
             elif game_status == 2:
                 if game_phase == 0:
-                    sql = f"{quest_cnt}クエの{vote_cnt}回目の選出です。"
+                    sql = f"{quest_cnt}クエの{vote_cnt}回目の選出フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n3人選出例：s 1,2,3"
+                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 1:
-                    sql = f"{quest_cnt}クエの{vote_cnt}回目の選出判定中です。"
+                    sql = f"{quest_cnt}クエの{vote_cnt}回目の承認却下フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の承認却下選択中です"
+                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 2:
-                    sql = f"{quest_cnt}クエの{vote_cnt}回目のクエスト中です。"
+                    sql = f"{quest_cnt}クエの{vote_cnt}回目の成功失敗フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の成功失敗選択中です"
+                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 3:
                     sql = f"{quest_cnt-1}の乙女選択中です。"
+                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, select_member)}"
-                embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n3人選出例：s 1,2,3",description=sql)
                 await msgch.send(embed=embed)
             elif game_status == 3:
                 sql = f"{sql}暗殺フェーズです。"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
                 await msgch.send(embed=embed)
 
+        # instruction : 説明書
+    elif comment == 'i' or comment == 'instruction':
+            # テーブル作成
+            file="./image/説明書.jpge"
+            ctx.channel.send("説明書を表示します", file=File(file))
+
         # init : 初期化
-        elif comment == 'i' or comment == 'init':
+        elif comment == '初期化' or comment == 'init':
             sql = "update `avalon_data` set \
             `game_status`= 0, \
             `game_role`= 1, \
