@@ -1508,7 +1508,7 @@ async def on_message(ctx):
                 await msgch.send(embed=embed)
 
         # instruction : 説明書
-    elif comment == 'i' or comment == 'instruction':
+        elif comment == 'i' or comment == 'instruction':
             # テーブル作成
             file="./image/説明書.jpge"
             ctx.channel.send("説明書を表示します", file=File(file))
