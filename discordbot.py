@@ -1594,7 +1594,7 @@ async def on_message(ctx):
         #     await ctx.channel.send(embed=embed, file=File(file))
 
         elif comment == 'l':
-            if game_status => 2:
+            if game_status >= 2:
                 sql = 'select * from `avalon_quest`'
                 db.execute(sql)
                 rows = db.fetchall()
@@ -1670,7 +1670,7 @@ async def on_message(ctx):
                 await ctx.channel.send(embed=embed)
 
         elif comment == 'lq':
-            if game_status => 2:
+            if game_status >= 2:
                 sql = 'select * from `avalon_quest`'
                 db.execute(sql)
                 rows = db.fetchall()
