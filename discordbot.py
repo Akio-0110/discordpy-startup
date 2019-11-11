@@ -1590,6 +1590,7 @@ async def on_message(ctx):
             i = 0
             game_info = [[None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]]
             for num in rows:
+                print(num)
                 s_cnt = 0
                 f_cnt = 0
                 if i == game_member_num:
