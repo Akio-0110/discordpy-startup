@@ -749,11 +749,11 @@ async def on_message(ctx):
                     random.shuffle(role)
                     for i in range(game_member_num) :
                         ary[i][3] = role[i]
-                    await msgch.send(ary)
+                    # await msgch.send(ary)
                     random.shuffle(ary)
-                    await msgch.send("シャッフル")
+                    # await msgch.send("シャッフル")
 
-                    await msgch.send(ary)
+                    # await msgch.send(ary)
 
                     for i in range(game_member_num) :
                         num = i + 1
@@ -1350,6 +1350,8 @@ async def on_message(ctx):
                         else :
                             otome_check = 0
                             otome_num = int(select_member_match[0])-1
+                            print(otome_select[otome_member])
+                            print(avalon_user[otome_select[otome_member]][2])
                             msg = client.get_user(avalon_user[otome_select[otome_member]][2])
                             for i in range(quest_cnt-1):
                                 # print(otome_select[i])
