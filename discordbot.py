@@ -1504,6 +1504,9 @@ async def on_message(ctx):
                 elif game_phase == 3:
                     sql = f"{quest_cnt-1}の乙女選択中です。"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
+                elif game_phase == 4:
+                    sql = f"{quest_cnt-1}の乙女選択中です。"
+                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, select_member)}"
                 await msgch.send(embed=embed)
             elif game_status == 3:
