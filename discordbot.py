@@ -1151,12 +1151,12 @@ async def on_message(ctx):
                                 for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                                     num = game_member[k]-1
                                     if k == 0:
-                                        if avalon_quest[num] > 8 or avalon_user[num][2]:
+                                        if avalon_quest[num] > 8 or avalon_user[num][2] == ctx.author.id:
                                             vote_msg = f"投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
                                         else:
                                             vote_msg = f"投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
                                     else:
-                                        if avalon_quest[num] > 8 or avalon_user[num][2]:
+                                        if avalon_quest[num] > 8 or avalon_user[num][2] == ctx.author.id:
                                             vote_msg = f"{vote_msg}\n投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
                                         else:
                                             vote_msg = f"{vote_msg}\n投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
