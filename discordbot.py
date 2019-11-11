@@ -1586,6 +1586,57 @@ async def on_message(ctx):
             db.execute(sql)
             rows = db.fetchall()
             print(rows)
+
+            i = 0
+            game_info = [[None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]]
+            sql = 'クエスト履歴'
+            for num in rows):
+                if i == game_member_num:
+                    break
+                for k in range(game_member_num):
+                    if int(num[1+k]) >= 16:
+                        s_cnt += 1
+                    else:
+                        f_cnt += 1
+                game_info[i][1] = s_cnt
+                game_info[i][2] = f_cnt
+                if f_cnt >= quest_member_num[game_member_num][i][1]:
+                    game_info[i][0] = 0
+                else:
+                    game_info[i][0] = 1
+
+                i += 1
+
+            i = 0
+            for num in rows):
+                if i == game_member_num:
+                    break
+                q_num = int(int(num[0])/5)+1
+                v_num = int(num[0])%game_member_num
+                sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
+                if game_info[i][0] == 1:
+                    sql = f"{sql}成功（成功{game_info[i][1]},失敗{game_info[i][2]}"
+                else:
+                    sql = f"{sql}失敗（成功{game_info[i][1]},失敗{game_info[i][2]}"
+                s_cnt = 0
+                f_cnt = 0
+                for k in range(game_member_num):
+                    if int(num[1+k]) >= 16:
+                        s_cnt += 1
+                    else:
+                        f_cnt += 1
+                    if int(num[1+k])%2 == 1:
+                        if int(num[1+k])%8 >= 4:
+                            sql = f"{sql}\n■{avalon_user[k][1]}：承認"
+                        else:
+                            sql = f"{sql}\n■{avalon_user[k][1]}：却下"
+                    else:
+                        if int(num[1+k])%8 >= 4:
+                            sql = f"{sql}\n□{avalon_user[k][1]}：承認"
+                        else:
+                            sql = f"{sql}\n□{avalon_user[k][1]}：却下"
+
+                    i += 1
             # print(glob.glob(avalon_role[0][2]))
             # print(glob.glob(file))
             # file=avalon_role[0][2]
