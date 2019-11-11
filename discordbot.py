@@ -769,8 +769,7 @@ async def on_message(ctx):
 
                     for i in range(game_member_num):
                         msg = client.get_user(user_id[i])
-                        # await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。", file=File(f"{avalon_role[role[i]][2]}"))
-                        await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。")
+                        await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。", file=File(avalon_role[role[i]][2]))
                         if role[i] == 0 : # マーリン
                             role_info = '赤陣営は\n'
                             for j in range(game_member_num):
