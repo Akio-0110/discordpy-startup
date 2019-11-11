@@ -1507,9 +1507,7 @@ async def on_message(ctx):
                     sql = f"{quest_cnt}クエの{vote_cnt}回目の成功失敗フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の成功失敗選択中です"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 3:
-                    sql = f"{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, select_member)}"
-                    sql = f"{quest_cnt-1}\n
-                    "
+                    sql = f"{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 4:
                     sql = f"{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
