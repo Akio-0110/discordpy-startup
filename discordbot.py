@@ -252,66 +252,66 @@ async def on_ready():
         db.close()
         cnt.cursor(buffered=True)
 
-    # テーブル削除
-    sql = 'drop table if exists avalon_data'
-    db.execute(sql)
-    sql = 'drop table if exists avalon_user'
-    db.execute(sql)
-    sql = 'drop table if exists avalon_quest'
-    db.execute(sql)
-    # テーブル作成
-    sql = "create table if not exists `avalon_data` ( \
-    `id` int, \
-    `channel_id` bigint, \
-    `game_status` int, \
-    `game_role` int, \
-    `select_member` int, \
-    `quest_cnt` int, \
-    `quest_success_cnt` int, \
-    `quest_fail_cnt` int, \
-    `vote_cnt` int, \
-    `game_phase` int, \
-    `game_stop` int, \
-    `game_member_num` int, \
-    `game_otome` int, \
-    `game_excalibur` int, \
-    `game_member1` int, \
-    `game_member2` int, \
-    `game_member3` int, \
-    `game_member4` int, \
-    `game_member5` int, \
-    `game_otome1` int, \
-    `game_otome2` int, \
-    `game_otome3` int, \
-    primary key (`id`) \
-    )"
-    db.execute(sql)
-    # データ挿入
-    sql = "insert into `avalon_data` ( \
-    `id`, \
-    `game_status`, \
-    `game_role`, \
-    `select_member`, \
-    `quest_cnt`, \
-    `quest_success_cnt`, \
-    `quest_fail_cnt`, \
-    `vote_cnt`, \
-    `game_phase`, \
-    `game_stop`, \
-    `game_member_num`, \
-    `game_otome`, \
-    `game_excalibur` ) \
-    value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
-    # テーブル作成 ユーザ情報
-    sql = "create table if not exists `avalon_user` ( \
-    `id` int, \
-    `name` varchar(255), \
-    `user_id` bigint, \
-    `role` int, \
-    primary key (`id`) \
-    )"
-    db.execute(sql)
+    # # テーブル削除
+    # sql = 'drop table if exists avalon_data'
+    # db.execute(sql)
+    # sql = 'drop table if exists avalon_user'
+    # db.execute(sql)
+    # sql = 'drop table if exists avalon_quest'
+    # db.execute(sql)
+    # # テーブル作成
+    # sql = "create table if not exists `avalon_data` ( \
+    # `id` int, \
+    # `channel_id` bigint, \
+    # `game_status` int, \
+    # `game_role` int, \
+    # `select_member` int, \
+    # `quest_cnt` int, \
+    # `quest_success_cnt` int, \
+    # `quest_fail_cnt` int, \
+    # `vote_cnt` int, \
+    # `game_phase` int, \
+    # `game_stop` int, \
+    # `game_member_num` int, \
+    # `game_otome` int, \
+    # `game_excalibur` int, \
+    # `game_member1` int, \
+    # `game_member2` int, \
+    # `game_member3` int, \
+    # `game_member4` int, \
+    # `game_member5` int, \
+    # `game_otome1` int, \
+    # `game_otome2` int, \
+    # `game_otome3` int, \
+    # primary key (`id`) \
+    # )"
+    # db.execute(sql)
+    # # データ挿入
+    # sql = "insert into `avalon_data` ( \
+    # `id`, \
+    # `game_status`, \
+    # `game_role`, \
+    # `select_member`, \
+    # `quest_cnt`, \
+    # `quest_success_cnt`, \
+    # `quest_fail_cnt`, \
+    # `vote_cnt`, \
+    # `game_phase`, \
+    # `game_stop`, \
+    # `game_member_num`, \
+    # `game_otome`, \
+    # `game_excalibur` ) \
+    # value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    # db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
+    # # テーブル作成 ユーザ情報
+    # sql = "create table if not exists `avalon_user` ( \
+    # `id` int, \
+    # `name` varchar(255), \
+    # `user_id` bigint, \
+    # `role` int, \
+    # primary key (`id`) \
+    # )"
+    # db.execute(sql)
     print("Logged in as " + client.user.name)
 
 @client.event
@@ -769,7 +769,8 @@ async def on_message(ctx):
 
                     for i in range(game_member_num):
                         msg = client.get_user(user_id[i])
-                        await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。", file=File(f"{avalon_role[role[i]][2]}"))
+                        # await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。", file=File(f"{avalon_role[role[i]][2]}"))
+                        await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。"))
                         if role[i] == 0 : # マーリン
                             role_info = '赤陣営は\n'
                             for j in range(game_member_num):
