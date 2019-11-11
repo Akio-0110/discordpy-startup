@@ -1598,7 +1598,7 @@ async def on_message(ctx):
                 for k in range(game_member_num):
                     if int(num[1+k]) >= 16:
                         s_cnt += 1
-                    else:
+                    elif int(num[1+k]) > 8:
                         f_cnt += 1
                 game_info[i][1] = s_cnt
                 game_info[i][2] = f_cnt
