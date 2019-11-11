@@ -1608,7 +1608,7 @@ async def on_message(ctx):
                 i += 1
 
             i = 0
-            for num in rows):
+            for num in rows:
                 if i == game_member_num:
                     break
                 q_num = int(int(num[0])/5)+1
