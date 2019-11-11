@@ -252,66 +252,66 @@ async def on_ready():
         db.close()
         cnt.cursor(buffered=True)
 
-    # テーブル削除
-    sql = 'drop table if exists avalon_data'
-    db.execute(sql)
-    sql = 'drop table if exists avalon_user'
-    db.execute(sql)
-    sql = 'drop table if exists avalon_quest'
-    db.execute(sql)
-    # テーブル作成
-    sql = "create table if not exists `avalon_data` ( \
-    `id` int, \
-    `channel_id` bigint, \
-    `game_status` int, \
-    `game_role` int, \
-    `select_member` int, \
-    `quest_cnt` int, \
-    `quest_success_cnt` int, \
-    `quest_fail_cnt` int, \
-    `vote_cnt` int, \
-    `game_phase` int, \
-    `game_stop` int, \
-    `game_member_num` int, \
-    `game_otome` int, \
-    `game_excalibur` int, \
-    `game_member1` int, \
-    `game_member2` int, \
-    `game_member3` int, \
-    `game_member4` int, \
-    `game_member5` int, \
-    `game_otome1` int, \
-    `game_otome2` int, \
-    `game_otome3` int, \
-    primary key (`id`) \
-    )"
-    db.execute(sql)
-    # データ挿入
-    sql = "insert into `avalon_data` ( \
-    `id`, \
-    `game_status`, \
-    `game_role`, \
-    `select_member`, \
-    `quest_cnt`, \
-    `quest_success_cnt`, \
-    `quest_fail_cnt`, \
-    `vote_cnt`, \
-    `game_phase`, \
-    `game_stop`, \
-    `game_member_num`, \
-    `game_otome`, \
-    `game_excalibur` ) \
-    value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
-    db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
-    # テーブル作成 ユーザ情報
-    sql = "create table if not exists `avalon_user` ( \
-    `id` int, \
-    `name` varchar(255), \
-    `user_id` bigint, \
-    `role` int, \
-    primary key (`id`) \
-    )"
-    db.execute(sql)
+    # # テーブル削除
+    # sql = 'drop table if exists avalon_data'
+    # db.execute(sql)
+    # sql = 'drop table if exists avalon_user'
+    # db.execute(sql)
+    # sql = 'drop table if exists avalon_quest'
+    # db.execute(sql)
+    # # テーブル作成
+    # sql = "create table if not exists `avalon_data` ( \
+    # `id` int, \
+    # `channel_id` bigint, \
+    # `game_status` int, \
+    # `game_role` int, \
+    # `select_member` int, \
+    # `quest_cnt` int, \
+    # `quest_success_cnt` int, \
+    # `quest_fail_cnt` int, \
+    # `vote_cnt` int, \
+    # `game_phase` int, \
+    # `game_stop` int, \
+    # `game_member_num` int, \
+    # `game_otome` int, \
+    # `game_excalibur` int, \
+    # `game_member1` int, \
+    # `game_member2` int, \
+    # `game_member3` int, \
+    # `game_member4` int, \
+    # `game_member5` int, \
+    # `game_otome1` int, \
+    # `game_otome2` int, \
+    # `game_otome3` int, \
+    # primary key (`id`) \
+    # )"
+    # db.execute(sql)
+    # # データ挿入
+    # sql = "insert into `avalon_data` ( \
+    # `id`, \
+    # `game_status`, \
+    # `game_role`, \
+    # `select_member`, \
+    # `quest_cnt`, \
+    # `quest_success_cnt`, \
+    # `quest_fail_cnt`, \
+    # `vote_cnt`, \
+    # `game_phase`, \
+    # `game_stop`, \
+    # `game_member_num`, \
+    # `game_otome`, \
+    # `game_excalibur` ) \
+    # value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+    # db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
+    # # テーブル作成 ユーザ情報
+    # sql = "create table if not exists `avalon_user` ( \
+    # `id` int, \
+    # `name` varchar(255), \
+    # `user_id` bigint, \
+    # `role` int, \
+    # primary key (`id`) \
+    # )"
+    # db.execute(sql)
     print("Logged in as " + client.user.name)
 
 @client.event
@@ -327,7 +327,7 @@ async def on_message(ctx):
             # コネクションが切れた時に再接続してくれるよう設定
             cnt.ping(reconnect=True)
         except :
-            await ctx.channel.send(f"もう一度コマンドを入力してください")
+            print(f"再起動しました")
             # カーソル終了
             db.close()
             cnt.cursor(buffered=True)
@@ -665,7 +665,7 @@ async def on_message(ctx):
                 # print(rows)
 
             # otome : 乙女設定
-            elif comment == 'o' or comment == 'otome' or comment == '乙女':
+            elif comment == 'o' or comment == 'otome' or comment == 'お':
                 if game_otome == 0:
                     game_otome = 1
                 else:
@@ -800,8 +800,12 @@ async def on_message(ctx):
                             await msg.send(f"{role_info}")
 
                         # await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。\n{file:{attachment:{avalon_role[i][2]}}}")
-                    await msgch.send('ゲームを開始します。')
-
+                    role.sort()
+                    sql = "役職："
+                    for i in range(game_member_num):
+                        sql = f"{sql}\n{avalon_role[role[i]][1]}"
+                    embed = discord.Embed(title=f"ゲーム開始",description=sql)
+                    await msgch.send(embed=embed)
                     sql = player_display(game_member_num, ary, select_member)
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{ary[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",description=sql)
                     await msgch.send(embed=embed)
@@ -1483,6 +1487,7 @@ async def on_message(ctx):
                 await ctx.channel.send(embed=embed)
             elif game_status == 1:
                 sql = f"ゲーム開始準備の状態です。\
+                \n現在の入室は{game_member_num}人です。 \
                 \n５人以上の入室(in)と役職(d,ds,role)を選択して、\
                 開始コマンド(s)を実行してください。"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
@@ -1509,7 +1514,6 @@ async def on_message(ctx):
 
         # instruction : 説明書
         elif comment == 'i' or comment == 'instruction':
-            # テーブル作成
             # print(glob.glob("./image/アヴァロン_説明書*"))
             file=glob.glob("./image/アヴァロン_説明書*")
             await ctx.channel.send("説明書を表示します", file=File(file[0]))
