@@ -1590,7 +1590,7 @@ async def on_message(ctx):
             i = 0
             game_info = [[None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]]
             sql = 'クエスト履歴'
-            for num in rows):
+            for num in rows:
                 if i == game_member_num:
                     break
                 for k in range(game_member_num):
