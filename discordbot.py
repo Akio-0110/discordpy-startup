@@ -1587,7 +1587,7 @@ async def on_message(ctx):
             rows = db.fetchall()
             print(len(rows))
 
-            game_info = [None,None,None]*5
+            game_info = [None,None,None]*len(rows)
             for num in rows:
                 print(num)
                 s_cnt = 0
@@ -1604,16 +1604,18 @@ async def on_message(ctx):
                         a_cnt += 1
                 game_info[i][1] = s_cnt
                 game_info[i][2] = f_cnt
-                if f_cnt >= quest_member_num[game_member_num][i][1]:
+                if f_cnt == 0 and s_cnt == 0:
                     game_info[i][0] = 0
-                else:
+                if f_cnt >= quest_member_num[game_member_num][i][1]:
                     game_info[i][0] = 1
+                else:
+                    game_info[i][0] = 2
 
                 i += 1
 
             i = 0
             for num in rows:
-                if i == game_member_num:
+                if num != None:
                     break
                 q_num = int(int(num[0])/5)+1
                 v_num = int(num[0])%game_member_num
@@ -1621,9 +1623,9 @@ async def on_message(ctx):
                     sql = f"{q_num}クエ、{v_num}回目 : "
                 else:
                     sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
-                if game_info[i][0] == 1:
+                if game_info[i][0] == 2:
                     sql = f"{sql}成功（成功{game_info[i][1]},失敗{game_info[i][2]}"
-                else:
+                elif game_info[i][0] == 1:
                     sql = f"{sql}失敗（成功{game_info[i][1]},失敗{game_info[i][2]}"
                 for k in range(game_member_num):
                     if int(num[1+k]) >= 16:
