@@ -1585,21 +1585,23 @@ async def on_message(ctx):
             sql = 'select * from `avalon_quest`'
             db.execute(sql)
             rows = db.fetchall()
-            print(rows)
+            print(len(rows))
 
-            i = 0
-            game_info = [[None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]]
+            game_info = [None,None,None]*5
             for num in rows:
                 print(num)
                 s_cnt = 0
                 f_cnt = 0
-                if i == game_member_num:
+                a_cnt = 0
+                if num != None:
                     break
                 for k in range(game_member_num):
                     if int(num[1+k]) >= 16:
                         s_cnt += 1
                     elif int(num[1+k]) > 8:
                         f_cnt += 1
+                    if int(num[1+k])%8 >= 4:
+                        a_cnt += 1
                 game_info[i][1] = s_cnt
                 game_info[i][2] = f_cnt
                 if f_cnt >= quest_member_num[game_member_num][i][1]:
