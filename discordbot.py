@@ -1600,7 +1600,7 @@ async def on_message(ctx):
                 s_cnt = 0
                 f_cnt = 0
                 a_cnt = 0
-                if num == None:
+                if num[0] == None:
                     break
                 for k in range(game_member_num):
                     if int(num[1+k]) >= 16:
@@ -1613,17 +1613,17 @@ async def on_message(ctx):
                 game_info[i][2] = f_cnt
                 if f_cnt == 0 and s_cnt == 0:
                     game_info[i][0] = 0
-                if f_cnt >= quest_member_num[game_member_num][i][1]:
+                elif f_cnt >= quest_member_num[game_member_num][i][1]:
                     game_info[i][0] = 1
                 else:
                     game_info[i][0] = 2
 
                 i += 1
 
-            print(game_info)
+            # print(game_info)
             i = 0
             for num in rows:
-                if num == None:
+                if num[0] == None:
                     break
                 q_num = int(int(num[0])/5)+1
                 v_num = int(num[0])%game_member_num
