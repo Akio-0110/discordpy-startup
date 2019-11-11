@@ -1163,8 +1163,10 @@ async def on_message(ctx):
 
                                 if command_accept == 16:
                                     await msg.send(f"成功へ上書きしました。")
+                                    await msgch.send(f"成功へ上書きしました。")
                                 else:
                                     await msg.send(f"失敗へ上書きしました。")
+                                    await msgch.send(f"失敗へ上書きしました。")
 
                             db.execute(sql)
                             # break
