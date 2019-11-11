@@ -773,32 +773,32 @@ async def on_message(ctx):
 
                     for i in range(game_member_num):
                         msg = client.get_user(user_id[i])
-                        await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。", file=File(avalon_role[role[i]][2]))
-                        if role[i] == 0 : # マーリン
+                        await msg.send(f"あなたの役職は{avalon_role[ary[i]][1]}です。", file=File(avalon_role[ary[i]][2]))
+                        if ary[i][3] == 0 : # マーリン
                             role_info = '赤陣営は\n'
                             for j in range(game_member_num):
-                                if (role[j] >= 11):
+                                if (ary[j][3] >= 11):
                                     role_info = f"{role_info}{ary[j][1]}\n"
                             role_info = f"{role_info}です。\nバレないようにクエスト勝利へ導いてください。"
                             await msg.send(f"{role_info}")
-                        elif role[i] == 1 : # パーシヴァル
+                        elif ary[i][3] == 1 : # パーシヴァル
                             role_info = 'マーリンとモルガナを確認することができます。\n'
                             for j in range(game_member_num):
-                                if (role[j] == 0 or role[j] == 11):
+                                if (ary[j][3] == 0 or ary[j][3] == 11):
                                     role_info = f"{role_info}{ary[j][1]}\n"
                             role_info = f"{role_info}がマーリンとモルガナです。\n役職によって１人とは限りません。"
                             await msg.send(f"{role_info}")
-                        elif role[i] == 2 : # ガラハッド
+                        elif ary[i][3] == 2 : # ガラハッド
                             role_info = f"パーシヴァルと暗殺者を確認することができます。\n"
                             for j in range(game_member_num):
-                                if (role[j] == 1 or role[j] == 12):
+                                if (ary[j][3] == 1 or role[j] == 12):
                                     role_info = f"{role_info}{ary[j][1]}\n"
                             role_info = f"{role_info}がパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
                             await msg.send(f"{role_info}")
-                        elif role[i] >= 10 and role[i] <= 13 : # 赤陣営
+                        elif ary[i][3] >= 10 and ary[i][3] <= 13 : # 赤陣営
                             role_info = '赤陣営は\n'
                             for j in range(game_member_num):
-                                if (role[j] >= 10 and role[j] <= 13):
+                                if (ary[j][3] >= 10 and ary[j][3] <= 13):
                                     role_info = f"{role_info}{ary[j][1]}\n"
                             role_info = f"{role_info}です。"
                             await msg.send(f"{role_info}")
