@@ -786,7 +786,7 @@ async def on_message(ctx):
                         elif ary[i][3] == 2 : # ガラハッド
                             role_info = f"パーシヴァルと暗殺者を確認することができます。\n"
                             for j in range(game_member_num):
-                                if (ary[j][3] == 1 or role[j][3] == 12):
+                                if (ary[j][3] == 1 or ary[j][3] == 12):
                                     role_info = f"{role_info}\n{ary[j][1]}"
                             role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
                             await msg.send(f"{role_info}")
