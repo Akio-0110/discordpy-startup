@@ -1582,84 +1582,147 @@ async def on_message(ctx):
         #     await ctx.channel.send(embed=embed, file=File(file))
 
         elif comment == 'l':
-            sql = 'select * from `avalon_quest`'
-            db.execute(sql)
-            rows = db.fetchall()
-            print(len(rows))
+            if game_status == 2:
+                sql = 'select * from `avalon_quest`'
+                db.execute(sql)
+                rows = db.fetchall()
+                print(len(rows))
 
-            game_info = [
-                [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
-                [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
-                [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
-                [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
-                [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]
-            ]
-            i = 0
-            for num in rows:
-                print(num)
-                s_cnt = 0
-                f_cnt = 0
-                a_cnt = 0
-                if num[0] == None:
-                    break
-                for k in range(game_member_num):
-                    if int(num[1+k]) >= 16:
-                        s_cnt += 1
-                    elif int(num[1+k]) > 8:
-                        f_cnt += 1
-                    if int(num[1+k])%8 >= 4:
-                        a_cnt += 1
-                game_info[i][1] = s_cnt
-                game_info[i][2] = f_cnt
-                if f_cnt == 0 and s_cnt == 0:
-                    game_info[i][0] = 0
-                elif f_cnt >= quest_member_num[game_member_num][i][1]:
-                    game_info[i][0] = 1
-                else:
-                    game_info[i][0] = 2
-
-                i += 1
-
-            # print(game_info)
-            i = 0
-            for num in rows:
-                if num[0] == None:
-                    break
-                q_num = int(int(num[0])/5)+1
-                v_num = int(num[0])%game_member_num
-                if i == 0:
-                    sql = f"{q_num}クエ、{v_num}回目 : "
-                else:
-                    sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
-                if game_info[i][0] == 2:
-                    sql = f"{sql}成功（成功{game_info[i][1]},失敗{game_info[i][2]}"
-                elif game_info[i][0] == 1:
-                    sql = f"{sql}失敗（成功{game_info[i][1]},失敗{game_info[i][2]}"
-                for k in range(game_member_num):
-                    if int(num[1+k]) >= 16:
-                        s_cnt += 1
-                    else:
-                        f_cnt += 1
-                    if int(num[1+k])%2 == 1:
+                game_info = [
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]
+                ]
+                i = 0
+                for num in rows:
+                    print(num)
+                    s_cnt = 0
+                    f_cnt = 0
+                    a_cnt = 0
+                    if num[0] == None:
+                        break
+                    for k in range(game_member_num):
+                        if int(num[1+k]) >= 16:
+                            s_cnt += 1
+                        elif int(num[1+k]) > 8:
+                            f_cnt += 1
                         if int(num[1+k])%8 >= 4:
-                            sql = f"{sql}\n■{avalon_user[k][1]}：承認"
-                        else:
-                            sql = f"{sql}\n■{avalon_user[k][1]}：却下"
+                            a_cnt += 1
+                    game_info[i][1] = s_cnt
+                    game_info[i][2] = f_cnt
+                    if f_cnt == 0 and s_cnt == 0:
+                        game_info[i][0] = 0
+                    elif f_cnt >= quest_member_num[game_member_num][i][1]:
+                        game_info[i][0] = 1
                     else:
-                        if int(num[1+k])%8 >= 4:
-                            sql = f"{sql}\n□{avalon_user[k][1]}：承認"
+                        game_info[i][0] = 2
+
+                    i += 1
+
+                # print(game_info)
+                i = 0
+                for num in rows:
+                    if num[0] == None:
+                        break
+                    q_num = int(int(num[0])/5)+1
+                    v_num = int(num[0])%game_member_num
+                    if i == 0:
+                        sql = f"{q_num}クエ、{v_num}回目 : "
+                    else:
+                        sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
+                    if game_info[i][0] == 2:
+                        sql = f"{sql}成功（成功{game_info[i][1]},失敗{game_info[i][2]}"
+                    elif game_info[i][0] == 1:
+                        sql = f"{sql}失敗（成功{game_info[i][1]},失敗{game_info[i][2]}"
+                    for k in range(game_member_num):
+                        if int(num[1+k]) >= 16:
+                            s_cnt += 1
                         else:
-                            sql = f"{sql}\n□{avalon_user[k][1]}：却下"
+                            f_cnt += 1
+                        if int(num[1+k])%2 == 1:
+                            if int(num[1+k])%8 >= 4:
+                                sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：承認"
+                            else:
+                                sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：却下"
+                        else:
+                            if int(num[1+k])%8 >= 4:
+                                sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：承認"
+                            else:
+                                sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：却下"
 
-                i += 1
+                    i += 1
 
-            embed = discord.Embed(title="クエスト履歴",description=sql)
-            await ctx.channel.send(embed=embed)
+                embed = discord.Embed(title="クエスト履歴",description=sql)
+                await ctx.channel.send(embed=embed)
 
-            # print(glob.glob(avalon_role[0][2]))
-            # print(glob.glob(file))
-            # file=avalon_role[0][2]
-            # embed = discord.Embed(title="乙女結果",description=otome_msg)
-            # await ctx.channel.send(embed=embed, file=File(file))
+        elif comment == 'lq':
+            if game_status == 2:
+                sql = 'select * from `avalon_quest`'
+                db.execute(sql)
+                rows = db.fetchall()
+                print(len(rows))
+
+                game_info = [
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
+                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]
+                ]
+                i = 0
+                for num in rows:
+                    print(num)
+                    s_cnt = 0
+                    f_cnt = 0
+                    a_cnt = 0
+                    if num[0] == None:
+                        break
+                    for k in range(game_member_num):
+                        if int(num[1+k]) >= 16:
+                            s_cnt += 1
+                        elif int(num[1+k]) > 8:
+                            f_cnt += 1
+                        if int(num[1+k])%8 >= 4:
+                            a_cnt += 1
+                    game_info[i][1] = s_cnt
+                    game_info[i][2] = f_cnt
+                    if f_cnt == 0 and s_cnt == 0:
+                        game_info[i][0] = 0
+                    elif f_cnt >= quest_member_num[game_member_num][i][1]:
+                        game_info[i][0] = 1
+                    else:
+                        game_info[i][0] = 2
+
+                    i += 1
+
+                # print(game_info)
+                i = 0
+                for num in rows:
+                    if num[0] == None:
+                        break
+                    if game_info[i][0] == 0:
+                        continue
+                    q_num = int(int(num[0])/5)+1
+                    v_num = int(num[0])%game_member_num
+                    if i == 0:
+                        sql = f"{q_num}クエ: "
+                    else:
+                        sql = f"{sql}\n{q_num}クエ: "
+                    if game_info[i][0] == 2:
+                        sql = f"{sql}成功（成功{game_info[i][1]},失敗{game_info[i][2]})"
+                    elif game_info[i][0] == 1:
+                        sql = f"{sql}失敗（成功{game_info[i][1]},失敗{game_info[i][2]})"
+                    sql = f"{sql}\n"
+                    sql_member = f"選出メンバー："
+                    for k in range(game_member_num):
+                        if int(num[1+k])%2 == 1:
+                            sql_member = f"{sql_member}[{k+1}]{avalon_user[k][1]}"
+                    sql = f"{sql}{sql_member}"
+                    i += 1
+
+                embed = discord.Embed(title="クエスト履歴",description=sql)
+                await ctx.channel.send(embed=embed)
 
 client.run(TOKEN)
