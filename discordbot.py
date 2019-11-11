@@ -1177,7 +1177,7 @@ async def on_message(ctx):
                             member_msg = "クエスト参加メンバー"
                             for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                                 num = game_member[k]-1
-                                member_msg = f"{member_msg}\n{num} : {avalon_user[num][1]}"
+                                member_msg = f"{member_msg}\n{num+1} : {avalon_user[num][1]}"
                                 if avalon_quest[num] > 8:
                                     if avalon_quest[num] < 16:
                                         fail_cnt += 1
@@ -1348,7 +1348,7 @@ async def on_message(ctx):
                         else :
                             otome_check = 0
                             otome_num = int(select_member_match[0])-1
-                            msg = client.get_user(avalon_user[otome_member][2])
+                            msg = client.get_user(avalon_user[otome_select[otome_member]][2])
                             for i in range(quest_cnt-1):
                                 # print(otome_select[i])
                                 if otome_select[i] == None:
