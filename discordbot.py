@@ -1639,7 +1639,7 @@ async def on_message(ctx):
                         else:
                             sql = f"{sql}\n□{avalon_user[k][1]}：却下"
 
-                    i += 1
+                i += 1
 
             embed = discord.Embed(title="クエスト履歴",description=sql)
             await ctx.channel.send(embed=embed)
