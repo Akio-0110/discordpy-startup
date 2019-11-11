@@ -799,16 +799,16 @@ async def on_message(ctx):
 
                         # await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。\n{file:{attachment:{avalon_role[i][2]}}}")
                     role.sort()
+                    sql = f"{game_member_num}人戦のクエスト："
+                    for i in range(game_member_num):
+                        sql = f"{sql}\n{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                    embed = discord.Embed(title=f"ゲーム開始",description=sql)
                     sql = "役職："
                     for i in range(game_member_num):
                         sql = f"{sql}\n{avalon_role[role[i]][1]}"
-                    for i in range(game_member_num):
-                        sql = f"{sql}\n{i+1}クエ：{quest_member_num[game_member_num][i][0]}人:[未]"
-
-                    embed = discord.Embed(title=f"ゲーム開始",description=sql)
-                    await msgch.send(embed=embed)
+                    embed.add_field(name=f"役職",value=sql)
                     sql = player_display(game_member_num, ary, select_member)
-                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{ary[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",description=sql)
+                    embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{ary[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
                     await msgch.send(embed=embed)
 
                     # テーブル作成
@@ -1500,20 +1500,26 @@ async def on_message(ctx):
                 embed = discord.Embed(title=f"現在の状況",description=sql)
                 await msgch.send(embed=embed)
             elif game_status == 2:
+                sql = "クエスト情報："
+                for i in range(game_member_num):
+                    if i+1 == quest_cnt:
+                        sql = f"{sql}\n■：{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                    else:
+                        sql = f"{sql}\n□：{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
                 if game_phase == 0:
-                    sql = f"{quest_cnt}クエの{vote_cnt}回目の選出フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n3人選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
+                    sql = f"{sql}\n{quest_cnt}クエの{vote_cnt}回目の選出フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n3人選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 1:
-                    sql = f"{quest_cnt}クエの{vote_cnt}回目の承認却下フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の承認却下選択中です"
+                    sql = f"{sql}\n{quest_cnt}クエの{vote_cnt}回目の承認却下フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の承認却下選択中です"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 2:
-                    sql = f"{quest_cnt}クエの{vote_cnt}回目の成功失敗フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の成功失敗選択中です"
+                    sql = f"{sql}\n{quest_cnt}クエの{vote_cnt}回目の成功失敗フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の成功失敗選択中です"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 3:
-                    sql = f"{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
+                    sql = f"{sql}\n{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 4:
-                    sql = f"{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
+                    sql = f"{sql}\n{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 await msgch.send(embed=embed)
             elif game_status == 3:
