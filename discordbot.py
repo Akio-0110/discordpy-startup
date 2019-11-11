@@ -747,6 +747,7 @@ async def on_message(ctx):
                         if game_role != 999:
                             role[i] = avalon_role_auto[game_member_num][game_role-1][i]
 
+                    await msgch.send(ary)
                     # print(role)
                     random.shuffle(role)
                     # print(role)
@@ -763,6 +764,9 @@ async def on_message(ctx):
                         where id = {i+1}"
                         # print(sql)
                         db.execute(sql)
+
+                    await msgch.send("シャッフル")
+                    await msgch.send(ary)
 
                     # print(role)
                     # print(ary)
