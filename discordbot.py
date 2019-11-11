@@ -158,6 +158,8 @@ s/start:開始
 usage_avalon20="""
 h/help:ヘルプ（コマンド一覧）
 s/select 数字:選出
+l/log:クエスト履歴(承認却下＋選出メンバー＋成功失敗)
+lq:クエスト結果履歴(選出メンバー＋成功失敗)
 ?:現在の状態
 stop:ゲーム停止
 """
@@ -165,6 +167,8 @@ usage_avalon21="""
 h/help:ヘルプ（コマンド一覧）
 a/accept:承認
 r/reject:却下
+l/log:クエスト履歴(承認却下＋選出メンバー＋成功失敗)
+lq:クエスト結果履歴(選出メンバー＋成功失敗)
 ?:現在の状態
 stop:ゲーム停止
 """
@@ -172,24 +176,32 @@ usage_avalon22="""
 h/help:ヘルプ（コマンド一覧）
 s/success:成功
 f/fail:失敗
+l/log:クエスト履歴(承認却下＋選出メンバー＋成功失敗)
+lq:クエスト結果履歴(選出メンバー＋成功失敗)
 ?:現在の状態
 stop:ゲーム停止
 """
 usage_avalon23="""
 h/help:ヘルプ（コマンド一覧）
 e/excalibur 番号:エクスカリバー
+l/log:クエスト履歴(承認却下＋選出メンバー＋成功失敗)
+lq:クエスト結果履歴(選出メンバー＋成功失敗)
 ?:現在の状態
 stop:ゲーム停止
 """
 usage_avalon24="""
 h/help:ヘルプ（コマンド一覧）
 s/survey 番号:調査
+l/log:クエスト履歴(承認却下＋選出メンバー＋成功失敗)
+lq:クエスト結果履歴(選出メンバー＋成功失敗)
 ?:現在の状態
 stop:ゲーム停止
 """
 usage_avalon3="""
 h/help:ヘルプ（コマンド一覧）
 k/kill 数字:暗殺
+l/log:クエスト履歴(承認却下＋選出メンバー＋成功失敗)
+lq:クエスト結果履歴(選出メンバー＋成功失敗)
 stop:ゲーム停止
 """
 
@@ -1582,7 +1594,7 @@ async def on_message(ctx):
         #     await ctx.channel.send(embed=embed, file=File(file))
 
         elif comment == 'l':
-            if game_status == 2:
+            if game_status => 2:
                 sql = 'select * from `avalon_quest`'
                 db.execute(sql)
                 rows = db.fetchall()
@@ -1658,7 +1670,7 @@ async def on_message(ctx):
                 await ctx.channel.send(embed=embed)
 
         elif comment == 'lq':
-            if game_status == 2:
+            if game_status => 2:
                 sql = 'select * from `avalon_quest`'
                 db.execute(sql)
                 rows = db.fetchall()
