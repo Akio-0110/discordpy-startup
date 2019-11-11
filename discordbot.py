@@ -1028,8 +1028,10 @@ async def on_message(ctx):
                                 avalon_quest[i] = avalon_quest[i]%2 + command_accept
                                 if command_accept == 2:
                                     await msg.send(f"却下へ上書きしました。")
+                                    await msgch.send(f"却下へ上書きしました。")
                                 else:
                                     await msg.send(f"承認へ上書きしました。")
+                                    await msgch.send(f"承認へ上書きしました。")
                             # print(avalon_quest)
                             # print(sql)
                             db.execute(sql)
