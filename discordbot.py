@@ -1587,7 +1587,7 @@ async def on_message(ctx):
             rows = db.fetchall()
             print(len(rows))
 
-            game_info = [None,None,None]*len(rows)
+            game_info = (None,None,None)*len(rows)
             i = 0
             for num in rows:
                 print(num)
