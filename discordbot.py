@@ -1348,7 +1348,7 @@ async def on_message(ctx):
                         else :
                             otome_check = 0
                             otome_num = int(select_member_match[0])-1
-                            msg = client.get_user(avalon_user[otome_num][2])
+                            msg = client.get_user(avalon_user[otome_member][2])
                             for i in range(quest_cnt-1):
                                 # print(otome_select[i])
                                 if otome_select[i] == None:
