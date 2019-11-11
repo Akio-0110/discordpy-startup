@@ -1593,7 +1593,7 @@ async def on_message(ctx):
                 s_cnt = 0
                 f_cnt = 0
                 a_cnt = 0
-                if num != None:
+                if num == None:
                     break
                 for k in range(game_member_num):
                     if int(num[1+k]) >= 16:
@@ -1615,7 +1615,7 @@ async def on_message(ctx):
 
             i = 0
             for num in rows:
-                if num != None:
+                if num == None:
                     break
                 q_num = int(int(num[0])/5)+1
                 v_num = int(num[0])%game_member_num
