@@ -1318,7 +1318,7 @@ async def on_message(ctx):
                                         embed.add_field(name=f"第{quest_cnt}クエスト終了",value=f"{avalon_user[otome_select[quest_cnt-2]][1]}が乙女選出者中です。")
                                         await msgch.send(embed=embed, file=File(file))
                                         sql = player_display(game_member_num, avalon_user, select_member)
-                                        embed = discord.Embed(title="乙女選出",description=f"{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:\ns/select/選出 番号です。")
+                                        embed = discord.Embed(title="乙女選出",description=f"現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\n{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:\ns/select/選出 番号です。")
                                         await msg.send(embed=embed)
                                     else:
                                         game_phase = 0
