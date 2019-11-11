@@ -1589,7 +1589,6 @@ async def on_message(ctx):
 
             i = 0
             game_info = [[None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]]
-            sql = 'クエスト履歴'
             for num in rows:
                 s_cnt = 0
                 f_cnt = 0
@@ -1615,7 +1614,10 @@ async def on_message(ctx):
                     break
                 q_num = int(int(num[0])/5)+1
                 v_num = int(num[0])%game_member_num
-                sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
+                if i == 0:
+                    sql = f"{q_num}クエ、{v_num}回目 : "
+                else:
+                    sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
                 if game_info[i][0] == 1:
                     sql = f"{sql}成功（成功{game_info[i][1]},失敗{game_info[i][2]}"
                 else:
@@ -1637,6 +1639,10 @@ async def on_message(ctx):
                             sql = f"{sql}\n□{avalon_user[k][1]}：却下"
 
                     i += 1
+
+            embed = discord.Embed(title="クエスト履歴",description=sql)
+            await ctx.channel.send(embed=embed)
+
             # print(glob.glob(avalon_role[0][2]))
             # print(glob.glob(file))
             # file=avalon_role[0][2]
