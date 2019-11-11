@@ -738,22 +738,21 @@ async def on_message(ctx):
                         # print(rows[3])
                         role[i] = rows[3]
 
-                    # print(role)
                     ary.pop(0)
                     ary.pop(0)
-                    random.shuffle(ary)
 
+                    # print(role)
                     for i in range(game_member_num) :
                         if game_role != 999:
                             role[i] = avalon_role_auto[game_member_num][game_role-1][i]
 
-                    await msgch.send(ary)
-                    # print(role)
                     random.shuffle(role)
-                    # print(role)
                     for i in range(game_member_num) :
                         ary[i][3] = role[i]
-                    # print(ary)
+                    await msgch.send(ary)
+                    random.shuffle(ary)
+                    await msgch.send("シャッフル")
+                    await msgch.send(ary)
 
                     for i in range(game_member_num) :
                         num = i + 1
@@ -765,12 +764,6 @@ async def on_message(ctx):
                         # print(sql)
                         db.execute(sql)
 
-                    await msgch.send("シャッフル")
-                    await msgch.send(ary)
-
-                    # print(role)
-                    # print(ary)
-
                     for i in range(game_member_num):
                         msg = client.get_user(user_id[i])
                         await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。", file=File(avalon_role[ary[i][3]][2]))
@@ -778,29 +771,29 @@ async def on_message(ctx):
                             role_info = '赤陣営は\n'
                             for j in range(game_member_num):
                                 if (ary[j][3] >= 11):
-                                    role_info = f"{role_info}{ary[j][1]}\n"
-                            role_info = f"{role_info}です。\nバレないようにクエスト勝利へ導いてください。"
+                                    role_info = f"{role_info}\n{ary[j][1]}"
+                            role_info = f"{role_info}\nです。\nバレないようにクエスト勝利へ導いてください。"
                             await msg.send(f"{role_info}")
                         elif ary[i][3] == 1 : # パーシヴァル
                             role_info = 'マーリンとモルガナを確認することができます。\n'
                             for j in range(game_member_num):
                                 if (ary[j][3] == 0 or ary[j][3] == 11):
-                                    role_info = f"{role_info}{ary[j][1]}\n"
-                            role_info = f"{role_info}がマーリンとモルガナです。\n役職によって１人とは限りません。"
+                                    role_info = f"{role_info}\n{ary[j][1]}"
+                            role_info = f"{role_info}\nがマーリンとモルガナです。\n役職によって2人とは限りません。"
                             await msg.send(f"{role_info}")
                         elif ary[i][3] == 2 : # ガラハッド
                             role_info = f"パーシヴァルと暗殺者を確認することができます。\n"
                             for j in range(game_member_num):
-                                if (ary[j][3] == 1 or role[j] == 12):
-                                    role_info = f"{role_info}{ary[j][1]}\n"
-                            role_info = f"{role_info}がパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
+                                if (ary[j][3] == 1 or role[j][3] == 12):
+                                    role_info = f"{role_info}\n{ary[j][1]}"
+                            role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
                             await msg.send(f"{role_info}")
-                        elif ary[i][3] >= 10 and ary[i][3] <= 13 : # 赤陣営
+                        elif ary[i][3] >= 10 and ary[i][3] <= 12 : # 赤陣営
                             role_info = '赤陣営は\n'
                             for j in range(game_member_num):
-                                if (ary[j][3] >= 10 and ary[j][3] <= 13):
-                                    role_info = f"{role_info}{ary[j][1]}\n"
-                            role_info = f"{role_info}です。"
+                                if (ary[j][3] >= 10 and ary[j][3] <= 12):
+                                    role_info = f"{role_info}\n{ary[j][1]}"
+                            role_info = f"{role_info}\nです。"
                             await msg.send(f"{role_info}")
 
                         # await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。\n{file:{attachment:{avalon_role[i][2]}}}")
