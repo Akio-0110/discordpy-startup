@@ -1503,9 +1503,9 @@ async def on_message(ctx):
                 sql = "クエスト情報："
                 for i in range(game_member_num):
                     if i+1 == quest_cnt:
-                        sql = f"{sql}\n■：{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                        sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
                     else:
-                        sql = f"{sql}\n□：{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                        sql = f"{sql}\n□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
                 if game_phase == 0:
                     sql = f"{sql}\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n3人選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
@@ -1580,5 +1580,16 @@ async def on_message(ctx):
         #     # file=avalon_role[0][2]
         #     embed = discord.Embed(title="乙女結果",description=otome_msg)
         #     await ctx.channel.send(embed=embed, file=File(file))
+
+        elif comment == 'l':
+            sql = 'select * from `avalon_quest`'
+            db.execute(sql)
+            rows = db.fetchall()
+            print(rows)
+            # print(glob.glob(avalon_role[0][2]))
+            # print(glob.glob(file))
+            # file=avalon_role[0][2]
+            # embed = discord.Embed(title="乙女結果",description=otome_msg)
+            # await ctx.channel.send(embed=embed, file=File(file))
 
 client.run(TOKEN)
