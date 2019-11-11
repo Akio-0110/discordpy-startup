@@ -1591,6 +1591,8 @@ async def on_message(ctx):
             game_info = [[None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]]
             sql = 'クエスト履歴'
             for num in rows:
+                s_cnt = 0
+                f_cnt = 0
                 if i == game_member_num:
                     break
                 for k in range(game_member_num):
@@ -1618,8 +1620,6 @@ async def on_message(ctx):
                     sql = f"{sql}成功（成功{game_info[i][1]},失敗{game_info[i][2]}"
                 else:
                     sql = f"{sql}失敗（成功{game_info[i][1]},失敗{game_info[i][2]}"
-                s_cnt = 0
-                f_cnt = 0
                 for k in range(game_member_num):
                     if int(num[1+k]) >= 16:
                         s_cnt += 1
