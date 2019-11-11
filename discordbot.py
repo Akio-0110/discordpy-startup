@@ -1498,7 +1498,7 @@ async def on_message(ctx):
                 await msgch.send(embed=embed)
             elif game_status == 2:
                 if game_phase == 0:
-                    sql = f"{quest_cnt}クエの{vote_cnt}回目の選出フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n3人選出例：s 1,2,3"
+                    sql = f"{quest_cnt}クエの{vote_cnt}回目の選出フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n3人選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 1:
                     sql = f"{quest_cnt}クエの{vote_cnt}回目の承認却下フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の承認却下選択中です"
@@ -1507,16 +1507,17 @@ async def on_message(ctx):
                     sql = f"{quest_cnt}クエの{vote_cnt}回目の成功失敗フェーズです。\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の成功失敗選択中です"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 3:
-                    sql = f"{quest_cnt-1}の乙女選択中です。"
+                    sql = f"{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, select_member)}"
+                    sql = f"{quest_cnt-1}\n
+                    "
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                 elif game_phase == 4:
-                    sql = f"{quest_cnt-1}の乙女選択中です。"
+                    sql = f"{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
-                sql = f"{sql}\n{player_display(game_member_num, avalon_user, select_member)}"
                 await msgch.send(embed=embed)
             elif game_status == 3:
                 sql = f"{sql}暗殺フェーズです。"
-                embed = discord.Embed(title=f"現在の状況",description=sql)
+                embed = discord.Embed(title=f"現在の状況",description=f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}")
                 await msgch.send(embed=embed)
 
         # instruction : 説明書
