@@ -1588,6 +1588,7 @@ async def on_message(ctx):
             print(len(rows))
 
             game_info = [None,None,None]*len(rows)
+            i = 0
             for num in rows:
                 print(num)
                 s_cnt = 0
