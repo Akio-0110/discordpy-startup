@@ -1689,8 +1689,9 @@ async def on_message(ctx):
                     i += 1
 
                 if flg = 1:
-                    embed = discord.Embed(title="クエスト履歴",description=sql)
-                    await ctx.channel.send(embed=embed)
+                    sql = 'まだ1回も選出されていません。'
+                embed = discord.Embed(title="クエスト履歴",description=sql)
+                await ctx.channel.send(embed=embed)
 
         elif comment == 'lq':
             if game_status >= 2:
@@ -1760,7 +1761,8 @@ async def on_message(ctx):
                     i += 1
 
                 if flg = 1:
-                    embed = discord.Embed(title="クエスト履歴",description=sql)
-                    await ctx.channel.send(embed=embed)
+                    sql = 'まだ1回も選出されていません。'
+                embed = discord.Embed(title="クエスト履歴",description=sql)
+                await ctx.channel.send(embed=embed)
 
 client.run(TOKEN)
