@@ -991,6 +991,8 @@ async def on_message(ctx):
                 value (%s, %s)"
                 value = (f"'{ctx.author.display_name}'", f"'{cmd}'")
                 db.execute(sql, value)
+                await msgch.send(f"コメントを受け付けました。")
+
             elif comment == 'stop' or comment == 'て':
                 await msgch.send("stopコマンドのため、ゲーム途中ですが、ゲームを停止します。")
                 sql = "update `avalon_data` set \
@@ -1023,7 +1025,6 @@ async def on_message(ctx):
                 primary key (`id`) \
                 )"
                 db.execute(sql)
-                await msgch.send(f"コメントを受け付けました。")
 
             elif game_phase == 0: #選出フェーズ
                 # start game : ゲームを開始する
