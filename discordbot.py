@@ -1023,6 +1023,7 @@ async def on_message(ctx):
                 primary key (`id`) \
                 )"
                 db.execute(sql)
+                await msgch.send(f"コメントを受け付けました。")
 
             elif game_phase == 0: #選出フェーズ
                 # start game : ゲームを開始する
@@ -1620,6 +1621,7 @@ async def on_message(ctx):
                 value (%s, %s)"
                 value = (f"'{ctx.author.display_name}'", f"'{cmd}'")
                 db.execute(sql, value)
+                await msgch.send(f"コメントを受け付けました。")
 
             # kill : 暗殺
             elif comment[0:2] == 'k ' or comment[0:5] == 'kill ' or comment[0:3] == 'あ ':
