@@ -1470,7 +1470,7 @@ async def on_message(ctx):
                 for i in range(game_member_num):
                     if ctx.author.id == avalon_user[i][2]:
                         print(avalon_user[i][4])
-                        if avalon_user[i][4] != None:
+                        if avalon_user[i][4] == None:
                             sql = f"update `avalon_user` set `coming_out` = '{cmd}' where id = {i+1}"
                             db.execute(sql)
                             await msgch.send(f"{avalon_user[i][1]}が{cmd}であると名乗り出ました。")
