@@ -1890,6 +1890,7 @@ async def on_message(ctx):
                 # print(game_info)
                 flg = 0
                 i = 0
+                k = 0
                 print(game_info)
                 for num in rows:
                     print(num)
@@ -1901,7 +1902,7 @@ async def on_message(ctx):
                         continue
                     q_num = int(int(num[0])/5)+1
                     v_num = int(num[0])%game_member_num
-                    if i == 0:
+                    if k == 0:
                         sql = f"{q_num}クエ: "
                     else:
                         sql = f"{sql}\n{q_num}クエ: "
@@ -1916,6 +1917,7 @@ async def on_message(ctx):
                             sql_member = f"{sql_member}[{k+1}]{avalon_user[k][1]}"
                     sql = f"{sql}{sql_member}"
                     i += 1
+                    k += 1
 
                 if flg == 0:
                     sql = 'まだ1回も選出されていません。'
