@@ -711,16 +711,15 @@ async def on_message(ctx):
                 await msgch.send(embed=embed)
 
             # role number : 役職カスタマイズ
-            elif comment[0:5] == 'role ' or comment[0:3] == '役職 ':
+            elif comment[0:5] == 'role ' or comment[0:2] == 'や ':
                 deck_cmd_re = re.compile('\d+')
                 deck_cmd_match = deck_cmd_re.findall(comment)
-                print(len(deck_cmd_match))
-                print(deck_cmd_match[0])
 
                 if len(deck_cmd_match) == 1:
                     num = int(deck_cmd_match[0])
                     if (num >= 0 and num <=16) or (num >= 20 and num <= 21) or (num >= 30 and num <= 33):
                         embed = discord.Embed(title="役職説明",description=avalon_role[num][3])
+                        await ctx.channel.send(embed=embed)
                 else:
                     role_list = [0,1]
                     i = 0
