@@ -1863,7 +1863,7 @@ async def on_message(ctx):
                 ]
                 i = 0
                 for num in rows:
-                    print(num)
+                    # print(num)
                     s_cnt = 0
                     f_cnt = 0
                     a_cnt = 0
@@ -1890,6 +1890,7 @@ async def on_message(ctx):
                 # print(game_info)
                 flg = 0
                 i = 0
+                print(game_info)
                 for num in rows:
                     print(num)
                     if num[0] == None:
