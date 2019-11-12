@@ -875,7 +875,7 @@ async def on_message(ctx):
                                     if ary[j][3] == 6:
                                         flg = 1
                             role_info = f"{role_info}\nです。\nバレないようにクエスト勝利へ導いてください。"
-                            if flg = 1:
+                            if flg == 1:
                                 role_info = f"{role_info}\nカラドックは赤陣営として通知されます。※ローカル拡張役職です。"
                             await msg.send(f"{role_info}")
                         elif ary[i][3] == 1 : # パーシヴァル
