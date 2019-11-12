@@ -1761,17 +1761,17 @@ async def on_message(ctx):
                 rows = db.fetchall()
                 flg = 0
                 for i in rows:
-                    if rows[0] == None:
-                        break
-                    if flg == 0:
-                        sql = f"{i[1]}"
-                        flg = 1
-                    else:
-                        print(i[0])
-                        if i[0] == 'bot':
-                            sql = f"{sql}\n\n{i[1]}"
+                    for k in i:
+                        if k[0] == None:
+                            break
+                        if flg == 0:
+                            sql = f"{k[1]}"
+                            flg = 1
                         else:
-                            sql = f"{sql}\n{i[0]}：{i[1]}"
+                            if k[0] == 'bot':
+                                sql = f"{sql}\n\n{k[1]}"
+                            else:
+                                sql = f"{sql}\n{k[0]}：{k[1]}"
 
                 embed = discord.Embed(title="隠しコメント",description=sql)
                 await ctx.channel.send(embed=embed)
