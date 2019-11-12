@@ -234,12 +234,18 @@ def player_display(member_num, ary, select_member):
     else:
         sql = f"□ 1:{ary[0][1]}"
 
+    if ary[0][4] != None:
+        sql = f"{sql}[{ary[0][4]}]"
+
     for i in range(member_num):
         if i == 0: continue
         elif i == select_member:
             sql = f"{sql}\n■ {i+1}:{ary[i][1]}"
         else:
             sql = f"{sql}\n□ {i+1}:{ary[i][1]}"
+        if ary[i][4] != None:
+            sql = f"{sql}[{ary[i][4]}]"
+
     return sql
 
 
@@ -466,6 +472,7 @@ async def on_message(ctx):
                     `name` varchar(255), \
                     `user_id` bigint, \
                     `role` int, \
+                    `coming_out` varchar(20), \
                     primary key (`id`) \
                     )"
                     db.execute(sql)
@@ -840,12 +847,12 @@ async def on_message(ctx):
         elif game_status == 2:
             msgch = client.get_channel(channel_id)
             quest_id = int((quest_cnt-1)*5+vote_cnt)
-            avalon_user = [[1, 'name1', 1, 1], [1, 'name2', 2, 2]]
+            avalon_user = [[1, 'name1', 1, '1'], [1, 'name2', 2, '2']]
             for i in range(game_member_num) :
                 sql = f"select * from `avalon_user` where id = {i+1}"
                 db.execute(sql)
                 rows = db.fetchone()
-                avalon_user.append([0, rows[1], rows[2], rows[3]])
+                avalon_user.append([0, rows[1], rows[2], rows[3], rows[4]])
             avalon_user.pop(0)
             avalon_user.pop(0)
             # print(avalon_user)
@@ -860,21 +867,21 @@ async def on_message(ctx):
                 for i in range(game_member_num):
                     # print(rows[i+1])
                     avalon_quest[i] = int(rows[i+1])
-            user_ary = [[1, 'name1', 1, 1], [2, 'name2', 2, 2]]
-            for i in range(game_member_num) :
-                sql = f"select * from `avalon_user` where id = {i+1}"
-                #print(sql)
-                db.execute(sql)
-                rows = db.fetchone()
-                #print(rows)
-                for j in rows :
-                    #print(j)
-                    user_ary.append([rows[0], rows[1], rows[2], rows[3]])
-                    break
-
-            user_ary.pop(0)
-            user_ary.pop(0)
-            # print(user_ary)
+            # user_ary = [[1, 'name1', 1, 1], [2, 'name2', 2, 2]]
+            # for i in range(game_member_num) :
+            #     sql = f"select * from `avalon_user` where id = {i+1}"
+            #     #print(sql)
+            #     db.execute(sql)
+            #     rows = db.fetchone()
+            #     #print(rows)
+            #     for j in rows :
+            #         #print(j)
+            #         user_ary.append([rows[0], rows[1], rows[2], rows[3]])
+            #         break
+            #
+            # user_ary.pop(0)
+            # user_ary.pop(0)
+            # # print(user_ary)
 
             if comment == 'stop' or comment == 'て':
                 await msgch.send("stopコマンドのため、ゲーム途中ですが、ゲームを停止します。")
@@ -968,9 +975,9 @@ async def on_message(ctx):
                                     for i in range(len(select_list)):
                                         if i != None:
                                             if i == 0:
-                                                user_name = f"{user_ary[select_list[i]-1][0]}:{user_ary[select_list[i]-1][1]}"
+                                                user_name = f"{avalon_user[select_list[i]-1][0]}:{avalon_user[select_list[i]-1][1]}"
                                             else:
-                                                user_name = f"{user_name}\n{user_ary[select_list[i]-1][0]}:{user_ary[select_list[i]-1][1]}"
+                                                user_name = f"{user_name}\n{avalon_user[select_list[i]-1][0]}:{avalon_user[select_list[i]-1][1]}"
 
                                     if vote_cnt != 5:
                                         embed = discord.Embed(title="選出メンバー",description=f"{user_name}")
@@ -1010,7 +1017,7 @@ async def on_message(ctx):
 
                     for i in range(game_member_num):
                         if ctx.author.id == avalon_user[i][2]:
-                            msg = client.get_user(user_ary[i][2])
+                            msg = client.get_user(avalon_user[i][2])
                             if avalon_quest[i] < 2:
                                 sql = f"update `avalon_quest` \
                                 set `member{i+1}` = {avalon_quest[i]+command_accept} \
@@ -1130,7 +1137,7 @@ async def on_message(ctx):
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                         num = game_member[i]-1
                         if ctx.author.id == avalon_user[num][2]:
-                            msg = client.get_user(user_ary[num][2])
+                            msg = client.get_user(avalon_user[num][2])
                             if avalon_quest[num] < 8:
                                 sql = f"update `avalon_quest` \
                                 set `member{num+1}` = {avalon_quest[num]+command_accept} \
@@ -1421,10 +1428,23 @@ async def on_message(ctx):
                     else:
                         await msgch.send(f"あなた({ctx.author.display_name})は乙女の選出者ではありません。")
 
+            if comment[0:2] == 'c ':
+                cmd = comment.lstrip("c ")
+                for i in range(game_member_num):
+                    if ctx.author.id == avalon_user[i][2]:
+                        if avalon_user[i][4] != None:
+                            sql = f"update `avalon_user` set `coming_out` = {cmd} where id = {i+1}"
+                            db.execute(sql)
+                            await msgch.send(f"{avalon_user[i][1]}が{cmd}であると名乗り出ました。")
+                        else:
+                            sql = f"update `avalon_user` set `coming_out` = NULL where id = {i+1}"
+                            db.execute(sql)
+                            await msgch.send(f"{avalon_user[i][1]}が{avalon_user[i][4]}であることを撤回しました。")
+
         elif game_status == 3:
             msgch = client.get_channel(channel_id)
             quest_id = int((quest_cnt-1)*5+vote_cnt)
-            avalon_user = [[1, 'name1', 1, 1], [1, 'name2', 2, 2]]
+            avalon_user = [[1, 'name1', 1, 1, 1], [1, 'name2', 2, 2, 2]]
             for i in range(game_member_num) :
                 sql = f"select * from `avalon_user` where id = {i+1}"
                 db.execute(sql)
