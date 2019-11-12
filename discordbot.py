@@ -1587,17 +1587,12 @@ async def on_message(ctx):
             if comment[0:2] == 'c ' or comment == 'c':
                 if comment[0:2] == 'c ':
                     cmd = comment.lstrip("c ")
-                    for i in range(game_member_num):
-                        if ctx.author.id == avalon_user[i][2]:
-                            print(avalon_user[i][4])
-                            if avalon_user[i][4] == None:
+                    if (len(cmd) != 0):
+                        for i in range(game_member_num):
+                            if ctx.author.id == avalon_user[i][2]:
                                 sql = f"update `avalon_user` set `coming_out` = '{cmd}' where id = {i+1}"
                                 db.execute(sql)
                                 await msgch.send(f"{avalon_user[i][1]}が{cmd}であると名乗り出ました。")
-                            else:
-                                sql = f"update `avalon_user` set `coming_out` = NULL where id = {i+1}"
-                                db.execute(sql)
-                                await msgch.send(f"{avalon_user[i][1]}が{avalon_user[i][4]}であることを撤回しました。")
                 else:
                     for i in range(game_member_num):
                         if ctx.author.id == avalon_user[i][2]:
