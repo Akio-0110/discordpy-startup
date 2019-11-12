@@ -391,8 +391,45 @@ async def on_message(ctx):
 
         print(sql)
 
+        # init : 初期化
+        if comment == '初期化' or comment == 'init':
+            sql = "update `avalon_data` set \
+            `game_status`= 0, \
+            `game_role`= 1, \
+            `quest_cnt`= 0, \
+            `quest_success_cnt` = 0, \
+            `quest_fail_cnt` = 0, \
+            `vote_cnt`= 0, \
+            `game_phase`= 0, \
+            `game_stop`= 1, \
+            `game_otome` = 0, \
+            `game_excalibur` = 0, \
+            `game_member_num`= 0, \
+            `game_member1`= NULL, \
+            `game_member2`= NULL, \
+            `game_member3`= NULL, \
+            `game_member4`= NULL, \
+            `game_member5`= NULL, \
+            `game_otome1` = NULL, \
+            `game_otome2` = NULL, \
+            `game_otome3` = NULL \
+            where id = 0"
+            db.execute(sql)
+            sql = 'drop table avalon_user'
+            db.execute(sql)
+            # テーブル作成
+            sql = "create table if not exists `avalon_user` ( \
+            `id` int, \
+            `name` varchar(255), \
+            `user_id` bigint, \
+            `role` int, \
+            primary key (`id`) \
+            )"
+            db.execute(sql)
+            await ctx.channel.send(f"データを初期化しました。")
+
         # help : ヘルプ
-        if comment == 'h' or comment == 'help' or comment == 'へ':
+        elif comment == 'h' or comment == 'help' or comment == 'へ':
             if game_status == 0:
                 embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon0)
             elif game_status == 1:
@@ -728,7 +765,7 @@ async def on_message(ctx):
                         game_otome1 = game_member_num - 1
                         sql = f"update `avalon_data` set `game_otome1`={game_otome1} where id = 0"
                         db.execute(sql)
-                    ary = [[1,'name1', 1, 1], [2, 'name2', 2, 2]]
+                    ary = [[1,'name1', 1, 1, 1], [2, 'name2', 2, 2, 2]]
                     if  game_member_num == 5:
                         user_id = [10,10,10,10,10]
                         role = [0, 1, 3, 8, 10]
@@ -752,7 +789,7 @@ async def on_message(ctx):
                         sql = f"select * from `avalon_user` where id = {i+1}"
                         db.execute(sql)
                         rows = db.fetchone()
-                        ary.append([rows[0], rows[1], rows[2], rows[3]])
+                        ary.append([rows[0], rows[1], rows[2], rows[3], rows[4]])
                         user_id[i] = rows[2]
                         # print(rows[3])
                         role[i] = rows[3]
@@ -847,13 +884,12 @@ async def on_message(ctx):
         elif game_status == 2:
             msgch = client.get_channel(channel_id)
             quest_id = int((quest_cnt-1)*5+vote_cnt)
-            avalon_user = [[1, 'name1', 1, '1'], [1, 'name2', 2, '2']]
+            avalon_user = [[1, 'name1', 1, 1, '1'], [1, 'name2', 2, 2, '2']]
             for i in range(game_member_num) :
                 sql = f"select * from `avalon_user` where id = {i+1}"
                 db.execute(sql)
                 rows = db.fetchone()
-                avalon_user.append([0, rows[1], rows[2], rows[3])
-                # avalon_user.append([0, rows[1], rows[2], rows[3], rows[4]])
+                avalon_user.append([0, rows[1], rows[2], rows[3], rows[4]])
             avalon_user.pop(0)
             avalon_user.pop(0)
             # print(avalon_user)
@@ -1566,43 +1602,6 @@ async def on_message(ctx):
             file=glob.glob("./image/アヴァロン_説明書*")
             await ctx.channel.send("説明書を表示します", file=File(file[0]))
             await ctx.channel.send(file=File(file[1]))
-
-        # init : 初期化
-        elif comment == '初期化' or comment == 'init':
-            sql = "update `avalon_data` set \
-            `game_status`= 0, \
-            `game_role`= 1, \
-            `quest_cnt`= 0, \
-            `quest_success_cnt` = 0, \
-            `quest_fail_cnt` = 0, \
-            `vote_cnt`= 0, \
-            `game_phase`= 0, \
-            `game_stop`= 1, \
-            `game_otome` = 0, \
-            `game_excalibur` = 0, \
-            `game_member_num`= 0, \
-            `game_member1`= NULL, \
-            `game_member2`= NULL, \
-            `game_member3`= NULL, \
-            `game_member4`= NULL, \
-            `game_member5`= NULL, \
-            `game_otome1` = NULL, \
-            `game_otome2` = NULL, \
-            `game_otome3` = NULL \
-            where id = 0"
-            db.execute(sql)
-            sql = 'drop table avalon_user'
-            db.execute(sql)
-            # テーブル作成
-            sql = "create table if not exists `avalon_user` ( \
-            `id` int, \
-            `name` varchar(255), \
-            `user_id` bigint, \
-            `role` int, \
-            primary key (`id`) \
-            )"
-            db.execute(sql)
-            await ctx.channel.send(f"データを初期化しました。")
 
         # init : 初期化
         # elif comment == 'c':
