@@ -1593,6 +1593,10 @@ async def on_message(ctx):
                                 sql = f"update `avalon_user` set `coming_out` = '{cmd}' where id = {i+1}"
                                 db.execute(sql)
                                 await msgch.send(f"{avalon_user[i][1]}が{cmd}であると名乗り出ました。")
+                            else:
+                                sql = f"update `avalon_user` set `coming_out` = NULL where id = {i+1}"
+                                db.execute(sql)
+                                await msgch.send(f"{avalon_user[i][1]}が{avalon_user[i][4]}であることを撤回しました。")
                 else:
                     for i in range(game_member_num):
                         if ctx.author.id == avalon_user[i][2]:
@@ -1818,7 +1822,7 @@ async def on_message(ctx):
                         break
                     flg = 1
                     q_num = int(int(num[0])/5)+1
-                    v_num = int(num[0])%game_member_num
+                    v_num = (int(num[0]-1)%game_member_num)+1
                     if i == 0:
                         sql = f"{q_num}クエ、{v_num}回目 : "
                     else:
