@@ -38,7 +38,7 @@ avalon_role = [
 [3, 'アーサーの忠実なる家来', './image/情弱１.jpeg', '陣営：青陣営\nアーサーの忠実なる家来は何も情報を持っていません。'],
 [4, 'ボールス(未対応)', './image/情弱２.jpeg', '陣営：青陣営\nボールスはゲーム中に「邪悪よ、覚悟せよ！」と自分の役職を公開し、赤陣営の配役を当てることができれば暗殺フェーズへ移ります。\nただし失敗した場合、その後の選出リーダと投票権を失います。\n※ローカル拡張役職です。'],
 [5, 'エクター・ド・マリス(未対応)', './image/情弱３.jpeg', '陣営：青陣営\nエクター・ド・マリスはゲーム中に「邪悪よ、覚悟せよ！」と自分の役職を公開し、他のプレイヤー1人の忠誠を確認した上で捉えるか選択できます。\n捕らえられたプレイヤーはその後のリーダーと投票権を失います。\nまたオープンした時点で自身のリーダと投票権を失います。\n※ローカル拡張役職です。'],
-[6, 'カラドック(未対応)', './image/情弱４.jpeg', '陣営：青陣営\nカラドックはマーリンに赤陣営として通知されます。\n※ローカル拡張役職です。'],
+[6, 'カラドック', './image/情弱４.jpeg', '陣営：青陣営\nカラドックはマーリンに赤陣営として通知されます。\n※ローカル拡張役職です。'],
 [7, 'ガウェイン(未対応)', './image/情弱５.jpeg', '陣営：青陣営\nガウェインはクエスト２とクエスト４に参加した場合、失敗しか出すことができません。\n※ローカル拡張役職です。'],
 [8, 'トリスタン(未対応)', './image/情弱５.jpeg', '陣営：青陣営\nトリスタンは恋人であるイゾルデを知っています。\nただしクエストに二人で参加しない場合、失敗しか出すことができません。\n暗殺フェーズにて、マーリンの代わりに暗殺対象になることがあります。\n暗殺対象は暗殺者が選択します。\n※ローカル拡張役職です。'],
 [9, 'イゾルデ(未対応)', './image/情弱５.jpeg', '陣営：青陣営\nイゾルデは恋人であるトリスタンを知っています。\nただしクエストに二人で参加しない場合、失敗しか出すことができません。\n暗殺フェーズにて、マーリンの代わりに暗殺対象になることがあります。\n暗殺対象は暗殺者が選択します。\n※ローカル拡張役職です。'],
@@ -49,9 +49,19 @@ avalon_role = [
 [14, 'オベロン', './image/オベロン.jpeg', '陣営：赤陣営\nオベロンは仲間の赤陣営を知りません。'],
 [15, 'アグラヴェイン(未対応)', './image/モードレッドの手下１.jpeg', '陣営：赤陣営\nアグラヴェインはマーリンに赤陣営と知られません。\nまた赤陣営のプレイヤーを知っていますが、他の赤陣営には知られません。\n2回成功するまで失敗を出すことができません。\n※ローカル拡張役職です。'],
 [16, 'クエスティングビースト(未対応)', './image/モードレッドの手下２.jpeg', '陣営：赤陣営\nクエスティングビーストはゲーム開始時に1人のプレイヤーを選択し、オベロンにすることができます。\nこの時に選んだプレイヤーの役職を知ることができます。選ばれたプレイヤーの役職は失われるが、マーリンだった場合に限り、パーシヴァルがマーリンとなります。\nまたガラハッドからパーシヴァルと一緒に知られます。\n※ローカル拡張役職です。'],
+[17, None, None, None],
+[18, None, None, None],
+[19, None, None, None],
 [20, 'ランスロット(未対応)', './image/モードレッドの手下３.jpeg', '陣営：青陣営または赤陣営または陣営無\nランスロットは2回目の失敗が出た後に任意のプレイヤー1人を選択し、そのプレイヤーと同じ陣営となります。\n選ばれたプレイヤーは明かされるが、ランスロットが誰かは知られません。\n陣営が決まる前にクエストが終了すると敗北です。\n陣営が決まるまで成功でも失敗でも出すことができます。\n※ローカル拡張役職です。'],
 [21, 'ケイ(未対応)', './image/モードレッドの手下３.jpeg', '陣営：青陣営または赤陣営\nケイは奇数クエストでは青陣営、偶数クエストでは赤陣営です。\n偶数クエストでクエストに参加した場合、失敗しか出すことができません。\nゲーム終了時の陣営に従って勝利条件も変わります。\n４クエストで終了した場合、暗殺議論に加わってください。\n※ローカル拡張役職です。'],
-[30, 'シャロット姫(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nシャロット姫は役職に関係なく赤陣営全員を知っています。\n暗殺されると勝利となります。赤陣営のクエスト勝利時は敗北となります。\n※ローカル拡張役職です。'],
+[22, None, None, None],
+[23, None, None, None],
+[24, None, None, None],
+[25, None, None, None],
+[26, None, None, None],
+[27, None, None, None],
+[28, None, None, None],
+[30, 'シャロット姫', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nシャロット姫は役職に関係なく赤陣営全員を知っています。\n暗殺されると勝利となります。赤陣営のクエスト勝利時は敗北となります。\n※ローカル拡張役職です。'],
 [31, '漁夫王(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\n漁夫王はクエストが3回成功時に暗殺される人を予想して選択します。\n選択した人が暗殺された場合、勝利となります。\n※ローカル拡張役職です。'],
 [32, 'タークィン(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nタークィンは役職に関係なく赤陣営全員を知っています。\nクエストを失敗に導き、3回目の失敗時に選出されていた場合勝利となります。\n※ローカル拡張役職です。'],
 [33, '聖ミカエル山の巨人(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\n聖ミカエル山の巨人は役職に関係なく赤陣営全員を知っています。\nクエストに一度も選ばれずに終了した場合、または参加したクエストで３枚以上の失敗を出されることで単独勝利となります。\n※ローカル拡張役職です。']
@@ -690,7 +700,7 @@ async def on_message(ctx):
 
             # role number : 役職カスタマイズ
             elif comment == 'role' or comment == 'や':
-                for i in range(23):
+                for i in range(33):
                     if i == 0:
                         blue_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
                     elif i < 10:
@@ -700,9 +710,9 @@ async def on_message(ctx):
                         red_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
                     elif i >= 11 and i <=16:
                         red_role = f"{red_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
-                    elif i == 17:
+                    elif i == 20 or i == 21:
                         other_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
-                    elif i >= 18 and i <=22:
+                    elif i >= 30 and i <=33:
                         other_role = f"{other_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
                 embed = discord.Embed(title="青陣営",description=blue_role)
                 embed.add_field(name="赤陣営",value=red_role)
@@ -722,6 +732,8 @@ async def on_message(ctx):
                             if i[0] == num:
                                 embed = discord.Embed(title=f"役職説明:{i[1]}",description=i[3])
                                 await ctx.channel.send(embed=embed)
+                    else:
+                        await ctx.channel.send("指定番号の役職はありません")
                 else:
                     role_list = [0,1]
                     i = 0
@@ -850,18 +862,26 @@ async def on_message(ctx):
 
                     for i in range(game_member_num):
                         msg = client.get_user(ary[i][2])
-                        await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。", file=File(avalon_role[ary[i][3]][2]))
+                        if avalon_role[i][3] == 6 or avalon_role[i][3] == 30:
+                            await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。")
+                        else:
+                            await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。", file=File(avalon_role[ary[i][3]][2]))
                         if ary[i][3] == 0 : # マーリン
                             role_info = '赤陣営は\n'
+                            flg = 0
                             for j in range(game_member_num):
-                                if (ary[j][3] >= 11):
+                                if (ary[j][3] >= 11 and ary[j][3] <= 16) or ary[j][3] == 6:
                                     role_info = f"{role_info}\n{ary[j][1]}"
+                                    if ary[j][3] == 6:
+                                        flg = 1
                             role_info = f"{role_info}\nです。\nバレないようにクエスト勝利へ導いてください。"
+                            if flg = 1:
+                                role_info = f"{role_info}\nカラドックは赤陣営として通知されます。※ローカル拡張役職です。"
                             await msg.send(f"{role_info}")
                         elif ary[i][3] == 1 : # パーシヴァル
                             role_info = 'マーリンとモルガナを確認することができます。\n'
                             for j in range(game_member_num):
-                                if (ary[j][3] == 0 or ary[j][3] == 11):
+                                if ary[j][3] == 0 or ary[j][3] == 11:
                                     role_info = f"{role_info}\n{ary[j][1]}"
                             role_info = f"{role_info}\nがマーリンとモルガナです。\n役職によって2人とは限りません。"
                             await msg.send(f"{role_info}")
@@ -872,12 +892,23 @@ async def on_message(ctx):
                                     role_info = f"{role_info}\n{ary[j][1]}"
                             role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
                             await msg.send(f"{role_info}")
+                        elif ary[i][3] == 6 : # ガラハッド
+
+                            role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
+                            await msg.send(f"{role_info}")
                         elif ary[i][3] >= 10 and ary[i][3] <= 12 : # 赤陣営
                             role_info = '赤陣営は\n'
                             for j in range(game_member_num):
                                 if (ary[j][3] >= 10 and ary[j][3] <= 12):
                                     role_info = f"{role_info}\n{ary[j][1]}"
                             role_info = f"{role_info}\nです。"
+                            await msg.send(f"{role_info}")
+                        elif ary[i][3] == 30: # 赤陣営
+                            role_info = '赤陣営は\n'
+                            for j in range(game_member_num):
+                                if (ary[j][3] >= 10 and ary[j][3] < 20):
+                                    role_info = f"{role_info}\n{ary[j][1]}"
+                            role_info = f"{role_info}\nです。勝利条件は暗殺されることです。"
                             await msg.send(f"{role_info}")
 
                         # await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。\n{file:{attachment:{avalon_role[i][2]}}}")
@@ -1502,9 +1533,13 @@ async def on_message(ctx):
                                 if avalon_user[otome_num][3] < 10:
                                     otome_msg = f"{avalon_user[otome_num][1]}は青陣営です"
                                     file="./image/忠誠カード青.jpeg"
-                                else:
+                                elif avalon_user[otome_num][3] <20:
                                     otome_msg = f"{avalon_user[otome_num][1]}は赤陣営です"
                                     file="./image/忠誠カード赤.jpeg"
+                                elif avalon_user[otome_num][3] <30:
+                                    otome_msg = f"{avalon_user[otome_num][1]}はどちらの陣営でもありません"
+                                else:
+                                    otome_msg = f"{avalon_user[otome_num][1]}は第３陣営です"
                                 embed = discord.Embed(title="乙女結果",description=otome_msg)
                                 await msg.send(embed=embed, file=File(file))
                                 # await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。")
