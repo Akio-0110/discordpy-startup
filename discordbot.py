@@ -1893,7 +1893,7 @@ async def on_message(ctx):
                 for num in rows:
                     if num[0] == None:
                         break
-                    flag = 1
+                    flg = 1
                     if game_info[i][0] == 0:
                         continue
                     q_num = int(int(num[0])/5)+1
