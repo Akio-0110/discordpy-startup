@@ -505,7 +505,7 @@ async def on_message(ctx):
                     `game_excalibur` ) \
                     value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
                     db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
-                    sql = "create table if not exists `avalon_data` ( \
+                    sql = "create table if not exists `avalon_comment` ( \
                     `user` charvar(20), \
                     `comment` charvar(255) \
                     )"
