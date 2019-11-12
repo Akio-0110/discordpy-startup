@@ -1224,7 +1224,7 @@ async def on_message(ctx):
                         command_accept = 8
 
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                        num = game_member[i]-1
+                        num = game_member[i]
                         if ctx.author.id == avalon_user[num][2]:
                             msg = client.get_user(avalon_user[num][2])
                             if avalon_quest[num] < 8:
@@ -1234,17 +1234,17 @@ async def on_message(ctx):
                                 avalon_quest[num] = avalon_quest[num] + command_accept
 
                                 for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                                    num = game_member[k]-1
+                                    num = game_member[k]
                                     if k == 0:
-                                        if avalon_quest[num] > 8 or num == game_member[i]-1:
-                                            vote_msg = f"投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                        if avalon_quest[num] > 8 or num == game_member[i]:
+                                            vote_msg = f"投票完了:{game_member[k]}:{avalon_user[game_member[k]][1]}"
                                         else:
-                                            vote_msg = f"投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                            vote_msg = f"投票未完:{game_member[k]}:{avalon_user[game_member[k]][1]}"
                                     else:
-                                        if avalon_quest[num] > 8 or num == game_member[i]-1:
-                                            vote_msg = f"{vote_msg}\n投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                        if avalon_quest[num] > 8 or num == game_member[i]:
+                                            vote_msg = f"{vote_msg}\n投票完了:{game_member[k]}:{avalon_user[game_member[k]][1]}"
                                         else:
-                                            vote_msg = f"{vote_msg}\n投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                            vote_msg = f"{vote_msg}\n投票未完:{game_member[k]}:{avalon_user[game_member[k]][1]}"
 
                                 if command_accept == 16:
                                     await msg.send(f"成功を受け付けました。")
@@ -1258,17 +1258,17 @@ async def on_message(ctx):
                                 avalon_quest[i] = avalon_quest[i]%8 + command_accept
 
                                 for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                                    num = game_member[k]-1
+                                    num = game_member[k]
                                     if k == 0:
                                         if avalon_quest[num] > 8 or avalon_user[num][2] == ctx.author.id:
-                                            vote_msg = f"投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                            vote_msg = f"投票完了:{game_member[k]}:{avalon_user[game_member[k]][1]}"
                                         else:
-                                            vote_msg = f"投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                            vote_msg = f"投票未完:{game_member[k]}:{avalon_user[game_member[k]][1]}"
                                     else:
                                         if avalon_quest[num] > 8 or avalon_user[num][2] == ctx.author.id:
-                                            vote_msg = f"{vote_msg}\n投票完了:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                            vote_msg = f"{vote_msg}\n投票完了:{game_member[k]}:{avalon_user[game_member[k]][1]}"
                                         else:
-                                            vote_msg = f"{vote_msg}\n投票未完:{game_member[k]}:{avalon_user[game_member[k]-1][1]}"
+                                            vote_msg = f"{vote_msg}\n投票未完:{game_member[k]}:{avalon_user[game_member[k]][1]}"
 
                                 if command_accept == 16:
                                     await msg.send(f"成功へ上書きしました。")
@@ -1289,7 +1289,7 @@ async def on_message(ctx):
                             vote_msg = f"第{quest_cnt}クエスト："
                             member_msg = "クエスト参加メンバー"
                             for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                                num = game_member[k]-1
+                                num = game_member[k]
                                 member_msg = f"{member_msg}\n{num+1} : {avalon_user[num][1]}"
                                 if avalon_quest[num] > 8:
                                     if avalon_quest[num] < 16:
