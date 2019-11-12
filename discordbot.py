@@ -1717,13 +1717,13 @@ async def on_message(ctx):
                     if rows[0] == None:
                         break
                     if flg == 0:
-                        sql = f"{rows[1]}"
+                        sql = f"{i[1]}"
                         flg = 1
                     else:
                         if rows[0] == 'bot':
-                            sql = f"{sql}\n{rows[1]}"
+                            sql = f"{sql}\n{i[1]}"
                         else:
-                            sql = f"{sql}\n{rows[0]}：{rows[1]}"
+                            sql = f"{sql}\n{i[0]}：{i[1]}"
 
                 embed = discord.Embed(title="隠しコメント",description=sql)
                 await ctx.channel.send(embed=embed)
