@@ -1173,7 +1173,7 @@ async def on_message(ctx):
                                         await msg.send(embed=embed)
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                 value (%s, %s)"
-                                value = ('bot', f"'{quest_cnt}クエ、{vote_cnt-1}回目承認'")
+                                value = ('bot', f"'{quest_cnt}クエ、{vote_cnt}回目承認'")
                                 db.execute(sql)
 
                             # 却下
