@@ -506,10 +506,25 @@ async def on_message(ctx):
                     value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
                     db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
                     sql = "create table if not exists `avalon_comment` ( \
-                    `user` charvar(20), \
-                    `comment` charvar(255) \
+                    `user` varchar(20), \
+                    `comment` varchar(255) \
                     )"
                     db.execute(sql)
+                    sql = "create table if not exists `avalon_data` ( \
+                    `id` int, \
+                    `channel_id` bigint, \
+                    `game_member1` int, \
+                    `game_member2` int, \
+                    `game_member3` int, \
+                    `game_member4` int, \
+                    `game_member5` int, \
+                    `game_otome1` int, \
+                    `game_otome2` int, \
+                    `game_otome3` int, \
+                    primary key (`id`) \
+                    )"
+                    db.execute(sql)
+
                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
                     value (%s, %s)"
                     value = ('bot', 'ゲームが開始しました。')
