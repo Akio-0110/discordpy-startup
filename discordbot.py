@@ -765,7 +765,7 @@ async def on_message(ctx):
                         game_otome1 = game_member_num - 1
                         sql = f"update `avalon_data` set `game_otome1`={game_otome1} where id = 0"
                         db.execute(sql)
-                    ary = [[1,'name1', 1, 1, 1], [2, 'name2', 2, 2, 2]]
+                    ary = [[1,'name1', 1, 1, '1'], [2, 'name2', 2, 2, '2']]
                     if  game_member_num == 5:
                         user_id = [10,10,10,10,10]
                         role = [0, 1, 3, 8, 10]
@@ -1469,8 +1469,9 @@ async def on_message(ctx):
                 cmd = comment.lstrip("c ")
                 for i in range(game_member_num):
                     if ctx.author.id == avalon_user[i][2]:
+                        print(avalon_user[i][4])
                         if avalon_user[i][4] != None:
-                            sql = f"update `avalon_user` set `coming_out` = {cmd} where id = {i+1}"
+                            sql = f"update `avalon_user` set `coming_out` = '{cmd}' where id = {i+1}"
                             db.execute(sql)
                             await msgch.send(f"{avalon_user[i][1]}が{cmd}であると名乗り出ました。")
                         else:
@@ -1481,12 +1482,12 @@ async def on_message(ctx):
         elif game_status == 3:
             msgch = client.get_channel(channel_id)
             quest_id = int((quest_cnt-1)*5+vote_cnt)
-            avalon_user = [[1, 'name1', 1, 1, 1], [1, 'name2', 2, 2, 2]]
+            avalon_user = [[1, 'name1', 1, 1, '1'], [1, 'name2', 2, 2, '2']]
             for i in range(game_member_num) :
                 sql = f"select * from `avalon_user` where id = {i+1}"
                 db.execute(sql)
                 rows = db.fetchone()
-                avalon_user.append([0, rows[1], rows[2], rows[3]])
+                avalon_user.append([0, rows[1], rows[2], rows[3], rows[4]])
             avalon_user.pop(0)
             avalon_user.pop(0)
 
