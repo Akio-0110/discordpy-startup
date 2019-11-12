@@ -1767,9 +1767,9 @@ async def on_message(ctx):
                         sql = f"{i[1]}"
                         flg = 1
                     else:
-                        print(rows[0])
-                        if rows[0] == 'bot':
-                            sql = f"{sql}\n{i[1]}"
+                        print(i[0])
+                        if i[0] == 'bot':
+                            sql = f"{sql}\n\n{i[1]}"
                         else:
                             sql = f"{sql}\n{i[0]}：{i[1]}"
 
