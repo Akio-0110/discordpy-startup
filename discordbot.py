@@ -718,8 +718,10 @@ async def on_message(ctx):
                 if len(deck_cmd_match) == 1:
                     num = int(deck_cmd_match[0])
                     if (num >= 0 and num <=16) or (num >= 20 and num <= 21) or (num >= 30 and num <= 33):
-                        embed = discord.Embed(title="役職説明",description=avalon_role[num][3])
-                        await ctx.channel.send(embed=embed)
+                        for i in avalon_role:
+                            if i[0] == num:
+                                embed = discord.Embed(title=f"役職説明:{i[1]}",description=i[3])
+                                await ctx.channel.send(embed=embed)
                 else:
                     role_list = [0,1]
                     i = 0
