@@ -714,6 +714,9 @@ async def on_message(ctx):
             elif comment[0:5] == 'role ' or comment[0:3] == '役職 ':
                 deck_cmd_re = re.compile('\d+')
                 deck_cmd_match = deck_cmd_re.findall(comment)
+                print(len(deck_cmd_match))
+                print(deck_cmd_match[0])
+
                 if len(deck_cmd_match) == 1:
                     num = int(deck_cmd_match[0])
                     if (num >= 0 and num <=16) or (num >= 20 and num <= 21) or (num >= 30 and num <= 33):
