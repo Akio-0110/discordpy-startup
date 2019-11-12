@@ -1584,20 +1584,28 @@ async def on_message(ctx):
                     else:
                         await msgch.send(f"あなた({ctx.author.display_name})は乙女の選出者ではありません。")
 
-            if comment[0:2] == 'c ':
-                cmd = comment.lstrip("c ")
-                for i in range(game_member_num):
-                    if ctx.author.id == avalon_user[i][2]:
-                        print(avalon_user[i][4])
-                        if avalon_user[i][4] == None:
-                            sql = f"update `avalon_user` set `coming_out` = '{cmd}' where id = {i+1}"
-                            db.execute(sql)
-                            await msgch.send(f"{avalon_user[i][1]}が{cmd}であると名乗り出ました。")
-                        else:
-                            sql = f"update `avalon_user` set `coming_out` = NULL where id = {i+1}"
-                            db.execute(sql)
-                            await msgch.send(f"{avalon_user[i][1]}が{avalon_user[i][4]}であることを撤回しました。")
-
+            if comment[0:2] == 'c ' or comment == 'c':
+                if comment[0:2] == 'c ':
+                    cmd = comment.lstrip("c ")
+                    for i in range(game_member_num):
+                        if ctx.author.id == avalon_user[i][2]:
+                            print(avalon_user[i][4])
+                            if avalon_user[i][4] == None:
+                                sql = f"update `avalon_user` set `coming_out` = '{cmd}' where id = {i+1}"
+                                db.execute(sql)
+                                await msgch.send(f"{avalon_user[i][1]}が{cmd}であると名乗り出ました。")
+                            else:
+                                sql = f"update `avalon_user` set `coming_out` = NULL where id = {i+1}"
+                                db.execute(sql)
+                                await msgch.send(f"{avalon_user[i][1]}が{avalon_user[i][4]}であることを撤回しました。")
+                else:
+                    for i in range(game_member_num):
+                        if ctx.author.id == avalon_user[i][2]:
+                            print(avalon_user[i][4])
+                            if avalon_user[i][4] != None:
+                                sql = f"update `avalon_user` set `coming_out` = NULL where id = {i+1}"
+                                db.execute(sql)
+                                await msgch.send(f"{avalon_user[i][1]}が{avalon_user[i][4]}であることを撤回しました。")
         elif game_status == 3:
             msgch = client.get_channel(channel_id)
             quest_id = int((quest_cnt-1)*5+vote_cnt)
@@ -1772,7 +1780,7 @@ async def on_message(ctx):
                 sql = 'select * from `avalon_quest`'
                 db.execute(sql)
                 rows = db.fetchall()
-                print(len(rows))
+                # print(len(rows))
 
                 game_info = [
                     [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
@@ -1783,7 +1791,7 @@ async def on_message(ctx):
                 ]
                 i = 0
                 for num in rows:
-                    print(num)
+                    # print(num)
                     s_cnt = 0
                     f_cnt = 0
                     a_cnt = 0
@@ -1852,7 +1860,7 @@ async def on_message(ctx):
                 sql = 'select * from `avalon_quest`'
                 db.execute(sql)
                 rows = db.fetchall()
-                print(len(rows))
+                # print(len(rows))
 
                 game_info = [
                     [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
@@ -1891,9 +1899,9 @@ async def on_message(ctx):
                 flg = 0
                 i = 0
                 k = 0
-                print(game_info)
+                # print(game_info)
                 for num in rows:
-                    print(num)
+                    # print(num)
                     if num[0] == None:
                         break
                     flg = 1
