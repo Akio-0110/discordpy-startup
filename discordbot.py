@@ -989,7 +989,7 @@ async def on_message(ctx):
 
                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                 value (%s, %s)"
-                value = (f"'{ctx.author.display_name}'", f"'{cmd}'")
+                value = (f"{ctx.author.display_name}", f"{cmd}")
                 db.execute(sql, value)
                 await ctx.author.send(f"コメントを受け付けました。")
 
@@ -1208,7 +1208,7 @@ async def on_message(ctx):
                                         await msg.send(embed=embed)
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                 value (%s, %s)"
-                                value = ('bot', f"'{quest_cnt}クエ、{vote_cnt}回目承認'")
+                                value = ('bot', f"{quest_cnt}クエ、{vote_cnt}回目承認\n")
                                 db.execute(sql, value)
 
                             # 却下
@@ -1246,7 +1246,7 @@ async def on_message(ctx):
                                     await msgch.send(embed=embed)
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                 value (%s, %s)"
-                                value = ('bot', f"'{quest_cnt}クエ、{vote_cnt-1}回目却下'")
+                                value = ('bot', f"{quest_cnt}クエ、{vote_cnt-1}回目却下\n")
                                 db.execute(sql, value)
 
 
@@ -1424,7 +1424,7 @@ async def on_message(ctx):
                                         await msgch.send(embed=embed, file=File(file))
                                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                     value (%s, %s)"
-                                    value = ('bot', f"'{quest_cnt-1}クエ：成功'")
+                                    value = ('bot', f"{quest_cnt-1}クエ：成功\n")
                                     db.execute(sql, value)
 
                                 elif quest_fail_cnt == 3:
@@ -1458,7 +1458,7 @@ async def on_message(ctx):
                                     await msgch.send(embed=embed, file=File(file))
                                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                     value (%s, %s)"
-                                    value = ('bot', f"'{quest_cnt-1}クエ：失敗'")
+                                    value = ('bot', f"{quest_cnt-1}クエ：失敗\n")
                                     db.execute(sql, value)
                                 else:
                                     if game_otome == 1 and (quest_cnt >= 2 and quest_cnt <= 4):
@@ -1478,9 +1478,9 @@ async def on_message(ctx):
                                         sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                         value (%s, %s)"
                                         if fail_cnt >= base_num:
-                                            value = ('bot', f"'{quest_cnt-1}クエ：失敗：乙女開始'")
+                                            value = ('bot', f"{quest_cnt-1}クエ：失敗：乙女開始")
                                         else:
-                                            value = ('bot', f"'{quest_cnt-1}クエ：成功：乙女開始'")
+                                            value = ('bot', f"{quest_cnt-1}クエ：成功：乙女開始")
                                         db.execute(sql, value)
 
                                     else:
@@ -1502,9 +1502,9 @@ async def on_message(ctx):
                                         sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                         value (%s, %s)"
                                         if fail_cnt >= base_num:
-                                            value = ('bot', f"'{quest_cnt-1}クエ：失敗'")
+                                            value = ('bot', f"{quest_cnt-1}クエ：失敗\n")
                                         else:
-                                            value = ('bot', f"'{quest_cnt-1}クエ：成功'")
+                                            value = ('bot', f"{quest_cnt-1}クエ：成功\n")
                                         db.execute(sql, value)
 
             elif game_phase == 4: #乙女フェーズ
@@ -1571,7 +1571,7 @@ async def on_message(ctx):
                                 await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed)
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                 value (%s, %s)"
-                                value = ('bot', f"'{quest_cnt-2}回目：乙女使用'")
+                                value = ('bot', f"{quest_cnt-2}回目：乙女使用")
                                 db.execute(sql, value)
                             else:
                                 if otome_check == 0:
@@ -1627,7 +1627,7 @@ async def on_message(ctx):
 
                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                 value (%s, %s)"
-                value = (f"'{ctx.author.display_name}'", f"'{cmd}'")
+                value = (f"{ctx.author.display_name}", f"{cmd}")
                 db.execute(sql, value)
                 await ctx.author.send(f"コメントを受け付けました。")
 
@@ -1769,7 +1769,7 @@ async def on_message(ctx):
                         flg = 1
                     else:
                         if i[0] == 'bot':
-                            sql = f"{sql}\n\n{i[1]}"
+                            sql = f"{sql}\n{i[1]}"
                         else:
                             sql = f"{sql}\n{i[0]}：{i[1]}"
 
