@@ -459,6 +459,8 @@ async def on_message(ctx):
                     db.execute(sql)
                     sql = 'drop table if exists avalon_quest'
                     db.execute(sql)
+                    sql = 'drop table if exists avalon_comment'
+                    db.execute(sql)
                     # テーブル作成
                     sql = "create table if not exists `avalon_data` ( \
                     `id` int, \
@@ -503,6 +505,15 @@ async def on_message(ctx):
                     `game_excalibur` ) \
                     value (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
                     db.execute(sql, (0,0,1,0,0,0,0,0,0,1,0,0,0))
+                    sql = "create table if not exists `avalon_data` ( \
+                    `user` charvar(20), \
+                    `comment` charvar(255) \
+                    )"
+                    db.execute(sql)
+                    sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                    value (%s, %s)"
+                    value = ('bot', 'ゲームが開始しました。')
+                    db.execute(sql, value)
                     # テーブル作成 ユーザ情報
                     sql = "create table if not exists `avalon_user` ( \
                     `id` int, \
@@ -920,7 +931,19 @@ async def on_message(ctx):
             # user_ary.pop(0)
             # # print(user_ary)
 
-            if comment == 'stop' or comment == 'て':
+            if comment[0:2] == 'n ' or comment[0:5] == 'note ' or comment[0:2] == 'の ':
+                if comment[0:2] == 'n ':
+                    cmd = comment.lstrip("n ")
+                elif comment[0:5] == 'note ':
+                    cmd = comment.lstrip("note ")
+                elif comment[0:2] == 'の ':
+                    cmd = comment.lstrip("の ")
+
+                sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                value (%s, %s)"
+                value = (f"'{ctx.author.display_name}'", 'cmd')
+                db.execute(sql, value)
+            elif comment == 'stop' or comment == 'て':
                 await msgch.send("stopコマンドのため、ゲーム途中ですが、ゲームを停止します。")
                 sql = "update `avalon_data` set \
                 `game_status`= 0, \
@@ -1037,6 +1060,10 @@ async def on_message(ctx):
                                             else:
                                                 embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されていません。\n承認 : a/accept\n却下 : r/reject\nを入力してください\nこの選出が却下された場合、赤陣営の勝利です。")
                                                 await msg.send(embed=embed)
+                                    sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                    value (%s, %s)"
+                                    value = ('bot', f"'{ctx.author.display_name}が{quest_cnt}クエの{vote_cnt}回目の選出'")
+                                    db.execute(sql)
                                 else:
                                     await msgch.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
                         else:
@@ -1129,6 +1156,11 @@ async def on_message(ctx):
                                         msg = client.get_user(avalon_user[k][2])
                                         embed = discord.Embed(title="クエスト参加",description=f"成功の場合 : s\n失敗の場合 : f\nを入力してください")
                                         await msg.send(embed=embed)
+                                sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                value (%s, %s)"
+                                value = ('bot', f"'{quest_cnt}クエ、{vote_cnt-1}回目承認'")
+                                db.execute(sql)
+
                             # 却下
                             else:
                                 if vote_cnt != 5:
@@ -1162,6 +1194,11 @@ async def on_message(ctx):
                                     sql = player_role_display(game_member_num, avalon_user)
                                     embed = discord.Embed(title="ゲーム終了",description=f"選出が5回却下されたため赤陣営の勝利です。\n{sql}")
                                     await msgch.send(embed=embed)
+                                sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                value (%s, %s)"
+                                value = ('bot', f"'{quest_cnt}クエ、{vote_cnt-1}回目却下'")
+                                db.execute(sql)
+
 
             elif game_phase == 2: #成功失敗フェーズ
                 command_accept = 0
@@ -1335,6 +1372,11 @@ async def on_message(ctx):
                                             sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
                                         embed.add_field(name=f"クエスト：青陣営勝利",value=f"{sql}")
                                         await msgch.send(embed=embed, file=File(file))
+                                    sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                    value (%s, %s)"
+                                    value = ('bot', f"'{quest_cnt-1}クエ：成功'")
+                                    db.execute(sql)
+
                                 elif quest_fail_cnt == 3:
                                     game_phase = 0
                                     quest_cnt += 1
@@ -1364,6 +1406,10 @@ async def on_message(ctx):
                                         sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
                                     embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
                                     await msgch.send(embed=embed, file=File(file))
+                                    sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                    value (%s, %s)"
+                                    value = ('bot', f"'{quest_cnt-1}クエ：失敗'")
+                                    db.execute(sql)
                                 else:
                                     if game_otome == 1 and (quest_cnt >= 2 and quest_cnt <= 4):
                                         game_phase = 4
@@ -1379,6 +1425,14 @@ async def on_message(ctx):
                                         sql = player_display(game_member_num, avalon_user, select_member)
                                         embed = discord.Embed(title="乙女選出",description=f"現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\n{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:\ns/select/選出 番号です。")
                                         await msg.send(embed=embed)
+                                        sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                        value (%s, %s)"
+                                        if fail_cnt >= base_num:
+                                            value = ('bot', f"'{quest_cnt-1}クエ：失敗：乙女開始'")
+                                        else:
+                                            value = ('bot', f"'{quest_cnt-1}クエ：成功：乙女開始'")
+                                        db.execute(sql)
+
                                     else:
                                         game_phase = 0
                                         quest_cnt += 1
@@ -1395,6 +1449,13 @@ async def on_message(ctx):
                                         sql = player_display(game_member_num, avalon_user, select_member)
                                         embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
                                         await msgch.send(embed=embed, file=File(file))
+                                        sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                        value (%s, %s)"
+                                        if fail_cnt >= base_num:
+                                            value = ('bot', f"'{quest_cnt-1}クエ：失敗'")
+                                        else:
+                                            value = ('bot', f"'{quest_cnt-1}クエ：成功'")
+                                        db.execute(sql)
 
             elif game_phase == 4: #乙女フェーズ
                 otome_select = [game_otome1, game_otome2, game_otome3]
@@ -1454,6 +1515,10 @@ async def on_message(ctx):
                                 sql = player_display(game_member_num, avalon_user, select_member)
                                 embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",description=sql)
                                 await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed)
+                                sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                value (%s, %s)"
+                                value = ('bot', f"'{quest_cnt-2}回目：乙女使用'")
+                                db.execute(sql)
                             else:
                                 if otome_check == 0:
                                     await msg.send(f"選択番号は1〜{game_member_num}にしてください")
