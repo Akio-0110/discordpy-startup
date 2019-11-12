@@ -1012,11 +1012,11 @@ async def on_message(ctx):
                                             range_in = 0
                                         if range_in == 1:
                                             if i < 2 :
-                                                select_list[i] = int(k)
-                                                avalon_quest[select_list[i]-1] = 1
+                                                select_list[i] = int(k)-1
+                                                avalon_quest[select_list[i]] = 1
                                             else :
                                                 select_list.append(int(k))
-                                                avalon_quest[select_list[i]-1] = 1
+                                                avalon_quest[select_list[i]] = 1
                                             i = i + 1
 
                                 if range_in == 1:
@@ -1050,9 +1050,9 @@ async def on_message(ctx):
                                     for i in range(len(select_list)):
                                         if i != None:
                                             if i == 0:
-                                                user_name = f"{avalon_user[select_list[i]-1][0]}:{avalon_user[select_list[i]-1][1]}"
+                                                user_name = f"{select_list[i]}:{avalon_user[select_list[i]-1][1]}"
                                             else:
-                                                user_name = f"{user_name}\n{avalon_user[select_list[i]-1][0]}:{avalon_user[select_list[i]-1][1]}"
+                                                user_name = f"{user_name}\n{select_list[i]}:{avalon_user[select_list[i]-1][1]}"
 
                                     if vote_cnt != 5:
                                         embed = discord.Embed(title="選出メンバー",description=f"{user_name}")
