@@ -964,7 +964,7 @@ async def on_message(ctx):
                 `game_otome2` = NULL, \
                 `game_otome3` = NULL"
                 db.execute(sql)
-                sql = 'drop table avalon_user'
+                sql = 'drop table if not exists avalon_user'
                 db.execute(sql)
                 # テーブル作成
                 sql = "create table if not exists `avalon_user` ( \
