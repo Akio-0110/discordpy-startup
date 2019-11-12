@@ -1556,8 +1556,21 @@ async def on_message(ctx):
             avalon_user.pop(0)
             avalon_user.pop(0)
 
+            if comment[0:2] == 'n ' or comment[0:5] == 'note ' or comment[0:2] == 'の ':
+                if comment[0:2] == 'n ':
+                    cmd = comment.lstrip("n ")
+                elif comment[0:5] == 'note ':
+                    cmd = comment.lstrip("note ")
+                elif comment[0:2] == 'の ':
+                    cmd = comment.lstrip("の ")
+
+                sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                value (%s, %s)"
+                value = (f"'{ctx.author.display_name}'", 'cmd')
+                db.execute(sql, value)
+
             # kill : 暗殺
-            if comment[0:2] == 'k ' or comment[0:5] == 'kill ' or comment[0:3] == 'あ ':
+            elif comment[0:2] == 'k ' or comment[0:5] == 'kill ' or comment[0:3] == 'あ ':
                 for i in range(game_member_num):
                     if avalon_user[i][3] == 12:
                         kill_member = i
@@ -1680,7 +1693,27 @@ async def on_message(ctx):
         #     await ctx.channel.send(embed=embed, file=File(file))
 
         elif comment == 'l':
-            if game_status >= 2:
+            if game_status == 0:
+                sel = 'select * from `avalon_comment`'
+                db.execute(sql)
+                rows = db.fetchall()
+                flg = 0
+                for i in rows:
+                    if rows[0] == None:
+                        break
+                    if flg == 0:
+                        sql = f"{rows[1]}"
+                        flg = 1
+                    else:
+                        if rows[0] == 'bot':
+                            sql = f"{sql}\n{rows[1]}"
+                        else:
+                            sql = f"{sql}\n{rows[0]}：{rows[1]}"
+
+                embed = discord.Embed(title="隠しコメント",description=sql)
+                await ctx.channel.send(embed=embed)
+
+            elif game_status >= 2:
                 sql = 'select * from `avalon_quest`'
                 db.execute(sql)
                 rows = db.fetchall()
