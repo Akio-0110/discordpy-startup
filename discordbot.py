@@ -1655,9 +1655,11 @@ async def on_message(ctx):
 
                 # print(game_info)
                 i = 0
+                flg = 0
                 for num in rows:
                     if num[0] == None:
                         break
+                    flg = 1
                     q_num = int(int(num[0])/5)+1
                     v_num = int(num[0])%game_member_num
                     if i == 0:
@@ -1686,8 +1688,9 @@ async def on_message(ctx):
 
                     i += 1
 
-                embed = discord.Embed(title="クエスト履歴",description=sql)
-                await ctx.channel.send(embed=embed)
+                if flg = 1:
+                    embed = discord.Embed(title="クエスト履歴",description=sql)
+                    await ctx.channel.send(embed=embed)
 
         elif comment == 'lq':
             if game_status >= 2:
@@ -1730,10 +1733,12 @@ async def on_message(ctx):
                     i += 1
 
                 # print(game_info)
+                flg = 0
                 i = 0
                 for num in rows:
                     if num[0] == None:
                         break
+                    flag = 1
                     if game_info[i][0] == 0:
                         continue
                     q_num = int(int(num[0])/5)+1
@@ -1754,7 +1759,8 @@ async def on_message(ctx):
                     sql = f"{sql}{sql_member}"
                     i += 1
 
-                embed = discord.Embed(title="クエスト履歴",description=sql)
-                await ctx.channel.send(embed=embed)
+                if flg = 1:
+                    embed = discord.Embed(title="クエスト履歴",description=sql)
+                    await ctx.channel.send(embed=embed)
 
 client.run(TOKEN)
