@@ -956,7 +956,7 @@ async def on_message(ctx):
 
                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                 value (%s, %s)"
-                value = (f"'{ctx.author.display_name}'", 'cmd')
+                value = (f"'{ctx.author.display_name}'", f"'{cmd}'")
                 db.execute(sql, value)
             elif comment == 'stop' or comment == 'て':
                 await msgch.send("stopコマンドのため、ゲーム途中ですが、ゲームを停止します。")
@@ -1581,7 +1581,7 @@ async def on_message(ctx):
 
                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                 value (%s, %s)"
-                value = (f"'{ctx.author.display_name}'", 'cmd')
+                value = (f"'{ctx.author.display_name}'", f"'{cmd}'")
                 db.execute(sql, value)
 
             # kill : 暗殺
