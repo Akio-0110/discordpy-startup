@@ -61,6 +61,7 @@ avalon_role = [
 [26, None, None, None],
 [27, None, None, None],
 [28, None, None, None],
+[29, None, None, None],
 [30, 'シャロット姫', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nシャロット姫は役職に関係なく赤陣営全員を知っています。\n暗殺されると勝利となります。赤陣営のクエスト勝利時は敗北となります。\n※ローカル拡張役職です。'],
 [31, '漁夫王(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\n漁夫王はクエストが3回成功時に暗殺される人を予想して選択します。\n選択した人が暗殺された場合、勝利となります。\n※ローカル拡張役職です。'],
 [32, 'タークィン(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nタークィンは役職に関係なく赤陣営全員を知っています。\nクエストを失敗に導き、3回目の失敗時に選出されていた場合勝利となります。\n※ローカル拡張役職です。'],
@@ -700,7 +701,7 @@ async def on_message(ctx):
 
             # role number : 役職カスタマイズ
             elif comment == 'role' or comment == 'や':
-                for i in range(33):
+                for i in range(34):
                     if i == 0:
                         blue_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
                     elif i < 10:
