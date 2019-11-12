@@ -1688,7 +1688,7 @@ async def on_message(ctx):
 
                     i += 1
 
-                if flg == 1:
+                if flg == 0:
                     sql = 'まだ1回も選出されていません。'
                 embed = discord.Embed(title="クエスト履歴",description=sql)
                 await ctx.channel.send(embed=embed)
@@ -1760,7 +1760,7 @@ async def on_message(ctx):
                     sql = f"{sql}{sql_member}"
                     i += 1
 
-                if flg == 1:
+                if flg == 0:
                     sql = 'まだ1回も選出されていません。'
                 embed = discord.Embed(title="クエスト履歴",description=sql)
                 await ctx.channel.send(embed=embed)
