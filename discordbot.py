@@ -1897,6 +1897,7 @@ async def on_message(ctx):
                         break
                     flg = 1
                     if game_info[i][0] == 0:
+                        i += 1
                         continue
                     q_num = int(int(num[0])/5)+1
                     v_num = int(num[0])%game_member_num
