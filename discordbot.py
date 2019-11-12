@@ -1015,7 +1015,7 @@ async def on_message(ctx):
                                                 select_list[i] = int(k)-1
                                                 avalon_quest[select_list[i]] = 1
                                             else :
-                                                select_list.append(int(k))
+                                                select_list.append(int(k)-1)
                                                 avalon_quest[select_list[i]] = 1
                                             i = i + 1
 
@@ -1050,9 +1050,9 @@ async def on_message(ctx):
                                     for i in range(len(select_list)):
                                         if i != None:
                                             if i == 0:
-                                                user_name = f"{select_list[i]+1}:{avalon_user[select_list[i]-1][1]}"
+                                                user_name = f"{select_list[i]+1}:{avalon_user[select_list[i]][1]}"
                                             else:
-                                                user_name = f"{user_name}\n{select_list[i]+1}:{avalon_user[select_list[i]-1][1]}"
+                                                user_name = f"{user_name}\n{select_list[i]+1}:{avalon_user[select_list[i]][1]}"
 
                                     if vote_cnt != 5:
                                         embed = discord.Embed(title="選出メンバー",description=f"{user_name}")
@@ -1709,7 +1709,7 @@ async def on_message(ctx):
 
         elif comment == 'l':
             if game_status == 0:
-                sel = 'select * from `avalon_comment`'
+                sql = 'select * from `avalon_comment`'
                 db.execute(sql)
                 rows = db.fetchall()
                 flg = 0
