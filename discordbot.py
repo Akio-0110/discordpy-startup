@@ -1050,9 +1050,9 @@ async def on_message(ctx):
                                     for i in range(len(select_list)):
                                         if i != None:
                                             if i == 0:
-                                                user_name = f"{select_list[i]}:{avalon_user[select_list[i]-1][1]}"
+                                                user_name = f"{select_list[i]+1}:{avalon_user[select_list[i]-1][1]}"
                                             else:
-                                                user_name = f"{user_name}\n{select_list[i]}:{avalon_user[select_list[i]-1][1]}"
+                                                user_name = f"{user_name}\n{select_list[i]+1}:{avalon_user[select_list[i]-1][1]}"
 
                                     if vote_cnt != 5:
                                         embed = discord.Embed(title="選出メンバー",description=f"{user_name}")
@@ -1077,8 +1077,8 @@ async def on_message(ctx):
                                                 await msg.send(embed=embed)
                                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                     value (%s, %s)"
-                                    value = ('bot', f"'{ctx.author.display_name}が{quest_cnt}クエの{vote_cnt}回目の選出'")
-                                    db.execute(sql)
+                                    value = ('bot', f"{ctx.author.display_name}が{quest_cnt}クエの{vote_cnt}回目の選出")
+                                    db.execute(sql, value)
                                 else:
                                     await msgch.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
                         else:
@@ -1174,7 +1174,7 @@ async def on_message(ctx):
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                 value (%s, %s)"
                                 value = ('bot', f"'{quest_cnt}クエ、{vote_cnt}回目承認'")
-                                db.execute(sql)
+                                db.execute(sql, value)
 
                             # 却下
                             else:
@@ -1212,7 +1212,7 @@ async def on_message(ctx):
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                 value (%s, %s)"
                                 value = ('bot', f"'{quest_cnt}クエ、{vote_cnt-1}回目却下'")
-                                db.execute(sql)
+                                db.execute(sql, value)
 
 
             elif game_phase == 2: #成功失敗フェーズ
@@ -1390,7 +1390,7 @@ async def on_message(ctx):
                                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                     value (%s, %s)"
                                     value = ('bot', f"'{quest_cnt-1}クエ：成功'")
-                                    db.execute(sql)
+                                    db.execute(sql, value)
 
                                 elif quest_fail_cnt == 3:
                                     game_phase = 0
@@ -1424,7 +1424,7 @@ async def on_message(ctx):
                                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                     value (%s, %s)"
                                     value = ('bot', f"'{quest_cnt-1}クエ：失敗'")
-                                    db.execute(sql)
+                                    db.execute(sql, value)
                                 else:
                                     if game_otome == 1 and (quest_cnt >= 2 and quest_cnt <= 4):
                                         game_phase = 4
@@ -1446,7 +1446,7 @@ async def on_message(ctx):
                                             value = ('bot', f"'{quest_cnt-1}クエ：失敗：乙女開始'")
                                         else:
                                             value = ('bot', f"'{quest_cnt-1}クエ：成功：乙女開始'")
-                                        db.execute(sql)
+                                        db.execute(sql, value)
 
                                     else:
                                         game_phase = 0
@@ -1470,7 +1470,7 @@ async def on_message(ctx):
                                             value = ('bot', f"'{quest_cnt-1}クエ：失敗'")
                                         else:
                                             value = ('bot', f"'{quest_cnt-1}クエ：成功'")
-                                        db.execute(sql)
+                                        db.execute(sql, value)
 
             elif game_phase == 4: #乙女フェーズ
                 otome_select = [game_otome1, game_otome2, game_otome3]
@@ -1533,7 +1533,7 @@ async def on_message(ctx):
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                 value (%s, %s)"
                                 value = ('bot', f"'{quest_cnt-2}回目：乙女使用'")
-                                db.execute(sql)
+                                db.execute(sql, value)
                             else:
                                 if otome_check == 0:
                                     await msg.send(f"選択番号は1〜{game_member_num}にしてください")
