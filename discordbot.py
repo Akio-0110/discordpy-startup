@@ -464,6 +464,8 @@ async def on_message(ctx):
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon23)
                 elif game_phase == 4:
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon24)
+                elif game_phase == 5:
+                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon25)
             elif game_status == 3:
                 embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon3)
             await ctx.channel.send(embed=embed)
@@ -984,7 +986,7 @@ async def on_message(ctx):
             avalon_user.pop(0)
 
             avalon_quest = [0]*game_member_num
-            if game_phase != 0:
+            if game_phase != 0 and game_phase1 != 5:
                 sql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
                 db.execute(sql)
                 rows = db.fetchone()
