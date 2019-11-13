@@ -1422,7 +1422,7 @@ async def on_message(ctx):
                                                 sql = "暗殺者の方はマーリンを予想してください"
                                             sql = f"{sql}\n{k+1} : {avalon_user[k][1]}"
                                         await msg.send(sql)
-                                        embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方はマーリンを予想してください。")
+                                        embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方はマーリンを予想してください。\nコマンド例：１番のプレイヤを暗殺する場合\nk 1")
                                         await msgch.send(embed=embed, file=File(file))
                                     else:
                                         sql = f"update `avalon_data` set \
@@ -1500,8 +1500,9 @@ async def on_message(ctx):
                                         otome_select = [game_otome1, game_otome2, game_otome3]
                                         embed.add_field(name=f"第{quest_cnt}クエスト終了",value=f"{avalon_user[otome_select[quest_cnt-2]][1]}が乙女選出者中です。")
                                         await msgch.send(embed=embed, file=File(file))
+                                        msg = client.get_user(avalon_user[otome_select[quest_cnt-2]][2])
                                         sql = player_display(game_member_num, avalon_user, select_member)
-                                        embed = discord.Embed(title="乙女選出",description=f"現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\n{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:\ns/select/選出 番号です。")
+                                        embed = discord.Embed(title="乙女選出",description=f"現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\n{sql}\n乙女選出者は{avalon_user[otome_select[quest_cnt-2]][1]}です。\n選出例:1番のプレイヤーを暗殺する場合\ns 1")
                                         await msg.send(embed=embed)
                                         sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                         value (%s, %s)"
@@ -1793,6 +1794,7 @@ async def on_message(ctx):
 
             # kill : 暗殺
             elif comment[0:2] == 'k ' or comment[0:5] == 'kill ' or comment[0:3] == 'あ ':
+                kill_member = None
                 for i in range(game_member_num):
                     if avalon_user[i][3] == 12:
                         kill_member = i
@@ -2100,7 +2102,7 @@ async def on_message(ctx):
                         elif game_info[i][0] == 1:
                             sql = f"{sql}失敗：成功{game_info[i][1]},失敗{game_info[i][2]}"
                     sql = f"{sql}\n"
-                    sql_member = f"選出メンバー："
+                    sql_member = f"メンバー："
                     for k in range(game_member_num):
                         if int(num[1+k])%2 == 1:
                             sql_member = f"{sql_member}[{k+1}]{avalon_user[k][1]}"
