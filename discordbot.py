@@ -1626,7 +1626,9 @@ async def on_message(ctx):
                         else :
                             select_check = 0
                             select_num = int(select_member_match[0])-1
-                            if select_num >= 0 and select_num <= game_member_num-1:
+                            if select_num == beast_num:
+                                await msg.send("自分をオベロンにすることはできません。\nあなた以外を選択してください。")
+                            elif select_num >= 0 and select_num <= game_member_num-1:
                                 msg = client.get_user(avalon_user[select_num][2])
                                 await msg.send("あなたは選択されたため、オベロンになりました。\n1回目の通知の役職は無効となります。")
                                 if avalon_user[select_num][3] == 0:
