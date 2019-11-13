@@ -1324,14 +1324,14 @@ async def on_message(ctx):
                                     num = game_member[k]
                                     if k == 0:
                                         if avalon_quest[num] > 8 or avalon_user[num][2] == ctx.author.id:
-                                            vote_msg = f"投票完了:{game_member[k]}:{avalon_user[game_member[k]][1]}"
+                                            vote_msg = f"投票完了:{game_member[k]+1}:{avalon_user[game_member[k]][1]}"
                                         else:
-                                            vote_msg = f"投票未完:{game_member[k]}:{avalon_user[game_member[k]][1]}"
+                                            vote_msg = f"投票未完:{game_member[k]+1}:{avalon_user[game_member[k]][1]}"
                                     else:
                                         if avalon_quest[num] > 8 or avalon_user[num][2] == ctx.author.id:
-                                            vote_msg = f"{vote_msg}\n投票完了:{game_member[k]}:{avalon_user[game_member[k]][1]}"
+                                            vote_msg = f"{vote_msg}\n投票完了:{game_member[k]+1}:{avalon_user[game_member[k]][1]}"
                                         else:
-                                            vote_msg = f"{vote_msg}\n投票未完:{game_member[k]}:{avalon_user[game_member[k]][1]}"
+                                            vote_msg = f"{vote_msg}\n投票未完:{game_member[k]+1}:{avalon_user[game_member[k]][1]}"
 
                                 if command_accept == 16:
                                     await msg.send(f"成功へ上書きしました。")
