@@ -1658,7 +1658,7 @@ async def on_message(ctx):
                                     flg = 0
                                     for j in range(game_member_num):
                                         if (avalon_user[j][3] >= 11 and avalon_user[j][3] <= 16) or avalon_user[j][3] == 6:
-                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                            role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                             if avalon_user[j][3] == 6:
                                                 flg = 1
                                     role_info = f"{role_info}\nです。\nバレないようにクエスト勝利へ導いてください。"
@@ -1669,14 +1669,14 @@ async def on_message(ctx):
                                     role_info = 'マーリンとモルガナを確認することができます。\n'
                                     for j in range(game_member_num):
                                         if avalon_user[j][3] == 0 or avalon_user[j][3] == 11:
-                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                            role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                     role_info = f"{role_info}\nがマーリンとモルガナです。\n役職によって2人とは限りません。"
                                     await msg.send(f"{role_info}")
                                 elif avalon_user[i][3] == 2 : # ガラハッド
                                     role_info = f"パーシヴァルと暗殺者を確認することができます。\n"
                                     for j in range(game_member_num):
                                         if (avalon_user[j][3] == 1 or avalon_user[j][3] == 12):
-                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                            role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                     role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
                                     await msg.send(f"{role_info}")
                                 elif avalon_user[i][3] == 6 : # ガラハッド
@@ -1687,14 +1687,14 @@ async def on_message(ctx):
                                     role_info = '赤陣営は\n'
                                     for j in range(game_member_num):
                                         if (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 12):
-                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                            role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                     role_info = f"{role_info}\nです。"
                                     await msg.send(f"{role_info}")
                                 elif avalon_user[i][3] == 30: # 赤陣営
                                     role_info = '赤陣営は\n'
                                     for j in range(game_member_num):
                                         if (avalon_user[j][3] >= 10 and avalon_user[j][3] < 20):
-                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                            role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                     role_info = f"{role_info}\nです。勝利条件は暗殺されることです。"
                                     await msg.send(f"{role_info}")
 
