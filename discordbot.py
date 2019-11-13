@@ -1877,7 +1877,7 @@ async def on_message(ctx):
             elif game_status == 2:
                 if game_phase != 5:
                     sql = "クエスト情報："
-                    for i in range(game_member_num):
+                    for i in range(5):
                         if i+1 == quest_cnt:
                             sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
                         else:
