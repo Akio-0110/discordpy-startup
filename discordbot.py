@@ -2004,9 +2004,9 @@ async def on_message(ctx):
                         else:
                             sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
                     if game_info[i][0] == 2:
-                        sql = f"{sql}成功（成功{game_info[i][1]},失敗{game_info[i][2]}"
+                        sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
                     elif game_info[i][0] == 1:
-                        sql = f"{sql}失敗（成功{game_info[i][1]},失敗{game_info[i][2]}"
+                        sql = f"{sql}失敗：成功{game_info[i][1]},失敗{game_info[i][2]}"
                     for k in range(game_member_num):
                         if int(num[1+k]) >= 16:
                             s_cnt += 1
