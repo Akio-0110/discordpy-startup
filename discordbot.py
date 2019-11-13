@@ -1628,7 +1628,7 @@ async def on_message(ctx):
                             msg = client.get_user(avalon_user[select_num][2])
                             await msg.send("あなたは選択されたため、オベロンになりました。\n1回目の通知の役職は無効となります。")
                             if avalon_user[select_num][3] == 0:
-                                avalon_user[select_num][3] = 16
+                                avalon_user[select_num][3] = 14
                                 sql = f"update `avalon_user` set `role` = 16 where `id` = {select_num+1}"
                                 db.execute(sql)
                                 for i in range(game_member_num):
@@ -1643,7 +1643,7 @@ async def on_message(ctx):
                                         db.execute(sql)
 
                             else:
-                                avalon_user[select][3] = 16
+                                avalon_user[select][3] = 14
                                 sql = f"update `avalon_user` set `role` = 16 where `id` = {select_num+1}"
                                 db.execute(sql)
 
