@@ -949,10 +949,15 @@ async def on_message(ctx):
                     else:
                         for i in range(game_member_num):
                             msg = client.get_user(ary[i][2])
-                            if avalon_role[i][3] == 6 or avalon_role[i][3] == 30:
-                                await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。")
-                            else:
+                            if avalon_role[i][3] != 16:
                                 await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。", file=File(avalon_role[ary[i][3]][2]))
+                            else:
+                                role_info = '赤陣営は\n'
+                                for j in range(game_member_num):
+                                    if (ary[i][3] >= 10 and ary[i][3] <= 19) and ary[i][3] != 14:
+                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                role_info = f"{role_info}\nです。"
+                                await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。\n{role_info}", file=File(avalon_role[ary[i][3]][2]))
                         sql = player_display(game_member_num, ary, game_member_num+1)
                         embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"オベロンにしたいプレイヤーを選択(s 好きなプレイヤーの数字)してください。\n{sql}")
                         await msg.send(embed=embed)
