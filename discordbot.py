@@ -1722,7 +1722,6 @@ async def on_message(ctx):
                                 role.sort()
                                 sql = f"{game_member_num}人戦のクエスト："
                                 for i in range(5):
-                                    print(i)
                                     sql = f"{sql}\n{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
                                 embed = discord.Embed(title=f"ゲーム開始",description=sql)
                                 sql = "役職："
@@ -1736,6 +1735,9 @@ async def on_message(ctx):
                                 value (%s, %s)"
                                 value = ('bot', f"{quest_cnt}クエ、{vote_cnt}回目")
                                 db.execute(sql, value)
+                                game_phase = 0
+                                sql = f"update `avalon_data` set `game_phase`={game_phase} where id = 0"
+                                db.execute(sql)
                             else:
                                 await ctx.author.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
                     else:
