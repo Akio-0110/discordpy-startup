@@ -2077,7 +2077,8 @@ async def on_message(ctx):
                     # print(num)
                     if num[0] == None:
                         break
-                    flg = 1
+                    if num[0] != 0:
+                        flg = 1
                     if game_info[i][0] == 0:
                         i += 1
                         continue
