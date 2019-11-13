@@ -1643,7 +1643,7 @@ async def on_message(ctx):
                                         db.execute(sql)
 
                             else:
-                                avalon_user[select][3] = 14
+                                avalon_user[select_num][3] = 14
                                 sql = f"update `avalon_user` set `role` = 16 where `id` = {select_num+1}"
                                 db.execute(sql)
 
