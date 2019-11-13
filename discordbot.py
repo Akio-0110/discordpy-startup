@@ -946,7 +946,7 @@ async def on_message(ctx):
                                 await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。")
                             else:
                                 await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。", file=File(avalon_role[ary[i][3]][2]))
-                        sql = player_display(game_member_num, ary, select_member+1)
+                        sql = player_display(game_member_num, ary, game_member_num+1)
                         embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"オベロンにしたいプレイヤーを選択(s 好きなプレイヤーの数字)してください。\n{sql}")
                         await msg.send(embed=embed)
                         await msgch.send(f"{avalon_role[16][1]}がいるため、一時通知をしました。\nオベロン化するプレイヤーを選択後、最終通知を行います。")
@@ -1694,6 +1694,9 @@ async def on_message(ctx):
                                     role_info = f"{role_info}\nです。勝利条件は暗殺されることです。"
                                     await msg.send(f"{role_info}")
 
+                            role = [1]*game_member_num
+                            for i in range(game_member_num):
+                                role[i] = avalon_user[i][3]
                             role.sort()
                             sql = f"{game_member_num}人戦のクエスト："
                             for i in range(game_member_num):
