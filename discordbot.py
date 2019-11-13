@@ -1861,7 +1861,7 @@ async def on_message(ctx):
                             where id = 0"
                             db.execute(sql)
                         else:
-                            msg.send(f"暗殺メンバーは１〜{game_member_num}で選択してください。")
+                            await msg.send(f"暗殺メンバーは１〜{game_member_num}で選択してください。")
 
         # status : 状態表示
         if comment == '?' or comment == '？' or comment == 'じ':
