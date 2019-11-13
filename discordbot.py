@@ -1557,7 +1557,7 @@ async def on_message(ctx):
                                 if flg == 1:
                                     await msg.send(embed=embed, file=File(file))
                                 else:
-                                    await msg.send(embed=embed
+                                    await msg.send(embed=embed)
 
                                 game_phase = 0
                                 quest_cnt += 1
