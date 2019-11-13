@@ -2094,7 +2094,7 @@ async def on_message(ctx):
                     sql_member = f"選出メンバー："
                     for k in range(game_member_num):
                         if int(num[1+k])%2 == 1:
-                            sql_member = f"{sql_member}[{k+1}]{avalon_user[k][1]}"
+                            sql_member = f"{sql_member}\n[{k+1}]{avalon_user[k][1]}"
                     sql = f"{sql}{sql_member}"
                     i += 1
                     k += 1
