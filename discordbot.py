@@ -441,6 +441,7 @@ async def on_message(ctx):
             `name` varchar(255), \
             `user_id` bigint, \
             `role` int, \
+            `coming_out` varchar(20), \
             primary key (`id`) \
             )"
             db.execute(sql)
@@ -1033,6 +1034,7 @@ async def on_message(ctx):
                 `name` varchar(255), \
                 `user_id` bigint, \
                 `role` int, \
+                `comming_out` varchar(20), \
                 primary key (`id`) \
                 )"
                 db.execute(sql)
