@@ -607,7 +607,7 @@ async def on_message(ctx):
                     db.execute(sql)
                     user_id = db.fetchone()
                 else:
-                    await msgch.send(f"満室です。")
+                    await ctx.channel.send(f"満室です。")
 
             # deck number: デッキリスト
             elif comment[0:2] == 'd ' or comment[0:5] == 'deck ' or comment[0:2] == 'り ':
@@ -622,11 +622,9 @@ async def on_message(ctx):
                                 embed = discord.Embed(title=f"役職{i+1}",description=role[i])
                             else:
                                 embed.add_field(name=f"役職{i+1}",value=role[i])
-                        await msgch.send(embed=embed)
+                        await ctx.channel.send(embed=embed)
                     else:
-                        await msgch.send(f"現在このコマンドは無効です。：{comment}")
-                    # except :
-                    #     await msgch.send(f"xxx現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                 elif comment[0:5] == 'deck ':
                     deck_cmd = comment.lstrip("deck ")
                     try :
@@ -638,11 +636,11 @@ async def on_message(ctx):
                                     embed = discord.Embed(title=f"役職{i+1}",description=role[i])
                                 else:
                                     embed.add_field(name=f"役職{i+1}",value=role[i])
-                            await msgch.send(embed=embed)
+                            await ctx.channel.send(embed=embed)
                         else:
-                            await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                     except :
-                        await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                 elif comment[0:2] == 'り ':
                     deck_cmd = comment.lstrip("り ")
                     try :
@@ -654,11 +652,11 @@ async def on_message(ctx):
                                     embed = discord.Embed(title=f"役職{i+1}",description=role[i])
                                 else:
                                     embed.add_field(name=f"役職{i+1}",value=role[i])
-                            await msgch.send(embed=embed)
+                            await ctx.channel.send(embed=embed)
                         else:
-                            await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                     except :
-                        await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
             # deck set: デッキ設定
             elif comment[0:3] == 'ds ' or comment[0:8] == 'deckset ' or comment[0:2] == 'せ ':
@@ -672,12 +670,12 @@ async def on_message(ctx):
                             sql = f"update `avalon_data` set `game_role`={game_role} where id = 0"
                             await msgch.send(f"デッキを{game_role}に設定しました。")
                         else:
-                            await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                             sql = f"update `avalon_data` set `game_role`=1 where id = 0"
                             await msgch.send(f"デッキを1に設定しました。")
                         db.execute(sql)
                     except :
-                        await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                 elif comment[0:8] == 'deckset ':
                     deck_cmd = comment.lstrip("deckset ")
                     try :
@@ -687,12 +685,12 @@ async def on_message(ctx):
                             sql = f"update `avalon_data` set `game_role`={game_role} where id = 0"
                             await msgch.send(f"デッキを{game_role}に設定しました。")
                         else:
-                            await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                             sql = f"update `avalon_data` set `game_role`=0 where id = 0"
                             await msgch.send(f"デッキを0に設定しました。")
                         db.execute(sql)
                     except :
-                        await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                 elif comment[0:2] == 'せ ':
                     deck_cmd = comment.lstrip("せ ")
                     try :
@@ -702,12 +700,12 @@ async def on_message(ctx):
                             sql = f"update `avalon_data` set `game_role`={game_role} where id = 0"
                             await msgch.send(f"デッキを{game_role}に設定しました。")
                         else:
-                            await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                            await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
                             sql = f"update `avalon_data` set `game_role`=0 where id = 0"
                             await msgch.send(f"デッキを0に設定しました。")
                         db.execute(sql)
                     except :
-                        await msgch.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
 
             # role number : 役職カスタマイズ
             elif comment == 'role' or comment == 'や':
@@ -716,7 +714,6 @@ async def on_message(ctx):
                         blue_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
                     elif i < 10:
                         blue_role = f"{blue_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
-                        # await msgch.send(f"{avalon_role[i][0]}:青陣営：{avalon_role[i][1]}")
                     elif i == 10:
                         red_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
                     elif i >= 11 and i <=16:
@@ -729,7 +726,7 @@ async def on_message(ctx):
                 embed.add_field(name="赤陣営",value=red_role)
                 embed.add_field(name="その他",value=other_role)
                 embed.add_field(name="コマンド例",value="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\nrole 0,1,2,11,12\n入室人数に合わせて設定が必要してください。")
-                await msgch.send(embed=embed)
+                await ctx.channel.send(embed=embed)
 
             # role number : 役職カスタマイズ
             elif comment[0:5] == 'role ' or comment[0:2] == 'や ':
@@ -805,7 +802,6 @@ async def on_message(ctx):
 
             # start game : ゲームを開始する
             elif comment == 's' or comment == 'start' or comment == '開始':
-                #await msgch.send(f"game_status = {game_status}, command = {comment}")
                 if game_member_num > 4:
                     sql = f"update `avalon_data` set `game_status`=2 where id = 0"
                     db.execute(sql)
@@ -859,11 +855,7 @@ async def on_message(ctx):
                     random.shuffle(role)
                     for i in range(game_member_num) :
                         ary[i][3] = role[i]
-                    # await msgch.send(ary)
                     random.shuffle(ary)
-                    # await msgch.send("シャッフル")
-
-                    # await msgch.send(ary)
                     beast = 0
                     for i in range(game_member_num) :
                         num = i + 1
@@ -978,7 +970,7 @@ async def on_message(ctx):
                     db.execute(sql)
 
                 else :
-                    await msgch.send(f"現在このコマンドは無効です。：{comment}\
+                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}\
                     \n現在の入室人数は{game_member_num}人です。\
                     \nあと{5-game_member_num}以上入室してからsコマンドを実行してください。")
 
@@ -1062,7 +1054,7 @@ async def on_message(ctx):
                         # 重複チェック
                         if len(select_member_match) == len(set(select_member_match)):
                             if len(select_member_match) != quest_member_num[game_member_num][quest_cnt-1][0]:
-                                await msgch.send(f"現在このコマンドは無効です。：{comment}\
+                                await ctx.channel.send(f"現在このコマンドは無効です。：{comment}\
                                 \n選出人数は{quest_member_num[game_member_num][quest_cnt-1][0]}人です。")
                             else :
                                 select_list = [0,1]
@@ -1142,11 +1134,11 @@ async def on_message(ctx):
                                     value = ('bot', f"{ctx.author.display_name}が{quest_cnt}クエの{vote_cnt}回目の選出")
                                     db.execute(sql, value)
                                 else:
-                                    await msgch.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
+                                    await ctx.channel.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
                         else:
-                            await msgch.send(f"重複しないメンバー選出をお願いします。：{comment}")
+                            await ctx.channel.send(f"重複しないメンバー選出をお願いします。：{comment}")
                     else:
-                        await msgch.send(f"あなたは選出リーダではありません。")
+                        await ctx.channel.send(f"あなたは選出リーダではありません。")
 
             elif game_phase == 1: #承認却下フェーズ
                 command_accept = 0
@@ -1189,7 +1181,7 @@ async def on_message(ctx):
                                 avalon_quest[i] = avalon_quest[i]%2 + command_accept
                                 if command_accept == 2:
                                     await msg.send(f"却下へ上書きしました。")
-                                    await msgch.send(f"{ctx.author.display_name}上書きしました。")
+                                    await msgch.send(f"{ctx.author.display_name}が上書きしました。")
                                 else:
                                     await msg.send(f"承認へ上書きしました。")
                                     await msgch.send(f"{ctx.author.display_name}が上書きしました。")
@@ -1335,10 +1327,10 @@ async def on_message(ctx):
 
                                 if command_accept == 16:
                                     await msg.send(f"成功へ上書きしました。")
-                                    await msgch.send(f"{ctx.author.display_name}上書きしました。")
+                                    await msgch.send(f"{ctx.author.display_name}が上書きしました。")
                                 else:
                                     await msg.send(f"失敗へ上書きしました。")
-                                    await msgch.send(f"{ctx.author.display_name}上書きしました。")
+                                    await msgch.send(f"{ctx.author.display_name}が上書きしました。")
 
                             db.execute(sql)
                             # break
@@ -1552,7 +1544,6 @@ async def on_message(ctx):
                             # print(otome_member)
                             # print(otome_select[otome_member])
                             # print(avalon_user[otome_select[otome_member]][2])
-                            msg = client.get_user(avalon_user[otome_member][2])
                             for i in range(quest_cnt-1):
                                 # print(otome_select[i])
                                 if otome_select[i] == None:
@@ -1563,6 +1554,8 @@ async def on_message(ctx):
 
                             flg=0
                             if otome_check == 0 and otome_num >= 0 and otome_num < game_member_num:
+                                msg = client.get_user(avalon_user[otome_num][2])
+                                await msg.send("あなたに乙女が使用されました。")
                                 if avalon_user[otome_num][3] < 10 or avalon_user[otome_num][3] == 30:
                                     otome_msg = f"{avalon_user[otome_num][1]}は青陣営です"
                                     file="./image/忠誠カード青.jpeg"
@@ -1579,9 +1572,9 @@ async def on_message(ctx):
                                     flg = 0
                                 embed = discord.Embed(title="乙女結果",description=otome_msg)
                                 if flg == 1:
-                                    await msg.send(embed=embed, file=File(file))
+                                    await ctx.author.send(embed=embed, file=File(file))
                                 else:
-                                    await msg.send(embed=embed)
+                                    await ctx.author.send(embed=embed)
 
                                 game_phase = 0
                                 quest_cnt += 1
@@ -1612,14 +1605,14 @@ async def on_message(ctx):
                                 db.execute(sql, value)
                             else:
                                 if otome_check == 0:
-                                    await msg.send(f"選択番号は1〜{game_member_num}にしてください")
+                                    await ctx.author.send(f"選択番号は1〜{game_member_num}にしてください")
                                 else:
                                     if otome_member == otome_num:
-                                        await msg.send(f"乙女選出者(自分)は選出できません。")
+                                        await ctx.author.send(f"乙女選出者(自分)は選出できません。")
                                     else:
-                                        await msg.send(f"乙女使用者は選出できません。")
+                                        await ctx.author.send(f"乙女使用者は選出できません。")
                     else:
-                        await msgch.send(f"あなた({ctx.author.display_name})は乙女の選出者ではありません。")
+                        await ctx.channel.send(f"あなたは乙女の選出者ではありません。")
 
             elif game_phase == 5: #ビースト能力(オベロン化)フェーズ
                 # select : 選択
@@ -1639,20 +1632,20 @@ async def on_message(ctx):
                             select_check = 0
                             select_num = int(select_member_match[0])-1
                             if select_num == beast_num:
-                                await msg.send("自分をオベロンにすることはできません。\nあなた以外を選択してください。")
+                                await ctx.author.send("自分をオベロンにすることはできません。\nあなた以外を選択してください。")
                             elif select_num >= 0 and select_num <= game_member_num-1:
                                 msg = client.get_user(avalon_user[select_num][2])
-                                await msg.send("あなたは選択されたため、オベロンになりました。\n1回目の通知の役職は無効となります。")
+                                await msg.send("あなたは選択されたため、オベロンになりました。\n1回目の通知の役職は無効となります。", file = File(avalon_role[14][2]))
                                 if avalon_user[select_num][3] == 0:
                                     avalon_user[select_num][3] = 14
-                                    sql = f"update `avalon_user` set `role` = 16 where `id` = {select_num+1}"
+                                    sql = f"update `avalon_user` set `role` = 14 where `id` = {select_num+1}"
                                     db.execute(sql)
                                     for i in range(game_member_num):
                                         if avalon_user[i][3] != 1:
                                             continue
                                         else:
                                             msg = client.get_user(avalon_user[i][2])
-                                            await msg.send("マーリンがオベロンになってしまいました。\nよってあなたがマーリンに昇格します。\n1回目の通知の役職は無効となります。")
+                                            await msg.send("マーリンがオベロンになってしまいました。\nよってあなたがマーリンに昇格します。\n1回目の通知の役職は無効となります。", file = File(avalon_role[0][2]))
                                             avalon_user[i][3] = 0
 
                                             sql = f"update `avalon_user` set `role` = 0 where `id` = {i+1}"
@@ -1660,15 +1653,12 @@ async def on_message(ctx):
 
                                 else:
                                     avalon_user[select_num][3] = 14
-                                    sql = f"update `avalon_user` set `role` = 16 where `id` = {select_num+1}"
+                                    sql = f"update `avalon_user` set `role` = 14 where `id` = {select_num+1}"
                                     db.execute(sql)
 
                                 for i in range(game_member_num):
                                     msg = client.get_user(avalon_user[i][2])
-                                    if avalon_role[i][3] == 6 or avalon_role[i][3] == 30:
-                                        await msg.send(f"あなたの役職は{avalon_role[avalon_user[i][3]][1]}です。")
-                                    else:
-                                        await msg.send(f"あなたの役職は{avalon_role[avalon_user[i][3]][1]}です。", file=File(avalon_role[avalon_user[i][3]][2]))
+                                    await msg.send(f"あなたの最終役職は{avalon_role[avalon_user[i][3]][1]}です。")
                                     if avalon_user[i][3] == 0 : # マーリン
                                         role_info = '赤陣営は\n'
                                         flg = 0
@@ -1876,7 +1866,7 @@ async def on_message(ctx):
                 \n５人以上の入室(in)と役職(d,ds,role)を選択して、\
                 開始コマンド(s)を実行してください。"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
-                await msgch.send(embed=embed)
+                await ctx.channel.send(embed=embed)
             elif game_status == 2:
                 if game_phase != 5:
                     sql = "クエスト情報："
@@ -1905,11 +1895,11 @@ async def on_message(ctx):
                 elif game_phase == 5:
                     sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
                     embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nオベロンにするプレイヤーを選択中です。")
-                await msgch.send(embed=embed)
+                await ctx.channel.send(embed=embed)
             elif game_status == 3:
                 sql = f"{sql}暗殺フェーズです。"
                 embed = discord.Embed(title=f"現在の状況",description=f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}")
-                await msgch.send(embed=embed)
+                await ctx.channel.send(embed=embed)
 
         # instruction : 説明書
         elif comment == 'i' or comment == 'instruction':
