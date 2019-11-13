@@ -2003,7 +2003,7 @@ async def on_message(ctx):
                             sql = f"{q_num}クエ、{v_num}回目 : "
                         else:
                             sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
-                    if game_info[i][1]+game_info[i][2] == quest_member_num[game_member_num][i][1]:
+                    if game_info[i][1]+game_info[i][2] == quest_member_num[game_member_num][i][0]:
                         if game_info[i][0] == 2:
                             sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
                         elif game_info[i][0] == 1:
@@ -2094,7 +2094,7 @@ async def on_message(ctx):
                         sql = f"{q_num}クエ: "
                     else:
                         sql = f"{sql}\n{q_num}クエ: "
-                    if game_info[i][1]+game_info[i][2] == quest_member_num[game_member_num][i][1]:
+                    if game_info[i][1]+game_info[i][2] == quest_member_num[game_member_num][i][0]:
                         if game_info[i][0] == 2:
                             sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
                         elif game_info[i][0] == 1:
