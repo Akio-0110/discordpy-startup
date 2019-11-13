@@ -938,9 +938,10 @@ async def on_message(ctx):
                         sql = "役職："
                         for i in range(game_member_num):
                             sql = f"{sql}\n{avalon_role[role[i]][1]}"
+
                         embed.add_field(name=f"役職",value=sql)
-                        sql = player_display(game_member_num, ary, select_member)
-                        embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{ary[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
+                        sql = f"{現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください}\n{player_display(game_member_num, avalon_user, select_member)}"
+                        embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=sql)
                         await msgch.send(embed=embed)
                     else:
                         for i in range(game_member_num):
@@ -1710,8 +1711,8 @@ async def on_message(ctx):
                             for i in range(game_member_num):
                                 sql = f"{sql}\n{avalon_role[role[i]][1]}"
                             embed.add_field(name=f"役職",value=sql)
-                            sql = player_display(game_member_num, avalon_user, select_member)
-                            embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
+                            sql = f"{現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください}\n{player_display(game_member_num, avalon_user, select_member)}"
+                            embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=sql)
                             await msgch.send(embed=embed)
                             sql = f"insert into `avalon_comment` (`user`, `comment`) \
                             value (%s, %s)"
