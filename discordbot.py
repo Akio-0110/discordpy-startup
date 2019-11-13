@@ -48,7 +48,7 @@ avalon_role = [
 [13, 'モードレッドの手下', './image/モードレッドの手下１.jpeg', '陣営：赤陣営\nモードレッドの手下は何も能力を持っていません。'],
 [14, 'オベロン', './image/オベロン.jpeg', '陣営：赤陣営\nオベロンは仲間の赤陣営を知りません。'],
 [15, 'アグラヴェイン(未対応)', './image/アグラヴェイン.jpeg', '陣営：赤陣営\nアグラヴェインはマーリンに赤陣営と知られません。\nまた赤陣営のプレイヤーを知っていますが、他の赤陣営には知られません。\n2回成功するまで失敗を出すことができません。\n※ローカル拡張役職です。'],
-[16, 'クエスティングビースト(未対応)', './image/クエスティングビースト.jpeg', '陣営：赤陣営\nクエスティングビーストはゲーム開始時に1人のプレイヤーを選択し、オベロンにすることができます。\nこの時に選んだプレイヤーの役職を知ることができます。選ばれたプレイヤーの役職は失われるが、マーリンだった場合に限り、パーシヴァルがマーリンとなります。\nまたガラハッドからパーシヴァルと一緒に知られます。\n※ローカル拡張役職です。'],
+[16, 'クエスティングビースト', './image/クエスティングビースト.jpeg', '陣営：赤陣営\nクエスティングビーストはゲーム開始時に1人のプレイヤーを選択し、オベロンにすることができます。\nこの時に選んだプレイヤーの役職を知ることができます。選ばれたプレイヤーの役職は失われるが、マーリンだった場合に限り、パーシヴァルがマーリンとなります。\nまたガラハッドからパーシヴァルと一緒に知られます。\n※ローカル拡張役職です。'],
 [17, None, None, None],
 [18, None, None, None],
 [19, None, None, None],
@@ -155,6 +155,7 @@ quest_member_num = [
 # 停止状態 : make -> ゲーム開始待ち
 usage_avalon0 ="""
 h/help:ヘルプ（コマンド一覧）
+l:隠しコメントを表示(プレイ終了後)
 m/make:作成
 """
 # ゲーム開始待ち : start -> ゲーム開始
@@ -205,6 +206,12 @@ h/help:ヘルプ（コマンド一覧）
 s/survey 番号:調査
 l:クエスト履歴(選出情報＋クエ結果)
 lq:クエスト結果履歴(クエ結果)
+?:現在の状態
+stop:ゲーム停止
+"""
+usage_avalon25="""
+h/help:ヘルプ（コマンド一覧）
+s/select 番号:選択
 ?:現在の状態
 stop:ゲーム停止
 """
@@ -854,7 +861,7 @@ async def on_message(ctx):
                     # await msgch.send("シャッフル")
 
                     # await msgch.send(ary)
-
+                    beast = 0
                     for i in range(game_member_num) :
                         num = i + 1
                         sql = f"update `avalon_user` set \
@@ -864,80 +871,93 @@ async def on_message(ctx):
                         where id = {i+1}"
                         # print(sql)
                         db.execute(sql)
+                        if ary[i][3] == 16:
+                            beast = 1
+                            msg = client.get_user(ary[i][2])
 
-                    for i in range(game_member_num):
-                        msg = client.get_user(ary[i][2])
-                        if avalon_role[i][3] == 6 or avalon_role[i][3] == 30:
-                            await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。")
-                        else:
-                            await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。", file=File(avalon_role[ary[i][3]][2]))
-                        if ary[i][3] == 0 : # マーリン
-                            role_info = '赤陣営は\n'
-                            flg = 0
-                            for j in range(game_member_num):
-                                if (ary[j][3] >= 11 and ary[j][3] <= 16) or ary[j][3] == 6:
-                                    role_info = f"{role_info}\n{ary[j][1]}"
-                                    if ary[j][3] == 6:
-                                        flg = 1
-                            role_info = f"{role_info}\nです。\nバレないようにクエスト勝利へ導いてください。"
-                            if flg == 1:
-                                role_info = f"{role_info}\nカラドックは赤陣営として通知されます。※ローカル拡張役職です。"
-                            await msg.send(f"{role_info}")
-                        elif ary[i][3] == 1 : # パーシヴァル
-                            role_info = 'マーリンとモルガナを確認することができます。\n'
-                            for j in range(game_member_num):
-                                if ary[j][3] == 0 or ary[j][3] == 11:
-                                    role_info = f"{role_info}\n{ary[j][1]}"
-                            role_info = f"{role_info}\nがマーリンとモルガナです。\n役職によって2人とは限りません。"
-                            await msg.send(f"{role_info}")
-                        elif ary[i][3] == 2 : # ガラハッド
-                            role_info = f"パーシヴァルと暗殺者を確認することができます。\n"
-                            for j in range(game_member_num):
-                                if (ary[j][3] == 1 or ary[j][3] == 12):
-                                    role_info = f"{role_info}\n{ary[j][1]}"
-                            role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
-                            await msg.send(f"{role_info}")
-                        elif ary[i][3] == 6 : # ガラハッド
+                    if beast == 0:
+                        for i in range(game_member_num):
+                            msg = client.get_user(ary[i][2])
+                            if avalon_role[i][3] == 6 or avalon_role[i][3] == 30:
+                                await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。")
+                            else:
+                                await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。", file=File(avalon_role[ary[i][3]][2]))
+                            if ary[i][3] == 0 : # マーリン
+                                role_info = '赤陣営は\n'
+                                flg = 0
+                                for j in range(game_member_num):
+                                    if (ary[j][3] >= 11 and ary[j][3] <= 16) or ary[j][3] == 6:
+                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                        if ary[j][3] == 6:
+                                            flg = 1
+                                role_info = f"{role_info}\nです。\nバレないようにクエスト勝利へ導いてください。"
+                                if flg == 1:
+                                    role_info = f"{role_info}\nカラドックは赤陣営として通知されます。※ローカル拡張役職です。"
+                                await msg.send(f"{role_info}")
+                            elif ary[i][3] == 1 : # パーシヴァル
+                                role_info = 'マーリンとモルガナを確認することができます。\n'
+                                for j in range(game_member_num):
+                                    if ary[j][3] == 0 or ary[j][3] == 11:
+                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                role_info = f"{role_info}\nがマーリンとモルガナです。\n役職によって2人とは限りません。"
+                                await msg.send(f"{role_info}")
+                            elif ary[i][3] == 2 : # ガラハッド
+                                role_info = f"パーシヴァルと暗殺者を確認することができます。\n"
+                                for j in range(game_member_num):
+                                    if (ary[j][3] == 1 or ary[j][3] == 12):
+                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
+                                await msg.send(f"{role_info}")
+                            elif ary[i][3] == 6 : # ガラハッド
 
-                            role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
-                            await msg.send(f"{role_info}")
-                        elif ary[i][3] >= 10 and ary[i][3] <= 12 : # 赤陣営
-                            role_info = '赤陣営は\n'
-                            for j in range(game_member_num):
-                                if (ary[j][3] >= 10 and ary[j][3] <= 12):
-                                    role_info = f"{role_info}\n{ary[j][1]}"
-                            role_info = f"{role_info}\nです。"
-                            await msg.send(f"{role_info}")
-                        elif ary[i][3] == 30: # 赤陣営
-                            role_info = '赤陣営は\n'
-                            for j in range(game_member_num):
-                                if (ary[j][3] >= 10 and ary[j][3] < 20):
-                                    role_info = f"{role_info}\n{ary[j][1]}"
-                            role_info = f"{role_info}\nです。勝利条件は暗殺されることです。"
-                            await msg.send(f"{role_info}")
+                                role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
+                                await msg.send(f"{role_info}")
+                            elif ary[i][3] >= 10 and ary[i][3] <= 12 : # 赤陣営
+                                role_info = '赤陣営は\n'
+                                for j in range(game_member_num):
+                                    if (ary[j][3] >= 10 and ary[j][3] <= 12):
+                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                role_info = f"{role_info}\nです。"
+                                await msg.send(f"{role_info}")
+                            elif ary[i][3] == 30: # 赤陣営
+                                role_info = '赤陣営は\n'
+                                for j in range(game_member_num):
+                                    if (ary[j][3] >= 10 and ary[j][3] < 20):
+                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                role_info = f"{role_info}\nです。勝利条件は暗殺されることです。"
+                                await msg.send(f"{role_info}")
 
-                        # await msg.send(f"あなたの役職は{avalon_role[role[i]][1]}です。\n{file:{attachment:{avalon_role[i][2]}}}")
-                    role.sort()
-                    sql = f"{game_member_num}人戦のクエスト："
-                    for i in range(game_member_num):
-                        sql = f"{sql}\n{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                    embed = discord.Embed(title=f"ゲーム開始",description=sql)
-                    sql = "役職："
-                    for i in range(game_member_num):
-                        sql = f"{sql}\n{avalon_role[role[i]][1]}"
-                    embed.add_field(name=f"役職",value=sql)
-                    sql = player_display(game_member_num, ary, select_member)
-                    embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{ary[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
-                    await msgch.send(embed=embed)
+                        role.sort()
+                        sql = f"{game_member_num}人戦のクエスト："
+                        for i in range(game_member_num):
+                            sql = f"{sql}\n{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                        embed = discord.Embed(title=f"ゲーム開始",description=sql)
+                        sql = "役職："
+                        for i in range(game_member_num):
+                            sql = f"{sql}\n{avalon_role[role[i]][1]}"
+                        embed.add_field(name=f"役職",value=sql)
+                        sql = player_display(game_member_num, ary, select_member)
+                        embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{ary[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
+                        await msgch.send(embed=embed)
+                    else:
+                        sql = player_display(game_member_num, ary, select_member+1)
+                        embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"オベロンにしたいプレイヤーを選択(s 好きなプレイヤーの数字)してください。\n{sql}")
+                        await msg.send(embed=embed)
+                        await msgch.send(f"{avalon_role[16][1]}がいるため、一時通知をしました。\nオベロン化するプレイヤーを選択後、最終通知を行います。")
+                        game_phase = 5
+                        sql = f"update `avalon_data` set `game_phase`={game_phase} where id = 0"
+                        db.execute(sql)
+                        sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                        value (%s, %s)"
+                        value = ('bot', f"{avalon_role[16][1]}能力フェーズ")
+                        db.execute(sql, value)
 
                     # テーブル作成
                     sql = "create table `avalon_quest` ( `id` int,"
                     for i in range(game_member_num):
                         sql = f"{sql} `member{i+1}` int,"
                     sql = f"{sql} primary key (`id`) )"
-                    # print(sql)
                     db.execute(sql)
-
 
                 else :
                     await msgch.send(f"現在このコマンドは無効です。：{comment}\
@@ -955,33 +975,14 @@ async def on_message(ctx):
                 avalon_user.append([0, rows[1], rows[2], rows[3], rows[4]])
             avalon_user.pop(0)
             avalon_user.pop(0)
-            # print(avalon_user)
 
             avalon_quest = [0]*game_member_num
             if game_phase != 0:
                 sql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
                 db.execute(sql)
                 rows = db.fetchone()
-                # print(avalon_quest)
-                # print(rows)
                 for i in range(game_member_num):
-                    # print(rows[i+1])
                     avalon_quest[i] = int(rows[i+1])
-            # user_ary = [[1, 'name1', 1, 1], [2, 'name2', 2, 2]]
-            # for i in range(game_member_num) :
-            #     sql = f"select * from `avalon_user` where id = {i+1}"
-            #     #print(sql)
-            #     db.execute(sql)
-            #     rows = db.fetchone()
-            #     #print(rows)
-            #     for j in rows :
-            #         #print(j)
-            #         user_ary.append([rows[0], rows[1], rows[2], rows[3]])
-            #         break
-            #
-            # user_ary.pop(0)
-            # user_ary.pop(0)
-            # # print(user_ary)
 
             if comment[0:2] == 'n ' or comment[0:5] == 'note ' or comment[0:2] == 'の ':
                 if comment[0:2] == 'n ':
@@ -1597,6 +1598,117 @@ async def on_message(ctx):
                     else:
                         await msgch.send(f"あなた({ctx.author.display_name})は乙女の選出者ではありません。")
 
+            elif game_phase == 5: #ビースト能力(オベロン化)フェーズ
+                # select : 選択
+                for i in range(game_member_num) :
+                    if avalon_user[i][3] == 16:
+                        beast_num = i
+                        msg = client.get_user(avalon_user[i][2])
+
+                if comment[0:2] == 's ' or comment[0:7] == 'select ' or comment[0:3] == 'せ ':
+                    if ctx.author.id == avalon_user[avalon_user[beast_num][2]]:
+                        select_member_com = re.compile('\d+')
+                        select_member_match = select_member_com.findall(comment)
+                        # 重複チェック
+                        if len(select_member_match) != 1:
+                            await ctx.author.send(f"選択人数は1人です：{comment}")
+                        else :
+                            select_check = 0
+                            select_num = int(select_member_match[0])-1
+                            msg = client.get_user(avalon_user[select_num][2])
+                            await msg.send("あなたは選択されたため、オベロンになりました。\n1回目の通知の役職は無効となります。")
+                            if avalon_user[select_num][3] == 0:
+                                avalon_user[select][3] = 16
+                                sql = f"update `avalon_user` set `role` = 16 where `id` = {select_num+1}"
+                                db.execute(sql)
+                                for i in range(game_member_num):
+                                    if avalon_user[i][3] != 1:
+                                        continue
+                                    else:
+                                        msg = client.get_user(avalon_user[i][2])
+                                        await msg.send("マーリンがオベロンになってしまいました。\nよってあなたがマーリンに昇格します。\n1回目の通知の役職は無効となります。")
+                                        avalon_user[i][3] = 0
+
+                                        sql = f"update `avalon_user` set `role` = 0 where `id` = {i+1}"
+                                        db.execute(sql)
+
+                            else:
+                                avalon_user[select][3] = 16
+                                sql = f"update `avalon_user` set `role` = 16 where `id` = {select_num+1}"
+                                db.execute(sql)
+
+                            for i in range(game_member_num):
+                                msg = client.get_user(avalon_user[i][2])
+                                if avalon_role[i][3] == 6 or avalon_role[i][3] == 30:
+                                    await msg.send(f"あなたの役職は{avalon_role[avalon_user[i][3]][1]}です。")
+                                else:
+                                    await msg.send(f"あなたの役職は{avalon_role[avalon_user[i][3]][1]}です。", file=File(avalon_role[avalon_user[i][3]][2]))
+                                if avalon_user[i][3] == 0 : # マーリン
+                                    role_info = '赤陣営は\n'
+                                    flg = 0
+                                    for j in range(game_member_num):
+                                        if (avalon_user[j][3] >= 11 and avalon_user[j][3] <= 16) or avalon_user[j][3] == 6:
+                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                            if avalon_user[j][3] == 6:
+                                                flg = 1
+                                    role_info = f"{role_info}\nです。\nバレないようにクエスト勝利へ導いてください。"
+                                    if flg == 1:
+                                        role_info = f"{role_info}\nカラドックは赤陣営として通知されます。※ローカル拡張役職です。"
+                                    await msg.send(f"{role_info}")
+                                elif avalon_user[i][3] == 1 : # パーシヴァル
+                                    role_info = 'マーリンとモルガナを確認することができます。\n'
+                                    for j in range(game_member_num):
+                                        if avalon_user[j][3] == 0 or avalon_user[j][3] == 11:
+                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                    role_info = f"{role_info}\nがマーリンとモルガナです。\n役職によって2人とは限りません。"
+                                    await msg.send(f"{role_info}")
+                                elif avalon_user[i][3] == 2 : # ガラハッド
+                                    role_info = f"パーシヴァルと暗殺者を確認することができます。\n"
+                                    for j in range(game_member_num):
+                                        if (avalon_user[j][3] == 1 or avalon_user[j][3] == 12):
+                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                    role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
+                                    await msg.send(f"{role_info}")
+                                elif avalon_user[i][3] == 6 : # ガラハッド
+
+                                    role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
+                                    await msg.send(f"{role_info}")
+                                elif avalon_user[i][3] >= 10 and avalon_user[i][3] <= 12 : # 赤陣営
+                                    role_info = '赤陣営は\n'
+                                    for j in range(game_member_num):
+                                        if (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 12):
+                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                    role_info = f"{role_info}\nです。"
+                                    await msg.send(f"{role_info}")
+                                elif avalon_user[i][3] == 30: # 赤陣営
+                                    role_info = '赤陣営は\n'
+                                    for j in range(game_member_num):
+                                        if (avalon_user[j][3] >= 10 and avalon_user[j][3] < 20):
+                                            role_info = f"{role_info}\n{avalon_user[j][1]}"
+                                    role_info = f"{role_info}\nです。勝利条件は暗殺されることです。"
+                                    await msg.send(f"{role_info}")
+
+                            role.sort()
+                            sql = f"{game_member_num}人戦のクエスト："
+                            for i in range(game_member_num):
+                                sql = f"{sql}\n{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                            embed = discord.Embed(title=f"ゲーム開始",description=sql)
+                            sql = "役職："
+                            for i in range(game_member_num):
+                                sql = f"{sql}\n{avalon_role[role[i]][1]}"
+                            embed.add_field(name=f"役職",value=sql)
+                            sql = player_display(game_member_num, avalon_user, select_member)
+                            embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
+                            await msgch.send(embed=embed)
+                            sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                            value (%s, %s)"
+                            value = ('bot', f"{quest_cnt}クエ、{vote_cnt}回目")
+                            db.execute(sql, value)
+
+                    else:
+                        await ctx.author.send(f"あなたは{avalon_role[16][1]}ではありません。")
+
+
             if comment[0:2] == 'c ' or comment == 'c':
                 if comment[0:2] == 'c ':
                     cmd = comment.lstrip("c ")
@@ -1744,6 +1856,9 @@ async def on_message(ctx):
                 elif game_phase == 4:
                     sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の乙女選出中:",description=sql)
+                elif game_phase == 5:
+                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
+                    embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nオベロンにするプレイヤーを選択中です。")
                 await msgch.send(embed=embed)
             elif game_status == 3:
                 sql = f"{sql}暗殺フェーズです。"
