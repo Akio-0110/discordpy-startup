@@ -1608,7 +1608,7 @@ async def on_message(ctx):
                                 await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed)
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                 value (%s, %s)"
-                                value = ('bot', f"{quest_cnt-2}回目：乙女使用")
+                                value = ('bot', f"{quest_cnt-2}回目：乙女使用\n")
                                 db.execute(sql, value)
                             else:
                                 if otome_check == 0:
@@ -1805,6 +1805,7 @@ async def on_message(ctx):
                         if avalon_user[i][3] == 16:
                             kill_member = i
                             break
+
                 if kill_member == None:
                     for i in range(game_member_num):
                         if avalon_user[i][3] == 11:
