@@ -1797,7 +1797,12 @@ async def on_message(ctx):
 
                 if kill_member == None:
                     for i in range(game_member_num):
-                        if avalon_user[i][3] == 10:
+                        if avalon_user[i][3] == 16:
+                            kill_member = i
+                            break
+                if kill_member == None:
+                    for i in range(game_member_num):
+                        if avalon_user[i][3] == 11:
                             kill_member = i
                             break
 
