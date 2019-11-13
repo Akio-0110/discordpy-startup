@@ -1872,12 +1872,13 @@ async def on_message(ctx):
                 embed = discord.Embed(title=f"現在の状況",description=sql)
                 await msgch.send(embed=embed)
             elif game_status == 2:
-                sql = "クエスト情報："
-                for i in range(game_member_num):
-                    if i+1 == quest_cnt:
-                        sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                    else:
-                        sql = f"{sql}\n□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                if game_phase != 5:
+                    sql = "クエスト情報："
+                    for i in range(game_member_num):
+                        if i+1 == quest_cnt:
+                            sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                        else:
+                            sql = f"{sql}\n□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
                 if game_phase == 0:
                     sql = f"{sql}\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n3人選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
