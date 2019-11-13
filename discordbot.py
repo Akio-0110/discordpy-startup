@@ -1977,10 +1977,10 @@ async def on_message(ctx):
                             a_cnt += 1
                     if a_cnt >= game_member_num:
                         game_info[i][3] = 1
+                        game_info[i][1] = s_cnt
+                        game_info[i][2] = f_cnt
                     else:
                         game_info[i][3] = 0
-                    game_info[i][1] = s_cnt
-                    game_info[i][2] = f_cnt
                     if f_cnt == 0 and s_cnt == 0:
                         game_info[i][0] = 0
                     elif f_cnt >= quest_member_num[game_member_num][i][1]:
