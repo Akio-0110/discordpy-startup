@@ -985,7 +985,7 @@ async def on_message(ctx):
                 sql = f"select * from `avalon_user` where id = {i+1}"
                 db.execute(sql)
                 rows = db.fetchone()
-                if rows[4] != None:
+                if len(rows) == 5:
                     avalon_user.append([0, rows[1], rows[2], rows[3], rows[4]])
                 else:
                     avalon_user.append([0, rows[1], rows[2], rows[3], None])
