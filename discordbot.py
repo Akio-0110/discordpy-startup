@@ -1997,7 +1997,7 @@ async def on_message(ctx):
                     if num[0] == None:
                         break
                     q_num = int(int(num[0]-1)/5)+1
-                    v_num = (int(num[0]-1)%game_member_num)+1
+                    v_num = (int(num[0]-1)%5)+1
                     if game_info[i][3] == 1:
                         if i == 0:
                             sql = f"{q_num}クエ、{v_num}回目 : "
