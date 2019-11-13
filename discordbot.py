@@ -915,10 +915,10 @@ async def on_message(ctx):
 
                                 role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
                                 await msg.send(f"{role_info}")
-                            elif ary[i][3] >= 10 and ary[i][3] <= 13 : # 赤陣営
+                            elif (ary[i][3] >= 10 and ary[i][3] <= 19) and ary[i][3] != 14 : # 赤陣営
                                 role_info = '赤陣営は\n'
                                 for j in range(game_member_num):
-                                    if (ary[j][3] >= 10 and ary[j][3] <= 13):
+                                    if (ary[i][3] >= 10 and ary[i][3] <= 19) and ary[i][3] != 14:
                                         role_info = f"{role_info}\n{ary[j][1]}"
                                 role_info = f"{role_info}\nです。"
                                 await msg.send(f"{role_info}")
@@ -1693,10 +1693,10 @@ async def on_message(ctx):
 
                                         role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
                                         await msg.send(f"{role_info}")
-                                    elif avalon_user[i][3] >= 10 and avalon_user[i][3] <= 13 : # 赤陣営
+                                    elif (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 19) and avalon_user[i][3] != 14 : # 赤陣営
                                         role_info = '赤陣営は\n'
                                         for j in range(game_member_num):
-                                            if (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 13):
+                                            if (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 19) and avalon_user[i][3] != 14:
                                                 role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                         role_info = f"{role_info}\nです。"
                                         await msg.send(f"{role_info}")
