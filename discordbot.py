@@ -52,7 +52,7 @@ avalon_role = [
 [17, None, None, None],
 [18, None, None, None],
 [19, None, None, None],
-[20, 'ランスロット(未対応)', './image/モードレッドの手下３.jpeg', '陣営：青陣営または赤陣営または陣営無\nランスロットは2回目の失敗が出た後に任意のプレイヤー1人を選択し、そのプレイヤーと同じ陣営となります。\n選ばれたプレイヤーは明かされるが、ランスロットが誰かは知られません。\n陣営が決まる前にクエストが終了すると敗北です。\n陣営が決まるまで成功でも失敗でも出すことができます。\n※ローカル拡張役職です。'],
+[20, 'ロット(未対応)', './image/モードレッドの手下３.jpeg', '陣営：青陣営または赤陣営または陣営無\nロットは2回目の失敗が出た後に任意のプレイヤー1人を選択し、そのプレイヤーと同じ陣営となります。\n選ばれたプレイヤーは明かされるが、ランスロットが誰かは知られません。\n陣営が決まる前にクエストが終了すると敗北です。\n陣営が決まるまで成功でも失敗でも出すことができます。\n※ローカル拡張役職です。'],
 [21, 'ケイ(未対応)', './image/モードレッドの手下３.jpeg', '陣営：青陣営または赤陣営\nケイは奇数クエストでは青陣営、偶数クエストでは赤陣営です。\n偶数クエストでクエストに参加した場合、失敗しか出すことができません。\nゲーム終了時の陣営に従って勝利条件も変わります。\n４クエストで終了した場合、暗殺議論に加わってください。\n※ローカル拡張役職です。'],
 [22, None, None, None],
 [23, None, None, None],
@@ -62,9 +62,9 @@ avalon_role = [
 [27, None, None, None],
 [28, None, None, None],
 [29, None, None, None],
-[30, 'シャロット姫', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nシャロット姫は役職に関係なく赤陣営全員を知っています。\n暗殺されると勝利となります。赤陣営のクエスト勝利時は敗北となります。\n※ローカル拡張役職です。'],
+[30, 'シャロット姫', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nシャロット姫は役職に関係なく赤陣営全員を知っています。\n暗殺されると単独勝利となります。赤陣営のクエスト勝利時は敗北となります。\n※ローカル拡張役職です。'],
 [31, '漁夫王(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\n漁夫王はクエストが3回成功時に暗殺される人を予想して選択します。\n選択した人が暗殺された場合、勝利となります。\n※ローカル拡張役職です。'],
-[32, 'タークィン(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nタークィンは役職に関係なく赤陣営全員を知っています。\nクエストを失敗に導き、3回目の失敗時に選出されていた場合勝利となります。\n※ローカル拡張役職です。'],
+[32, 'タークィン(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nタークィンは役職に関係なく赤陣営全員を知っています。\nクエストを失敗に導き、3回目の失敗時に選出されていた場合、単独勝利となります。\n※ローカル拡張役職です。'],
 [33, '聖ミカエル山の巨人(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\n聖ミカエル山の巨人は役職に関係なく赤陣営全員を知っています。\nクエストに一度も選ばれずに終了した場合、または参加したクエストで３枚以上の失敗を出されることで単独勝利となります。\n※ローカル拡張役職です。']
 ]
 
@@ -732,7 +732,11 @@ async def on_message(ctx):
                         for i in avalon_role:
                             if i[0] == num:
                                 embed = discord.Embed(title=f"役職説明:{i[1]}",description=i[3])
-                                await ctx.channel.send(embed=embed)
+                                if i[2] != None:
+                                    file = i[2]
+                                    await ctx.channel.send(embed=embed, file=File(file))
+                                else:
+                                    await ctx.channel.send(embed=embed)
                     else:
                         await ctx.channel.send("指定番号の役職はありません")
                 else:
@@ -1231,6 +1235,7 @@ async def on_message(ctx):
                                     embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\nリーダは{avalon_user[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n３人選出例：s 1,2,3",value=sql)
                                     await msgch.send(embed=embed, file=File(file))
                                 else:
+                                    vote_cnt += 1
                                     sql = "update `avalon_data` set \
                                     `game_status` = 0, \
                                     `game_role` = 1, \
@@ -1532,20 +1537,28 @@ async def on_message(ctx):
                                     otome_check = 1
                                     break
 
+                            flg=0
                             if otome_check == 0 and otome_num >= 0 and otome_num < game_member_num:
-                                if avalon_user[otome_num][3] < 10:
+                                if avalon_user[otome_num][3] < 10 or avalon_user[otome_num][3] == 30:
                                     otome_msg = f"{avalon_user[otome_num][1]}は青陣営です"
                                     file="./image/忠誠カード青.jpeg"
+                                    flg = 1
                                 elif avalon_user[otome_num][3] <20:
                                     otome_msg = f"{avalon_user[otome_num][1]}は赤陣営です"
                                     file="./image/忠誠カード赤.jpeg"
+                                    flg = 1
                                 elif avalon_user[otome_num][3] <30:
                                     otome_msg = f"{avalon_user[otome_num][1]}はどちらの陣営でもありません"
+                                    flg = 0
                                 else:
                                     otome_msg = f"{avalon_user[otome_num][1]}は第３陣営です"
+                                    flg = 0
                                 embed = discord.Embed(title="乙女結果",description=otome_msg)
-                                await msg.send(embed=embed, file=File(file))
-                                # await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。")
+                                if flg == 1:
+                                    await msg.send(embed=embed, file=File(file))
+                                else:
+                                    await msg.send(embed=embed
+
                                 game_phase = 0
                                 quest_cnt += 1
                                 vote_cnt = 1
@@ -1783,11 +1796,11 @@ async def on_message(ctx):
                 # print(len(rows))
 
                 game_info = [
-                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
-                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
-                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
-                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None],
-                    [None,None,None],[None,None,None],[None,None,None],[None,None,None],[None,None,None]
+                    [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None]
                 ]
                 i = 0
                 for num in rows:
@@ -1802,8 +1815,12 @@ async def on_message(ctx):
                             s_cnt += 1
                         elif int(num[1+k]) > 8:
                             f_cnt += 1
-                        if int(num[1+k])%8 >= 4:
+                        if int(num[1+k])%8 >= 2:
                             a_cnt += 1
+                    if a_cnt >= game_member_num:
+                        game_info[i][3] = 1
+                    else:
+                        game_info[i][3] = 0
                     game_info[i][1] = s_cnt
                     game_info[i][2] = f_cnt
                     if f_cnt == 0 and s_cnt == 0:
@@ -1821,7 +1838,6 @@ async def on_message(ctx):
                 for num in rows:
                     if num[0] == None:
                         break
-                    flg = 1
                     q_num = int(int(num[0]-1)/5)+1
                     v_num = (int(num[0]-1)%game_member_num)+1
                     if i == 0:
@@ -1837,16 +1853,18 @@ async def on_message(ctx):
                             s_cnt += 1
                         else:
                             f_cnt += 1
-                        if int(num[1+k])%2 == 1:
-                            if int(num[1+k])%8 >= 4:
-                                sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：承認"
+                        if game_info[i][3] == 1:
+                            flg = 1
+                            if int(num[1+k])%2 == 1:
+                                if int(num[1+k])%8 >= 4:
+                                    sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：承認"
+                                else:
+                                    sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：却下"
                             else:
-                                sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：却下"
-                        else:
-                            if int(num[1+k])%8 >= 4:
-                                sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：承認"
-                            else:
-                                sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：却下"
+                                if int(num[1+k])%8 >= 4:
+                                    sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：承認"
+                                else:
+                                    sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：却下"
 
                     i += 1
 
@@ -1874,7 +1892,6 @@ async def on_message(ctx):
                     # print(num)
                     s_cnt = 0
                     f_cnt = 0
-                    a_cnt = 0
                     if num[0] == None:
                         break
                     for k in range(game_member_num):
@@ -1882,8 +1899,6 @@ async def on_message(ctx):
                             s_cnt += 1
                         elif int(num[1+k]) > 8:
                             f_cnt += 1
-                        if int(num[1+k])%8 >= 4:
-                            a_cnt += 1
                     game_info[i][1] = s_cnt
                     game_info[i][2] = f_cnt
                     if f_cnt == 0 and s_cnt == 0:
