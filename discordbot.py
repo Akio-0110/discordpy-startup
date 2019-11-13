@@ -1616,7 +1616,7 @@ async def on_message(ctx):
                         msg = client.get_user(avalon_user[i][2])
 
                 if comment[0:2] == 's ' or comment[0:7] == 'select ' or comment[0:3] == 'せ ':
-                    if ctx.author.id == avalon_user[avalon_user[beast_num][2]]:
+                    if ctx.author.id == avalon_user[beast_num][2]:
                         select_member_com = re.compile('\d+')
                         select_member_match = select_member_com.findall(comment)
                         # 重複チェック
