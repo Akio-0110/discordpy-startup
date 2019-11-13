@@ -1698,7 +1698,7 @@ async def on_message(ctx):
 
                                         role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
                                         await msg.send(f"{role_info}")
-                                    elif (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 19) and avalon_user[i][3] != 14 : # 赤陣営
+                                    elif (avalon_user[i][3] >= 10 and avalon_user[i][3] <= 19) and avalon_user[i][3] != 14 : # 赤陣営
                                         role_info = '赤陣営は\n'
                                         for j in range(game_member_num):
                                             if (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 19) and avalon_user[i][3] != 14:
