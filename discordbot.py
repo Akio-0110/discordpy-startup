@@ -1722,6 +1722,7 @@ async def on_message(ctx):
                                 role.sort()
                                 sql = f"{game_member_num}人戦のクエスト："
                                 for i in range(game_member_num):
+                                    print(i)
                                     sql = f"{sql}\n{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
                                 embed = discord.Embed(title=f"ゲーム開始",description=sql)
                                 sql = "役職："
