@@ -940,6 +940,12 @@ async def on_message(ctx):
                         embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{ary[select_member][1]}です。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください",value=sql)
                         await msgch.send(embed=embed)
                     else:
+                        for i in range(game_member_num):
+                            msg = client.get_user(ary[i][2])
+                            if avalon_role[i][3] == 6 or avalon_role[i][3] == 30:
+                                await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。")
+                            else:
+                                await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。", file=File(avalon_role[ary[i][3]][2]))
                         sql = player_display(game_member_num, ary, select_member+1)
                         embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"オベロンにしたいプレイヤーを選択(s 好きなプレイヤーの数字)してください。\n{sql}")
                         await msg.send(embed=embed)
