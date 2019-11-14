@@ -1387,38 +1387,49 @@ async def on_message(ctx):
                                             break
 
                                     if kill_flag == 1:
-                                        sql = f"update `avalon_data` set \
-                                        `game_status`= 3, \
-                                        `game_role`= 1, \
-                                        `quest_cnt`= 0, \
-                                        `quest_success_cnt` = 0, \
-                                        `quest_fail_cnt` = 0, \
-                                        `vote_cnt`= 0, \
-                                        `game_phase`= 0, \
-                                        `game_stop`= 0, \
-                                        `game_member1`= NULL, \
-                                        `game_member2`= NULL, \
-                                        `game_member3`= NULL, \
-                                        `game_member4`= NULL, \
-                                        `game_member5`= NULL, \
-                                        `game_otome1` = NULL, \
-                                        `game_otome2` = NULL, \
-                                        `game_otome3` = NULL \
-                                        where id = 0"
-                                        db.execute(sql)
-                                        kill_member = role_fine(game_member_num, avalon_user, 12)
-                                        if kill_member == None:
-                                            kill_member = role_fine(game_member_num, avalon_user, 16)
-                                        if kill_member == None:
-                                            kill_member = role_fine(game_member_num, avalon_user, 11)
-                                        if kill_member == None:
-                                            kill_member = role_fine(game_member_num, avalon_user, 10)
-                                        msg = client.get_user(avalon_user[kill_member][2])
-                                        sql = "暗殺者の方はマーリンを予想してください"
-                                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
-                                        await msg.send(sql)
-                                        embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方がマーリン暗殺中です。")
-                                        await msgch.send(embed=embed, file=File(file))
+                                        if role_find(game_member_num, avalon_user, 31) == None:
+                                            sql = f"update `avalon_data` set \
+                                            `game_status`= 3, \
+                                            `game_role`= 1, \
+                                            `quest_cnt`= 0, \
+                                            `quest_success_cnt` = 0, \
+                                            `quest_fail_cnt` = 0, \
+                                            `vote_cnt`= 0, \
+                                            `game_phase`= 0, \
+                                            `game_stop`= 0, \
+                                            `game_member1`= NULL, \
+                                            `game_member2`= NULL, \
+                                            `game_member3`= NULL, \
+                                            `game_member4`= NULL, \
+                                            `game_member5`= NULL, \
+                                            `game_otome1` = NULL, \
+                                            `game_otome2` = NULL, \
+                                            `game_otome3` = NULL \
+                                            where id = 0"
+                                            db.execute(sql)
+                                            kill_member = role_fine(game_member_num, avalon_user, 12)
+                                            if kill_member == None:
+                                                kill_member = role_fine(game_member_num, avalon_user, 16)
+                                            if kill_member == None:
+                                                kill_member = role_fine(game_member_num, avalon_user, 11)
+                                            if kill_member == None:
+                                                kill_member = role_fine(game_member_num, avalon_user, 10)
+                                            msg = client.get_user(avalon_user[kill_member][2])
+                                            sql = "マーリンを予想してください"
+                                            sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                                            await msg.send(sql)
+                                            embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方がマーリン暗殺中です。")
+                                            await msgch.send(embed=embed, file=File(file))
+                                        else:
+                                            ex_member = role_find(game_member_num, avalon_user, 31)
+                                            sql = f"update `avalon_data` set `game_phase`= 6 where id = 0"
+                                            db.execute(sql)
+                                            msg = client.get_user(avalon_user[ex_member][2])
+                                            sql = "暗殺される人を予想してください"
+                                            sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                                            await msg.send(sql)
+                                            embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
+                                            await msgch.send(embed=embed, file=File(file))
                                     else:
                                         sql = f"update `avalon_data` set \
                                         `game_status`= 0, \
@@ -1745,6 +1756,60 @@ async def on_message(ctx):
                     else:
                         await ctx.author.send(f"あなたは{avalon_role[16][1]}ではありません。")
 
+            elif game_phase == 6: #漁夫王 暗殺予想フェーズ
+                ex_member = role_find(game_member_num, avalon_user, 31)
+                msg = client.get_user(avalon_user[ex_member][2])
+                # select : 選択
+                if comment[0:2] == 's ' or comment[0:7] == 'select ' or comment[0:3] == 'せ ':
+                    if ctx.author.id == avalon_user[ex_member][2]:
+                        select_member_com = re.compile('\d+')
+                        select_member_match = select_member_com.findall(comment)
+                        # 重複チェック
+                        if len(select_member_match) != 1:
+                            await ctx.author.send(f"選択人数は1人です：{comment}")
+                        else :
+                            select_check = 0
+                            select_num = int(select_member_match[0])-1
+                            if select_num >= 0 and select_num <= game_member_num-1:
+                                sql = f"update `avalon_data` set `kill_member` = {select_num} where `id` = 0"
+                                db.execute(sql)
+                                await ctx.author.send(f"{select_num+1}の{avalon_user[select_num][1]}を選択しました。")
+                                sql = f"update `avalon_data` set \
+                                `game_status`= 3, \
+                                `game_role`= 1, \
+                                `quest_cnt`= 0, \
+                                `quest_success_cnt` = 0, \
+                                `quest_fail_cnt` = 0, \
+                                `vote_cnt`= 0, \
+                                `game_phase`= 0, \
+                                `game_stop`= 0, \
+                                `game_member1`= NULL, \
+                                `game_member2`= NULL, \
+                                `game_member3`= NULL, \
+                                `game_member4`= NULL, \
+                                `game_member5`= NULL, \
+                                `game_otome1` = NULL, \
+                                `game_otome2` = NULL, \
+                                `game_otome3` = NULL \
+                                where id = 0"
+                                db.execute(sql)
+                                kill_member = role_fine(game_member_num, avalon_user, 12)
+                                if kill_member == None:
+                                    kill_member = role_fine(game_member_num, avalon_user, 16)
+                                if kill_member == None:
+                                    kill_member = role_fine(game_member_num, avalon_user, 11)
+                                if kill_member == None:
+                                    kill_member = role_fine(game_member_num, avalon_user, 10)
+                                msg = client.get_user(avalon_user[kill_member][2])
+                                sql = "マーリンを予想してください"
+                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                                await msg.send(sql)
+                                embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方がマーリン暗殺中です。")
+                                await msgch.send(embed=embed, file=File(file))
+                            else:
+                                await ctx.author.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
+                    else:
+                        await ctx.author.send(f"あなたは{avalon_role[31][1]}ではありません。")
 
             if comment[0:2] == 'c ' or comment == 'c':
                 if comment[0:2] == 'c ':
@@ -1927,6 +1992,15 @@ async def on_message(ctx):
                     sql = player_display(game_member_num, avalon_user, select_member)
                     embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nあなたは{avalon_role[16][1]}です。オベロンにするプレイヤーを選出してください。\n選出例:1番のプレイヤーを暗殺する場合\ns 1")
                     await msg.send(embed=embed)
+                elif game_phase == 6:
+                    ex_member = role_find(game_member_num, avalon_user, 31)
+                    msg = client.get_user(avalon_user[ex_member][2])
+                    sql = "暗殺される人を予想してください"
+                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                    await msg.send(sql)
+                    embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
+                    await msgch.send(embed=embed)
+
             elif game_status == 3:
                 sql = f"{sql}暗殺フェーズです。"
                 embed = discord.Embed(title=f"現在の状況",description=f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}")
