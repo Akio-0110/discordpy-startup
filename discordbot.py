@@ -1989,10 +1989,10 @@ async def on_message(ctx):
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の成功失敗:",description=sql)
                     await ctx.channel.send(embed=embed)
                     sql = "選出メンバー"
-                    for i in quest_member_num[game_member_num][quest_cnt-1][1]:
+                    for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                         sql = f"{sql}\n{i+1}：{avalon_user[i][1]}"
 
-                    for i in quest_member_num[game_member_num][quest_cnt-1][1]:
+                    for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                         msg = client.get_user(avalon_user[game_member[i]][2])
                         embed = discord.Embed(title="クエスト中",description=f"{sql}\n成功の場合 : s\n失敗の場合 : f\nを入力してください")
                         await msg.send(embed=embed)
