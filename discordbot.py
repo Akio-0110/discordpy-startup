@@ -1972,12 +1972,13 @@ async def on_message(ctx):
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                     await msg.send(embed=embed)
                 elif game_phase == 1:
-                    sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\n{player_display(game_member_num, avalon_user, select_member)}"
+                    sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}"
+                    f"\n{player_display(game_member_num, avalon_user, select_member)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の承認却下:",description=f"{sql}")
                     await ctx.channel.send(embed=embed)
                     sql = "選出メンバー"
-                    for i in range(quest_member_num[game_member_num][quest_cnt-1][1]):
-                        sql = f"{sql}\n{i+1}：{avalon_user[i][1]}"
+                    for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
+                        sql = f"{sql}\n{i+1}：{avalon_user[game_member[i]][1]}"
 
                     for i in range(game_member_num):
                         if avalon_quest[i] < 2:
@@ -1991,7 +1992,7 @@ async def on_message(ctx):
                     await ctx.channel.send(embed=embed)
                     sql = "選出メンバー"
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                        sql = f"{sql}\n{i+1}：{avalon_user[i][1]}"
+                        sql = f"{sql}\n{i+1}：{avalon_user[game_member[i]][1]}"
 
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                         if avalon_quest[game_member[i]] < 8:
