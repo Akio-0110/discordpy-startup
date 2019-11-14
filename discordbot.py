@@ -1283,7 +1283,7 @@ async def on_message(ctx):
             elif game_phase == 2: #成功失敗フェーズ
                 command_accept = 0
                 if comment == 's' or comment == 'success' or comment == 'せ' or comment == 'f' or comment == 'fail' or comment == 'し':
-                    agravain_member = role_fine(game_member_num, avalon_user, 15)
+                    agravain_member = role_find(game_member_num, avalon_user, 15)
                     if comment == 's' or comment == 'success' or comment == 'せ':
                         command_accept = 16
                     elif comment == 'f' or comment == 'fail' or comment == 'し':
@@ -1422,13 +1422,13 @@ async def on_message(ctx):
                                             `game_otome3` = NULL \
                                             where id = 0"
                                             db.execute(sql)
-                                            kill_member = role_fine(game_member_num, avalon_user, 12)
+                                            kill_member = role_find(game_member_num, avalon_user, 12)
                                             if kill_member == None:
-                                                kill_member = role_fine(game_member_num, avalon_user, 16)
+                                                kill_member = role_find(game_member_num, avalon_user, 16)
                                             if kill_member == None:
-                                                kill_member = role_fine(game_member_num, avalon_user, 11)
+                                                kill_member = role_find(game_member_num, avalon_user, 11)
                                             if kill_member == None:
-                                                kill_member = role_fine(game_member_num, avalon_user, 10)
+                                                kill_member = role_find(game_member_num, avalon_user, 10)
                                             msg = client.get_user(avalon_user[kill_member][2])
                                             sql = "マーリンを予想してください"
                                             sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
@@ -1818,13 +1818,13 @@ async def on_message(ctx):
                                 `game_otome3` = NULL \
                                 where id = 0"
                                 db.execute(sql)
-                                kill_member = role_fine(game_member_num, avalon_user, 12)
+                                kill_member = role_find(game_member_num, avalon_user, 12)
                                 if kill_member == None:
-                                    kill_member = role_fine(game_member_num, avalon_user, 16)
+                                    kill_member = role_find(game_member_num, avalon_user, 16)
                                 if kill_member == None:
-                                    kill_member = role_fine(game_member_num, avalon_user, 11)
+                                    kill_member = role_find(game_member_num, avalon_user, 11)
                                 if kill_member == None:
-                                    kill_member = role_fine(game_member_num, avalon_user, 10)
+                                    kill_member = role_find(game_member_num, avalon_user, 10)
                                 msg = client.get_user(avalon_user[kill_member][2])
                                 sql = "マーリンを予想してください"
                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
@@ -1885,14 +1885,14 @@ async def on_message(ctx):
 
             # kill : 暗殺
             elif comment[0:2] == 'k ' or comment[0:5] == 'kill ' or comment[0:3] == 'あ ':
-                kill_member = role_fine(game_member_num, avalon_user, 12)
+                kill_member = role_find(game_member_num, avalon_user, 12)
 
                 if kill_member == None:
-                    kill_member = role_fine(game_member_num, avalon_user, 16)
+                    kill_member = role_find(game_member_num, avalon_user, 16)
                 if kill_member == None:
-                    kill_member = role_fine(game_member_num, avalon_user, 11)
+                    kill_member = role_find(game_member_num, avalon_user, 11)
                 if kill_member == None:
-                    kill_member = role_fine(game_member_num, avalon_user, 10)
+                    kill_member = role_find(game_member_num, avalon_user, 10)
 
                 msg = client.get_user(avalon_user[kill_member][2])
                 if ctx.author.id == avalon_user[kill_member][2]:
@@ -2032,13 +2032,13 @@ async def on_message(ctx):
                 sql = f"{sql}暗殺フェーズです。"
                 embed = discord.Embed(title=f"現在の状況",description=f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}")
                 await ctx.channel.send(embed=embed)
-                kill_member = role_fine(game_member_num, avalon_user, 12)
+                kill_member = role_find(game_member_num, avalon_user, 12)
                 if kill_member == None:
-                    kill_member = role_fine(game_member_num, avalon_user, 16)
+                    kill_member = role_find(game_member_num, avalon_user, 16)
                 if kill_member == None:
-                    kill_member = role_fine(game_member_num, avalon_user, 11)
+                    kill_member = role_find(game_member_num, avalon_user, 11)
                 if kill_member == None:
-                    kill_member = role_fine(game_member_num, avalon_user, 10)
+                    kill_member = role_find(game_member_num, avalon_user, 10)
                 msg = client.get_user(avalon_user[kill_member][2])
                 sql = "暗殺者の方はマーリンを予想してください"
                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
