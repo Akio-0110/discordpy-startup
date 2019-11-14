@@ -923,15 +923,16 @@ async def on_message(ctx):
                             elif ary[i][3] == 14: # 赤陣営
                                 role_info = 'あなたは仲間の赤陣営を知りません。'
                                 await msg.send(f"{role_info}")
-                            elif ary[i][3] >= 30 and ary[i][3] <= 33 and ary[i][3] != 31: # 赤陣営
-                                role_info = '赤陣営は\n'
-                                for j in range(game_member_num):
-                                    if (ary[j][3] >= 10 and ary[j][3] < 20):
-                                        role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
-                                if ary[i][3] == 30:
-                                    role_info = f"{role_info}\nです。\n勝利条件は暗殺されることです。"
-                                elif ary[i][3] == 31:
-                                    role_info = f"{role_info}\nです。\n勝利条件は暗殺フェーズ直前に暗殺者を予想し、当てることです"
+                            elif ary[i][3] >= 30 and ary[i][3] <= 33: # 赤陣営
+                                if ary[i][3] == 31:
+                                    role_info = f"あなたは情報を知りません。\n勝利条件は暗殺フェーズ直前に暗殺者を予想し、当てることです"
+                                else:
+                                    role_info = '赤陣営は\n'
+                                    for j in range(game_member_num):
+                                        if (ary[j][3] >= 10 and ary[j][3] < 20):
+                                            role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
+                                    if ary[i][3] == 30:
+                                        role_info = f"{role_info}\nです。\n勝利条件は暗殺されることです。"
                                 await msg.send(f"{role_info}")
 
                         role.sort()
@@ -1481,7 +1482,7 @@ async def on_message(ctx):
                                             db.execute(sql)
                                             msg = client.get_user(avalon_user[ex_member][2])
                                             sql = "暗殺される人を予想してください"
-                                            sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺すると思う場合\nk 1"
+                                            sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺すると思う場合\ns 1"
                                             await msg.send(sql)
                                             embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
                                             await msgch.send(embed=embed, file=File(file))
@@ -1780,15 +1781,16 @@ async def on_message(ctx):
                                                 role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                         role_info = f"{role_info}\nです。"
                                         await msg.send(f"{role_info}")
-                                    elif avalon_user[i][3] >= 30 and avalon_user[i][3] <= 33 and avalon_user[i][3] != 31: # 赤陣営
-                                        role_info = '赤陣営は\n'
-                                        for j in range(game_member_num):
-                                            if (avalon_user[j][3] >= 10 and avalon_user[j][3] < 20):
-                                                role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
-                                        if avalon_user[i][3] == 30:
-                                            role_info = f"{role_info}\nです。\n勝利条件は暗殺されることです。"
-                                        elif avalon_user[i][3] == 31:
-                                            role_info = f"{role_info}\nです。\n勝利条件は暗殺フェーズ直前に暗殺者を予想し、当てることです"
+                                    elif avalon_user[i][3] >= 30 and avalon_user[i][3] <= 33: # 赤陣営
+                                        if avalon_user[i][3] == 31:
+                                            role_info = f"あなたは情報を知りません。\n勝利条件は暗殺フェーズ直前に暗殺者を予想し、当てることです"
+                                        else:
+                                            role_info = '赤陣営は\n'
+                                            for j in range(game_member_num):
+                                                if (avalon_user[j][3] >= 10 and avalon_user[j][3] < 20):
+                                                    role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
+                                            if avalon_user[i][3] == 30:
+                                                role_info = f"{role_info}\nです。\n勝利条件は暗殺されることです。"
                                         await msg.send(f"{role_info}")
 
                                 role = [1]*game_member_num
@@ -2070,13 +2072,13 @@ async def on_message(ctx):
                     beast_num = role_fine(game_member_num, avalon_user, 16)
                     msg = client.get_user(avalon_user[beast_num][2])
                     sql = player_display(game_member_num, avalon_user, select_member)
-                    embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nあなたは{avalon_role[16][1]}です。オベロンにするプレイヤーを選出してください。\n選出例:1番のプレイヤーを暗殺する場合\ns 1")
+                    embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nあなたは{avalon_role[16][1]}です。オベロンにするプレイヤーを選出してください。\n選出例:1番のプレイヤーをオベロンにする場合\ns 1")
                     await msg.send(embed=embed)
                 elif game_phase == 6:
                     ex_member = role_find(game_member_num, avalon_user, 31)
                     msg = client.get_user(avalon_user[ex_member][2])
                     sql = "暗殺される人を予想してください"
-                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：選出例:1番のプレイヤーを暗殺すると予想する場合\ns 1"
                     await msg.send(sql)
                     embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
                     await msgch.send(embed=embed)
