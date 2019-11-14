@@ -897,11 +897,11 @@ async def on_message(ctx):
                                 role_info = f"{role_info}\nがマーリンとモルガナです。\n役職によって2人とは限りません。"
                                 await msg.send(f"{role_info}")
                             elif ary[i][3] == 2 : # ガラハッド
-                                role_info = f"パーシヴァルと暗殺者を確認することができます。\n"
+                                role_info = f"パーシヴァルと暗殺者と{avalon_role[16][1]}を確認することができます。\n"
                                 for j in range(game_member_num):
-                                    if (ary[j][3] == 1 or ary[j][3] == 12):
+                                    if (ary[j][3] == 1 or ary[j][3] == 12 or ary[j][3] == 16):
                                         role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
-                                role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
+                                role_info = f"{role_info}\n役職によって3人とは限りません。"
                                 await msg.send(f"{role_info}")
                             elif ary[i][3] == 6 : # カラドック
                                 role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
@@ -1755,11 +1755,11 @@ async def on_message(ctx):
                                         role_info = f"{role_info}\nがマーリンとモルガナです。\n役職によって2人とは限りません。"
                                         await msg.send(f"{role_info}")
                                     elif avalon_user[i][3] == 2 : # ガラハッド
-                                        role_info = f"パーシヴァルと{avalon_role[16][1]}を確認することができます。\n"
+                                        role_info = f"パーシヴァルと暗殺者と{avalon_role[16][1]}を確認することができます。\n"
                                         for j in range(game_member_num):
-                                            if (avalon_user[j][3] == 1 or avalon_user[j][3] == 16):
+                                            if (avalon_user[j][3] == 1 or avalon_user[j][3] == 12 or avalon_user[j][3] == 16):
                                                 role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
-                                        role_info = f"{role_info}\n役職によって2人とは限りません。"
+                                        role_info = f"{role_info}\n役職によって3人とは限りません。"
                                         await msg.send(f"{role_info}")
                                     elif avalon_user[i][3] == 6 : # カラドック
                                         role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
