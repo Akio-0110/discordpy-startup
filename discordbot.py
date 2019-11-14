@@ -1870,7 +1870,7 @@ async def on_message(ctx):
                                 sql = "マーリンを予想してください"
                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
                                 await msg.send(sql)
-                                embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方がマーリン暗殺中です。")
+                                embed = discord.Embed(title=f"クエスト：青陣営勝利",description="暗殺者の方がマーリン暗殺中です。")
                                 await msgch.send(embed=embed, file=File(file))
                             else:
                                 await ctx.author.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
