@@ -1979,10 +1979,11 @@ async def on_message(ctx):
                     for i in quest_member_num[game_member_num][quest_cnt-1][1]:
                         sql = f"{sql}\n{i+1}：{avalon_user[i][1]}"
 
-                    for i in quest_member_num[game_member_num][quest_cnt-1][1]:
-                        msg = client.get_user(avalon_user[game_member[i]][2])
-                        embed = discord.Embed(title="クエストメンバー承認却下中",description=f"{sql}\n承認の場合 : a\n却下の場合 : r\nを入力してください")
-                        await msg.send(embed=embed)
+                    for i in range(game_member_num):
+                        if avalon_quest[game_member[i]] < 2:
+                            msg = client.get_user(avalon_user[i][2])
+                            embed = discord.Embed(title="クエストメンバー承認却下中",description=f"{sql}\n承認の場合 : a\n却下の場合 : r\nを入力してください")
+                            await msg.send(embed=embed)
 
                 elif game_phase == 2:
                     sql = f"{sql}\n現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n選出者の成功失敗選択中です"
@@ -1993,9 +1994,10 @@ async def on_message(ctx):
                         sql = f"{sql}\n{i+1}：{avalon_user[i][1]}"
 
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                        msg = client.get_user(avalon_user[game_member[i]][2])
-                        embed = discord.Embed(title="クエスト中",description=f"{sql}\n成功の場合 : s\n失敗の場合 : f\nを入力してください")
-                        await msg.send(embed=embed)
+                        if avalon_quest[game_member[i]] < 8:
+                            msg = client.get_user(avalon_user[game_member[i]][2])
+                            embed = discord.Embed(title="クエスト中",description=f"{sql}\n成功の場合 : s\n失敗の場合 : f\nを入力してください")
+                            await msg.send(embed=embed)
                 elif game_phase == 3:
                     sql = f"{sql}\n{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
