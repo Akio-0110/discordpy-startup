@@ -1588,8 +1588,10 @@ async def on_message(ctx):
                                         `vote_cnt` = {vote_cnt} \
                                         where id = 0"
                                         db.execute(sql)
+                                        msg = client.get_user(avalon_user[select_member][2])
+                                        await msg.send(embed=embed)
                                         sql = player_display(game_member_num, avalon_user, select_member)
-                                        embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
+                                        embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
                                         await msgch.send(embed=embed, file=File(file))
                                         msg = client.get_user(avalon_user[select_member][2])
                                         sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
