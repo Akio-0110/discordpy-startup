@@ -45,7 +45,7 @@ avalon_role = [
 [12, 'モードレッドの手下（暗殺者）', './image/暗殺者.jpeg', '陣営：赤陣営\n暗殺者は青陣営がクエストを3回成功させた場合に、メンバーの1人を暗殺することができます。\nマーリンを暗殺できれば赤陣営の逆転勝利します。\n\n※ローカル拡張役職ありの場合：\n1)トリスタンとイゾルデがいる場合、恋人同士であるトリスタンとイゾルデの2人を指定することでも勝利します。\n2)ガラハッドがいて、クエスティングビーストがいない場合には、ガラハッドに知られます。'],
 [13, 'モードレッドの手下', './image/モードレッドの手下１.jpeg', '陣営：赤陣営\nモードレッドの手下は何も能力を持っていません。'],
 [14, 'オベロン', './image/オベロン.jpeg', '陣営：赤陣営\nオベロンは仲間の赤陣営を知りません。'],
-[15, 'アグラヴェイン(未対応)', './image/アグラヴェイン.jpeg', '陣営：赤陣営\nアグラヴェインはマーリンに赤陣営と知られません。\nまた赤陣営のプレイヤーを知っていますが、他の赤陣営には知られません。\n2回成功するまで失敗を出すことができません。\n※ローカル拡張役職です。'],
+[15, 'アグラヴェイン', './image/アグラヴェイン.jpeg', '陣営：赤陣営\nアグラヴェインはマーリンに赤陣営と知られません。\nまた赤陣営のプレイヤーを知っていますが、他の赤陣営には知られません。\n2回成功するまで失敗を出すことができません。\n※ローカル拡張役職です。'],
 [16, 'クエスティングビースト', './image/クエスティングビースト.jpeg', '陣営：赤陣営\nクエスティングビーストはゲーム開始時に1人のプレイヤーを選択し、オベロンにします。\nこの時に選んだプレイヤーの役職を知ります。選ばれたプレイヤーの役職は失われるが、マーリンだった場合に限り、パーシヴァルがマーリンとなります。\nまたガラハッドからパーシヴァルと一緒に知られます。\n※ローカル拡張役職です。'],
 [17, None, None, None],
 [18, None, None, None],
@@ -61,7 +61,7 @@ avalon_role = [
 [28, None, None, None],
 [29, None, None, None],
 [30, 'シャロット姫', './image/シャロット姫.jpeg', '陣営：第３陣営\nシャロット姫は役職に関係なく赤陣営全員を知っています。\n暗殺されると単独勝利します。赤陣営のクエスト勝利時は敗北となります。\n※ローカル拡張役職です。'],
-[31, '漁夫王(未対応)', './image/漁夫王.jpeg', '陣営：第３陣営\n漁夫王はクエストが3回成功時に暗殺される人を予想して選択します。\n選択した人が暗殺された場合、勝利した陣営と一緒に勝利します。\n※ローカル拡張役職です。'],
+[31, '漁夫王', './image/漁夫王.jpeg', '陣営：第３陣営\n漁夫王はクエストが3回成功時に暗殺される人を予想して選択します。\n選択した人が暗殺された場合、勝利した陣営と一緒に勝利します。\n※ローカル拡張役職です。'],
 [32, 'タークィン(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nタークィンは役職に関係なく赤陣営全員を知っています。\nクエストを失敗に導き、3回目の失敗時に選出されていた場合、単独勝利します。\n※ローカル拡張役職です。'],
 [33, '聖ミカエル山の巨人(未対応)', './image/聖ミカエル山の巨人.jpeg', '陣営：第３陣営\n聖ミカエル山の巨人は役職に関係なく赤陣営全員を知っています。\nクエストに一度も選ばれずに終了した場合、または参加したクエストで累計３枚以上の失敗を出されることで単独勝利します。\n※ローカル拡張役職です。']
 ]
@@ -881,8 +881,8 @@ async def on_message(ctx):
                                 role_info = '赤陣営は\n'
                                 flg = 0
                                 for j in range(game_member_num):
-                                    if (ary[j][3] >= 11 and ary[j][3] <= 16) or ary[j][3] == 6:
-                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                    if ((ary[j][3] >= 11 and ary[j][3] <= 16) or ary[j][3] == 6) and ary[j][3] != 15:
+                                        role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
                                         if ary[j][3] == 6:
                                             flg = 1
                                 role_info = f"{role_info}\nです。\nバレないようにクエスト勝利へ導いてください。"
@@ -893,24 +893,31 @@ async def on_message(ctx):
                                 role_info = 'マーリンとモルガナを確認することができます。\n'
                                 for j in range(game_member_num):
                                     if ary[j][3] == 0 or ary[j][3] == 11:
-                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                        role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
                                 role_info = f"{role_info}\nがマーリンとモルガナです。\n役職によって2人とは限りません。"
                                 await msg.send(f"{role_info}")
                             elif ary[i][3] == 2 : # ガラハッド
                                 role_info = f"パーシヴァルと暗殺者を確認することができます。\n"
                                 for j in range(game_member_num):
                                     if (ary[j][3] == 1 or ary[j][3] == 12):
-                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                        role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
                                 role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
                                 await msg.send(f"{role_info}")
                             elif ary[i][3] == 6 : # カラドック
                                 role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
                                 await msg.send(f"{role_info}")
-                            elif (ary[i][3] >= 10 and ary[i][3] <= 19) and ary[i][3] != 14 : # 赤陣営
+                            elif (ary[i][3] >= 10 and ary[i][3] <= 19) and ary[i][3] != 14 and ary[j][3] != 15: # 赤陣営
                                 role_info = '赤陣営は\n'
                                 for j in range(game_member_num):
-                                    if (ary[i][3] >= 10 and ary[i][3] <= 19) and ary[i][3] != 14:
-                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                    if (ary[j][3] >= 10 and ary[j][3] <= 19) and ary[j][3] != 14 and ary[j][3] != 15:
+                                        role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
+                                role_info = f"{role_info}\nです。"
+                                await msg.send(f"{role_info}")
+                            elif ary[i][3] == 15: # 赤陣営
+                                role_info = '赤陣営は\n'
+                                for j in range(game_member_num):
+                                    if ary[j][3] >= 10 and ary[j][3] <= 19:
+                                        role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
                                 role_info = f"{role_info}\nです。"
                                 await msg.send(f"{role_info}")
                             elif ary[i][3] == 14: # 赤陣営
@@ -920,7 +927,7 @@ async def on_message(ctx):
                                 role_info = '赤陣営は\n'
                                 for j in range(game_member_num):
                                     if (ary[j][3] >= 10 and ary[j][3] < 20):
-                                        role_info = f"{role_info}\n{ary[j][1]}"
+                                        role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
                                 role_info = f"{role_info}\nです。勝利条件は暗殺されることです。"
                                 await msg.send(f"{role_info}")
 
@@ -1273,6 +1280,7 @@ async def on_message(ctx):
             elif game_phase == 2: #成功失敗フェーズ
                 command_accept = 0
                 if comment == 's' or comment == 'success' or comment == 'せ' or comment == 'f' or comment == 'fail' or comment == 'し':
+                    agravain_member = role_fine(game_member_num, avalon_user, 15)
                     if comment == 's' or comment == 'success' or comment == 'せ':
                         command_accept = 16
                     elif comment == 'f' or comment == 'fail' or comment == 'し':
@@ -1282,6 +1290,10 @@ async def on_message(ctx):
                         num = game_member[i]
                         if ctx.author.id == avalon_user[num][2]:
                             msg = client.get_user(avalon_user[num][2])
+                            if ctx.author.id == avalon_user[agravain_member][2] and command_accept == 8 and nquest_success_cnt < 2:
+                                command_accept = 16
+                                await msg.send(f"成功が2回出てないため、強制的に成功へ変更しました。")
+
                             if avalon_quest[num] < 8:
                                 sql = f"update `avalon_quest` \
                                 set `member{num+1}` = {avalon_quest[num]+command_accept} \
@@ -1681,7 +1693,7 @@ async def on_message(ctx):
                                         role_info = '赤陣営は\n'
                                         flg = 0
                                         for j in range(game_member_num):
-                                            if (avalon_user[j][3] >= 11 and avalon_user[j][3] <= 16) or avalon_user[j][3] == 6:
+                                            if ((avalon_user[j][3] >= 11 and avalon_user[j][3] <= 16) or avalon_user[j][3] == 6) and avalon_user[j][3] != 15:
                                                 role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                                 if avalon_user[j][3] == 6:
                                                     flg = 1
@@ -1704,18 +1716,24 @@ async def on_message(ctx):
                                         role_info = f"{role_info}\nがパーシヴァルと暗殺者です。\n役職によって2人とは限りません。"
                                         await msg.send(f"{role_info}")
                                     elif avalon_user[i][3] == 6 : # カラドック
-
                                         role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
                                         await msg.send(f"{role_info}")
-                                    elif (avalon_user[i][3] >= 10 and avalon_user[i][3] <= 19) and avalon_user[i][3] != 14 : # 赤陣営
+                                    elif (avalon_user[i][3] >= 10 and avalon_user[i][3] <= 19) and avalon_user[i][3] != 14 and avalon_user[i][3] != 15: # 赤陣営
                                         role_info = '赤陣営は\n'
                                         for j in range(game_member_num):
-                                            if (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 19) and avalon_user[j][3] != 14:
+                                            if (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 19) and avalon_user[j][3] != 14 and avalon_user[i][3] != 15:
                                                 role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                         role_info = f"{role_info}\nです。"
                                         await msg.send(f"{role_info}")
                                     elif avalon_user[i][3] == 14 : # 赤陣営
                                         role_info = 'あなたは仲間の赤陣営を知りません。'
+                                        await msg.send(f"{role_info}")
+                                    elif avalon_user[i][3] == 15: # 赤陣営
+                                        role_info = '赤陣営は\n'
+                                        for j in range(game_member_num):
+                                            if avalon_user[j][3] >= 10 and avalon_user[j][3] <= 19:
+                                                role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
+                                        role_info = f"{role_info}\nです。"
                                         await msg.send(f"{role_info}")
                                     elif avalon_user[i][3] == 30: # 赤陣営
                                         role_info = '赤陣営は\n'
