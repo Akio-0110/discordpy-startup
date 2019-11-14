@@ -965,8 +965,10 @@ async def on_message(ctx):
                                 await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。\n{role_info}", file=File(avalon_role[ary[i][3]][2]))
                         sql = player_display(game_member_num, ary, game_member_num+1)
                         embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"オベロンにしたいプレイヤーを選択(s 好きなプレイヤーの数字)してください。\n{sql}")
+                        beast_num = role_find(game_member_num, ary, 16)
+                        msg = client.get_user(ary[beast_num][2])
                         await msg.send(embed=embed)
-                        await msgch.send(f"{avalon_role[16][1]}がいるため、一時通知をしました。\nオベロン化するプレイヤーを選択後、最終通知を行います。")
+                        await msgch.send(f"{avalon_role[16][1]}がいるため、一時通知をしました。\nオベロン化するプレイヤーを選択後、最終通知を行います。\n{sql}")
                         game_phase = 5
                         sql = f"update `avalon_data` set `game_phase`={game_phase} where id = 0"
                         db.execute(sql)
