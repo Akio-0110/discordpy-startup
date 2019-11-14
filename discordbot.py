@@ -1564,7 +1564,7 @@ async def on_message(ctx):
                                         msg = client.get_user(avalon_user[otome_select[quest_cnt-2]][2])
                                         sql = player_display(game_member_num, avalon_user, select_member)
                                         embed = discord.Embed(title=f"通算クエスト結果",description=f"成功{quest_success_cnt}回\n失敗{quest_fail_cnt}回")
-                                        embed.add_field(name="乙女選出",value=f"{sql}\nあなたは乙女選出者です。\n選出例:1番のプレイヤーを暗殺する場合\ns 1")
+                                        embed.add_field(name="乙女選出",value=f"{sql}\nあなたは乙女選出者です。\n選出例:1番のプレイヤーに乙女を使う場合\ns 1")
                                         await msg.send(embed=embed)
                                         sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                         value (%s, %s)"
@@ -1873,7 +1873,7 @@ async def on_message(ctx):
                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
                                 await msg.send(sql)
                                 embed = discord.Embed(title=f"クエスト：青陣営勝利",description="暗殺者の方がマーリン暗殺中です。")
-                                await msgch.send(embed=embed, file=File(file))
+                                await msgch.send(embed=embed)
                             else:
                                 await ctx.author.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
                     else:
