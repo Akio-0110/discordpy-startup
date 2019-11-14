@@ -2065,7 +2065,8 @@ async def on_message(ctx):
                     sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
                     embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nオベロンにするプレイヤーを選択中です。")
                     await ctx.channel.send(embed=embed)
-                    msg = client.get_user(avalon_user[otome_member][2])
+                    beast_num = role_fine(game_member_num, avalon_user, 16)
+                    msg = client.get_user(avalon_user[beast_num][2])
                     sql = player_display(game_member_num, avalon_user, select_member)
                     embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nあなたは{avalon_role[16][1]}です。オベロンにするプレイヤーを選出してください。\n選出例:1番のプレイヤーを暗殺する場合\ns 1")
                     await msg.send(embed=embed)
@@ -2080,7 +2081,7 @@ async def on_message(ctx):
 
             elif game_status == 3:
                 sql = f"暗殺フェーズです。"
-                embed = discord.Embed(title=f"現在の状況",description=f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}")
+                embed = discord.Embed(title=f"現在の状況",description=f"{sql}\n")
                 await ctx.channel.send(embed=embed)
                 kill_member = role_find(game_member_num, avalon_user, 12)
                 if kill_member == None:
