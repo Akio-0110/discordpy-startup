@@ -1594,8 +1594,9 @@ async def on_message(ctx):
                                     otome_msg = f"{avalon_user[otome_num][1]}はどちらの陣営でもありません"
                                     flg = 0
                                 else:
-                                    otome_msg = f"{avalon_user[otome_num][1]}は第３陣営です"
-                                    flg = 0
+                                    otome_msg = f"{avalon_user[otome_num][1]}は青陣営です"
+                                    file="./image/忠誠カード青.jpeg"
+                                    flg = 1
                                 embed = discord.Embed(title="乙女結果",description=otome_msg)
                                 if flg == 1:
                                     await ctx.author.send(embed=embed, file=File(file))
