@@ -1479,7 +1479,7 @@ async def on_message(ctx):
                                             db.execute(sql)
                                             msg = client.get_user(avalon_user[ex_member][2])
                                             sql = "暗殺される人を予想してください"
-                                            sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                                            sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺すると思う場合\nk 1"
                                             await msg.send(sql)
                                             embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
                                             await msgch.send(embed=embed, file=File(file))
@@ -1835,7 +1835,9 @@ async def on_message(ctx):
                             select_check = 0
                             select_num = int(select_member_match[0])-1
                             if select_num >= 0 and select_num <= game_member_num-1:
-                                sql = f"update `avalon_data` set `kill_member` = {select_num} where `id` = 0"
+                                sql = f"alter table `avalon_data` add `ex_kill_member` int"
+                                db.execute(sql)
+                                sql = f"update `avalon_data` set `ex_kill_member` = {select_num} where `id` = 0"
                                 db.execute(sql)
                                 await ctx.author.send(f"{select_num+1}の{avalon_user[select_num][1]}を選択しました。")
                                 sql = f"update `avalon_data` set \
@@ -1940,13 +1942,21 @@ async def on_message(ctx):
                     if len(select_member_match) != 1:
                         msg.send("暗殺メンバーは１人です。")
                     else:
+                        sql = f"select `ex_kill_member` from `avalon_data` where id = 0"
+                        db.execute(sql)
+                        rows = db.fetchone()
+                        ex_kill_member = int(rows[0])
                         if int(select_member_match[0]) >= 1 and int(select_member_match[0]) <= game_member_num:
                             sql = "配役は以下の通りです。"
                             for i in range(game_member_num):
                                 sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
 
                             select_member_num = int(select_member_match[0])-1
-                            if select_member_num == kill_member:
+
+                            if select_member_num == ex_kill_member:
+                                kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
+                                embed = discord.Embed(title=f"暗殺失敗:{avalon_role[31][1]}の勝利",description=f"{kill_msg}\n{sql}")
+                            elif select_member_num == kill_member:
                                 kill_msg = "暗殺に疲れ自害しました。"
                                 embed = discord.Embed(title="暗殺失敗:青陣営の勝利",description=f"{kill_msg}\n{sql}")
                             elif avalon_user[select_member_num][3] == 0:
