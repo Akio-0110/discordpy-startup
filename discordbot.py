@@ -2079,7 +2079,7 @@ async def on_message(ctx):
                     await msgch.send(embed=embed)
 
             elif game_status == 3:
-                sql = f"{sql}暗殺フェーズです。"
+                sql = f"暗殺フェーズです。"
                 embed = discord.Embed(title=f"現在の状況",description=f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}")
                 await ctx.channel.send(embed=embed)
                 kill_member = role_find(game_member_num, avalon_user, 12)
