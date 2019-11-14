@@ -1976,7 +1976,7 @@ async def on_message(ctx):
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の承認却下:",description=f"{sql}")
                     await ctx.channel.send(embed=embed)
                     sql = "選出メンバー"
-                    for i in quest_member_num[game_member_num][quest_cnt-1][1]:
+                    for i in range(quest_member_num[game_member_num][quest_cnt-1][1]):
                         sql = f"{sql}\n{i+1}：{avalon_user[i][1]}"
 
                     for i in range(game_member_num):
