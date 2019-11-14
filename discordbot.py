@@ -1255,10 +1255,11 @@ async def on_message(ctx):
                                     where id = 0"
                                     # print(sql)
                                     db.execute(sql)
-                                    embed = discord.Embed(title="投票結果",description=f"{vote_msg}")
-                                    file = "./image/却下.jpeg"
                                     if vote_cnt == 5:
-                                        sql = f"次の選出が却下された場合、赤陣営の勝利です。"
+                                        sql = f"次の選出が却下された場合、赤陣営の勝利です。\nリーダは{avalon_user[select_member][1]}です。\n{player_display(game_member_num, avalon_user, select_member)}"
+                                    embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n{sql}")
+                                    file = "./image/却下.jpeg"
+                                    await msgch.send(embed=embed, file = File(file))
                                 else:
                                     vote_cnt += 1
                                     sql = "update `avalon_data` set \
