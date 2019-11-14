@@ -1228,7 +1228,7 @@ async def on_message(ctx):
                                 # print(sql)
                                 db.execute(sql)
 
-                                sql = f"{sql}\n選出メンバー："
+                                sql = f"選出メンバー："
                                 for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                                     sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
                                 embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n{sql}\n選出メンバーが成功失敗の投票中です。")
@@ -1273,7 +1273,7 @@ async def on_message(ctx):
                                     where id = 0"
                                     # print(sql)
                                     db.execute(sql)
-                                    sql = f"{sql}\n選出メンバー："
+                                    sql = f"選出メンバー："
                                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                                         sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
 
