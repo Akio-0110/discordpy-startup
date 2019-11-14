@@ -1974,7 +1974,7 @@ async def on_message(ctx):
                     await msg.send(embed=embed)
                 elif game_phase == 1:
                     sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}"
-                    sql = f"{sql}選出メンバー："
+                    sql = f"{sql}\n選出メンバー："
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                         sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
 
