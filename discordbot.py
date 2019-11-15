@@ -1734,7 +1734,30 @@ async def on_message(ctx):
 
                                             sql = f"update `avalon_user` set `role` = 0 where `id` = {i+1}"
                                             db.execute(sql)
+                                elif avalon_user[select_num][3] == 8:
+                                    avalon_user[select_num][3] = 14
+                                    sql = f"update `avalon_user` set `role` = 14 where `id` = {select_num+1}"
+                                    db.execute(sql)
+                                    # 情弱
+                                    lover_change_member = role_find(game_member_num, avalon_user, 3)
+                                    if lover_change_member == None:
+                                        # ガウェイン
+                                        lover_change_member = role_find(game_member_num, avalon_user, 7)
+                                        if lover_change_member == None:
+                                            # カラドック
+                                            lover_change_member = role_find(game_member_num, avalon_user, 6)
+                                            if lover_change_member == None:
+                                                # ガラハッド
+                                                lover_change_member = role_find(game_member_num, avalon_user, 2)
+                                                if lover_change_member == None:
+                                                    # パーシヴァル
+                                                    lover_change_member = role_find(game_member_num, avalon_user, 1)
 
+                                    avalon_user[lover_change_member] = 8
+                                    sql = f"update `avalon_user` set `role` = 8 where `id` = {lover_change_member+1}"
+                                    db.execute(sql)
+                                    msg = client.get_user(avalon_user[lover_change_member][2])
+                                    await msg.send(f"{avalon_role[8][1]}の1人がオベロンになってしまいました。\nよってあなたが{avalon_role[8][1]}に変更となります。\n1回目の通知の役職は無効となります。", file = File(avalon_role[8][2]))
                                 else:
                                     avalon_user[select_num][3] = 14
                                     sql = f"update `avalon_user` set `role` = 14 where `id` = {select_num+1}"
