@@ -1753,6 +1753,8 @@ async def on_message(ctx):
                                                     # パーシヴァル
                                                     lover_change_member = role_find(game_member_num, avalon_user, 1)
 
+                                    print(lover_change_member)
+
                                     avalon_user[lover_change_member] = 8
                                     sql = f"update `avalon_user` set `role` = 8 where `id` = {lover_change_member+1}"
                                     db.execute(sql)
