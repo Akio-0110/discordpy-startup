@@ -400,6 +400,10 @@ async def on_message(ctx):
             elif game_status == 2:
                 if game_phase == 0:
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon20)
+                    sql = 'select * from `avalon_user`'
+                    db.execute(sql)
+                    rows = db.fetchall()
+                    print(rows)
                 elif game_phase == 1:
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon21)
                 elif game_phase == 2:
