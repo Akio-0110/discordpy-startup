@@ -1439,7 +1439,7 @@ async def on_message(ctx):
 
                                     n8_cnt = 0
                                     if role_find(game_member_num, avalon_user, 8) != None:
-                                        for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
+                                        for i in range(quest_member_num[game_member_num][quest_cnt-2][0]):
                                             if game_member[i] == 8:
                                                 n8_cnt += 1
 
@@ -1871,8 +1871,8 @@ async def on_message(ctx):
 
                 n8_cnt = 0
                 if role_find(game_member_num, avalon_user, 8) != None:
-                    for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                        if game_member[i] == 8:
+                    for i in range(game_member_num):
+                        if avalon_user[i][3] == 8:
                             n8_cnt += 1
 
                 ex_member = role_find(game_member_num, avalon_user, 31)
@@ -2055,8 +2055,8 @@ async def on_message(ctx):
 
                 n8_cnt = 0
                 if role_find(game_member_num, avalon_user, 8) != None:
-                    for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                        if game_member[i] == 8:
+                    for i in range(game_member_num):
+                        if avalon_user[i][3] == 8:
                             n8_cnt += 1
 
                 msg = client.get_user(avalon_user[kill_member][2])
@@ -2295,8 +2295,8 @@ async def on_message(ctx):
                 elif game_phase == 6:
                     n8_cnt = 0
                     if role_find(game_member_num, avalon_user, 8) != None:
-                        for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                            if game_member[i] == 8:
+                        for i in range(game_member_num):
+                            if avalon_user[i][3] == 8:
                                 n8_cnt += 1
 
                     ex_member = role_find(game_member_num, avalon_user, 31)
@@ -2315,8 +2315,8 @@ async def on_message(ctx):
             elif game_status == 3:
                 n8_cnt = 0
                 if role_find(game_member_num, avalon_user, 8) != None:
-                    for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                        if game_member[i] == 8:
+                    for i in range(game_member_num):
+                        if avalon_user[i][3] == 8:
                             n8_cnt += 1
 
                 sql = f"暗殺フェーズです。"
