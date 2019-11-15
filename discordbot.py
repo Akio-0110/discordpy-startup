@@ -1600,38 +1600,12 @@ async def on_message(ctx):
                                         db.execute(sql)
                                         msg = client.get_user(avalon_user[select_member][2])
                                         await msg.send(embed=embed)
-                                        for i in range(5):
-                                            if i==0:
-                                                if i+1 == quest_cnt:
-                                                    sql = f"■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                                                else:
-                                                    sql = f"□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                                            else:
-                                                if i+1 == quest_cnt:
-                                                    sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                                                else:
-                                                    sql = f"{sql}\n□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-
-                                        embed.add_field(name=f"クエスト情報：",value=f"{sql}")
                                         sql = player_display(game_member_num, avalon_user, select_member)
                                         embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
                                         await msgch.send(embed=embed, file=File(file))
                                         msg = client.get_user(avalon_user[select_member][2])
-                                        for i in range(5):
-                                            if i==0:
-                                                if i+1 == quest_cnt:
-                                                    sql = f"■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                                                else:
-                                                    sql = f"□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                                            else:
-                                                if i+1 == quest_cnt:
-                                                    sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                                                else:
-                                                    sql = f"{sql}\n□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-
-                                        embed = discord.Embed(title=f"クエスト情報：",description=f"{sql}")
                                         sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
-                                        embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=sql)
+                                        embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                                         await msg.send(embed=embed)
                                         sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                         value (%s, %s)"
