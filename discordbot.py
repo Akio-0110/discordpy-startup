@@ -941,7 +941,7 @@ async def on_message(ctx):
                                 role_info = f"{role_info}\nです。"
                                 await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。\n{role_info}", file=File(avalon_role[ary[i][3]][2]))
                         sql = player_display(game_member_num, ary, game_member_num+1)
-                        embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"{sql}\nオベロンにしたいプレイヤーを選択してください。\nコマンド例：１番のプレイヤを暗殺する場合\nk 1")
+                        embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"{sql}\nオベロンにしたいプレイヤーを選択してください。\nコマンド例：１番のプレイヤをオベロンにしたい場合\ns 1")
                         beast_num = role_find(game_member_num, ary, 16)
                         msg = client.get_user(ary[beast_num][2])
                         await msg.send(embed=embed)
@@ -2280,10 +2280,10 @@ async def on_message(ctx):
                     sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
                     embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nオベロンにするプレイヤーを選択中です。")
                     await ctx.channel.send(embed=embed)
-                    beast_num = role_fine(game_member_num, avalon_user, 16)
+                    beast_num = role_find(game_member_num, avalon_user, 16)
                     msg = client.get_user(avalon_user[beast_num][2])
                     sql = player_display(game_member_num, avalon_user, select_member)
-                    embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nあなたは{avalon_role[16][1]}です。オベロンにするプレイヤーを選出してください。\n選出例:1番のプレイヤーをオベロンにする場合\ns 1")
+                    embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nあなたは{avalon_role[16][1]}です。オベロンにするプレイヤーを選出してください。\n選出例:1番のプレイヤーをオベロンにしたい場合\ns 1")
                     await msg.send(embed=embed)
                 # 漁夫フェーズ：暗殺予想
                 elif game_phase == 6:
