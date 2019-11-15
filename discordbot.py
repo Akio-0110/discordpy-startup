@@ -1800,7 +1800,7 @@ async def on_message(ctx):
                                     elif avalon_user[i][3] == 8 : # 恋人
                                         for j in range(game_member_num):
                                             if avalon_user[j][3] == 8:
-                                                role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
+                                                role_info = f"{j+1}：{avalon_user[j][1]}"
                                         role_info = f"が恋人同士です。\n暗殺者に恋人同士の2人が暗殺されてしまうと、負けてしまいます。\nバレないようにプレイしてください。\nただし、{avalon_role[16][1]}によってオベロンにされた場合、恋人は見えません。\n※ローカル拡張役職です。"
                                         await msg.send(f"{role_info}")
                                     elif (avalon_user[i][3] >= 10 and avalon_user[i][3] <= 19) and avalon_user[i][3] != 14 and avalon_user[i][3] != 15: # 赤陣営
