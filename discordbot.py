@@ -883,8 +883,8 @@ async def on_message(ctx):
                             elif ary[i][3] == 8 : # 恋人
                                 for j in range(game_member_num):
                                     if ary[j][3] == 8:
-                                        role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
-                                role_info = f"が恋人同士です。\n暗殺者に恋人同士の2人が暗殺されてしまうと、負けてしまいます。\nバレないようにプレイしてください。\n※ローカル拡張役職です。"
+                                        role_info = f"{j+1}：{ary[j][1]}"
+                                role_info = f"{role_info}\nが恋人同士です。\n暗殺者に恋人同士の2人が暗殺されてしまうと、負けてしまいます。\nバレないようにプレイしてください。\n※ローカル拡張役職です。"
                                 await msg.send(f"{role_info}")
                             elif (ary[i][3] >= 10 and ary[i][3] <= 19) and ary[i][3] != 14 and ary[i][3] != 15: # 赤陣営
                                 role_info = '赤陣営は\n'
@@ -1600,12 +1600,38 @@ async def on_message(ctx):
                                         db.execute(sql)
                                         msg = client.get_user(avalon_user[select_member][2])
                                         await msg.send(embed=embed)
+                                        for i in range(5):
+                                            if i==0:
+                                                if i+1 == quest_cnt:
+                                                    sql = f"■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                                                else:
+                                                    sql = f"□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                                            else:
+                                                if i+1 == quest_cnt:
+                                                    sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                                                else:
+                                                    sql = f"{sql}\n□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+
+                                        embed.add_field(name=f"クエスト情報：",value=f"{sql}")
                                         sql = player_display(game_member_num, avalon_user, select_member)
                                         embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
                                         await msgch.send(embed=embed, file=File(file))
                                         msg = client.get_user(avalon_user[select_member][2])
+                                        for i in range(5):
+                                            if i==0:
+                                                if i+1 == quest_cnt:
+                                                    sql = f"■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                                                else:
+                                                    sql = f"□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                                            else:
+                                                if i+1 == quest_cnt:
+                                                    sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                                                else:
+                                                    sql = f"{sql}\n□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+
+                                        embed = discord.Embed(title=f"クエスト情報：",description=f"{sql}")
                                         sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
-                                        embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
+                                        embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=sql)
                                         await msg.send(embed=embed)
                                         sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                         value (%s, %s)"
@@ -1805,7 +1831,7 @@ async def on_message(ctx):
                                         for j in range(game_member_num):
                                             if avalon_user[j][3] == 8:
                                                 role_info = f"{j+1}：{avalon_user[j][1]}"
-                                        role_info = f"が恋人同士です。\n暗殺者に恋人同士の2人が暗殺されてしまうと、負けてしまいます。\nバレないようにプレイしてください。\nただし、{avalon_role[16][1]}によってオベロンにされた場合、恋人は見えません。\n※ローカル拡張役職です。"
+                                        role_info = f"{role_info}\nが恋人同士です。\n暗殺者に恋人同士の2人が暗殺されてしまうと、負けてしまいます。\nバレないようにプレイしてください。\nただし、{avalon_role[16][1]}によってオベロンにされた場合、恋人は見えません。\n※ローカル拡張役職です。"
                                         await msg.send(f"{role_info}")
                                     elif (avalon_user[i][3] >= 10 and avalon_user[i][3] <= 19) and avalon_user[i][3] != 14 and avalon_user[i][3] != 15: # 赤陣営
                                         role_info = '赤陣営は\n'
