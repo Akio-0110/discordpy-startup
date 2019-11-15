@@ -706,7 +706,7 @@ async def on_message(ctx):
                     err_flg = 0
                     n8_ok = 1
                     n8_cnt = 0
-                    for k in len(role_list):
+                    for k in range(len(role_list)):
                         num = role_list[k]
                         if num == 8:
                             n8_cnt += 1
