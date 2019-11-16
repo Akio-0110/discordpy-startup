@@ -696,7 +696,7 @@ async def on_message(ctx):
                                     await ctx.channel.send(embed=embed)
                     else:
                         await ctx.channel.send("指定番号の役職はありません")
-                else:
+                elif len(deck_cmd_match) == game_member_num:
                     role_list = [0,1]
                     i = 0
                     for k in deck_cmd_match:
@@ -747,6 +747,8 @@ async def on_message(ctx):
                             sql = f"{sql}\n{avalon_role[avalon_role_auto[game_member_num][0][i]][1]}"
                         embed = discord.Embed(title="選択役職",description=sql)
                         await msgch.send(embed=embed)
+                else:
+                    await ctx.channel.send("プレイヤー数と役職の指定数が違います。\n合わせたコマンドにしてください。")
 
             # otome : 乙女設定
             elif comment == 'o' or comment == 'otome' or comment == 'お':
