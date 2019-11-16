@@ -400,10 +400,10 @@ async def on_message(ctx):
             elif game_status == 2:
                 if game_phase == 0:
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon20)
-                    sql = 'select * from `avalon_user`'
-                    db.execute(sql)
-                    rows = db.fetchall()
-                    print(rows)
+                    # sql = 'select * from `avalon_user`'
+                    # db.execute(sql)
+                    # rows = db.fetchall()
+                    # print(rows)
                 elif game_phase == 1:
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon21)
                 elif game_phase == 2:
@@ -887,7 +887,7 @@ async def on_message(ctx):
                                 role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
                                 await msg.send(f"{role_info}")
                             elif ary[i][3] == 8 : # 恋人
-                                for j in range(game_member_num):
+                                role_info = None
                                     if ary[j][3] == 8:
                                         role_info = f"{j+1}：{ary[j][1]}"
                                 role_info = f"{role_info}\nが恋人同士です。\n暗殺者に恋人同士の2人が暗殺されてしまうと、負けてしまいます。\nバレないようにプレイしてください。\n※ローカル拡張役職です。"
@@ -1808,9 +1808,10 @@ async def on_message(ctx):
                                         role_info = f"青陣営ですが、マーリンに赤として通知されます。\n※ローカル拡張役職です。"
                                         await msg.send(f"{role_info}")
                                     elif avalon_user[i][3] == 8 : # 恋人
+                                        role_info = None
                                         for j in range(game_member_num):
                                             if avalon_user[j][3] == 8:
-                                                role_info = f"{j+1}：{avalon_user[j][1]}"
+                                                role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                         role_info = f"{role_info}\nが恋人同士です。\n暗殺者に恋人同士の2人が暗殺されてしまうと、負けてしまいます。\nバレないようにプレイしてください。\nただし、{avalon_role[16][1]}によってオベロンにされた場合、恋人は見えません。\n※ローカル拡張役職です。"
                                         await msg.send(f"{role_info}")
                                     elif (avalon_user[i][3] >= 10 and avalon_user[i][3] <= 19) and avalon_user[i][3] != 14 and avalon_user[i][3] != 15: # 赤陣営
