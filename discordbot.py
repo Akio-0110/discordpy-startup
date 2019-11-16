@@ -888,6 +888,7 @@ async def on_message(ctx):
                                 await msg.send(f"{role_info}")
                             elif ary[i][3] == 8 : # 恋人
                                 role_info = None
+                                for j in range(game_member_num):
                                     if ary[j][3] == 8:
                                         role_info = f"{j+1}：{ary[j][1]}"
                                 role_info = f"{role_info}\nが恋人同士です。\n暗殺者に恋人同士の2人が暗殺されてしまうと、負けてしまいます。\nバレないようにプレイしてください。\n※ローカル拡張役職です。"
