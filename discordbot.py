@@ -749,6 +749,8 @@ async def on_message(ctx):
                         await msgch.send(embed=embed)
                 elif len(deck_cmd_match) < game_member_num:
                     await ctx.channel.send("プレイヤー数より役職の指定数が少ないです。\n合わせたコマンドにしてください。")
+                elif len(deck_cmd_match) < 5:
+                    await ctx.channel.send("プレイヤー数が5人に達していません。\n5人以上入室後、人数に合わせてコマンドしてください。")
                 else:
                     await ctx.channel.send("プレイヤー数と役職の指定数が違います。\n合わせたコマンドにしてください。")
 
