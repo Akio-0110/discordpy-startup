@@ -1491,7 +1491,7 @@ async def on_message(ctx):
                                                 sql = f"{sql}\nマーリンまたは{avalon_role[8][1]}の2人の一方を予想してください"
                                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺すると予想する場合\ns 1\n{avalon_user[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺すると予想する場合\ns 1,2"
                                             else:
-                                                sql = "{sql}\nママーリンを予想してください"
+                                                sql = "{sql}\nマーリンを予想してください"
                                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
                                             await msg.send(sql)
                                             embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
@@ -2065,10 +2065,12 @@ async def on_message(ctx):
                     select_member_match = select_member.findall(comment)
                     select_member_num = int(select_member_match[0])-1
                     if len(select_member_match) == 1:
-                        sql = f"select `ex_kill_member` from `avalon_data` where id = 0"
-                        db.execute(sql)
-                        rows = db.fetchone()
-                        ex_kill_member = int(rows[0])
+                        if role_find(game_member_num, avalon_user, 31) != None:
+                            sql = f"select `ex_kill_member` from `avalon_data` where id = 0"
+                            db.execute(sql)
+                            rows = db.fetchone()
+                            ex_kill_member = int(rows[0])
+
                         if int(select_member_match[0]) >= 0 and int(select_member_match[0]) <= game_member_num-1:
                             sql = "配役は以下の通りです。"
                             for i in range(game_member_num):
@@ -2137,17 +2139,18 @@ async def on_message(ctx):
                             await msg.send(f"暗殺メンバーは１〜{game_member_num}で選択してください。")
                     elif (n8_cnt == 2 and len(select_member_match) == 2):
                         if n8_cnt == 2:
-                            ex_kill_member = [0,0]
                             err_flg = 0
-                            for i in range(2):
-                                sql = f"select `ex_kill_member{i+1}` from `avalon_data` where id = 0"
-                                db.execute(sql)
-                                rows = db.fetchone()
-                                ex_kill_member[i] = int(rows[0])-1
-                                if int(select_member_match[0]) >= 0 and int(select_member_match[0]) <= game_member_num-1:
-                                    continue
-                                else:
-                                    err_flg = 1
+                            if role_find(game_member_num, avalon_user, 31) != None:
+                                ex_kill_member = [0,0]
+                                for i in range(2):
+                                    sql = f"select `ex_kill_member{i+1}` from `avalon_data` where id = 0"
+                                    db.execute(sql)
+                                    rows = db.fetchone()
+                                    ex_kill_member[i] = int(rows[0])-1
+                                    if int(select_member_match[0]) >= 0 and int(select_member_match[0]) <= game_member_num-1:
+                                        continue
+                                    else:
+                                        err_flg = 1
                             if len(select_member_match) != len(set(select_member_match)):
                                 err_flg = 1
 
