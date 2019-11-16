@@ -696,6 +696,8 @@ async def on_message(ctx):
                                     await ctx.channel.send(embed=embed)
                     else:
                         await ctx.channel.send("指定番号の役職はありません")
+                elif len(deck_cmd_match) < 5:
+                    await ctx.channel.send("プレイヤー数が5人に達していません。\n5人以上入室後、人数に合わせてコマンドしてください。")
                 elif len(deck_cmd_match) == game_member_num:
                     role_list = [0,1]
                     i = 0
@@ -747,8 +749,6 @@ async def on_message(ctx):
                             sql = f"{sql}\n{avalon_role[avalon_role_auto[game_member_num][0][i]][1]}"
                         embed = discord.Embed(title="選択役職",description=sql)
                         await msgch.send(embed=embed)
-                elif len(deck_cmd_match) < 5:
-                    await ctx.channel.send("プレイヤー数が5人に達していません。\n5人以上入室後、人数に合わせてコマンドしてください。")
                 elif len(deck_cmd_match) < game_member_num:
                     await ctx.channel.send("プレイヤー数より役職の指定数が少ないです。\n合わせたコマンドにしてください。")
                 else:
