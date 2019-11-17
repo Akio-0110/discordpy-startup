@@ -1396,6 +1396,15 @@ async def on_message(ctx):
                                 else:
                                     base_num = 1
 
+                                if fail_cnt >= base_num:
+                                    quest_fail_cnt += 1
+                                    file = './image/クエスト失敗.jpeg'
+                                    embed = discord.Embed(title="投票結果:失敗",description=f"{vote_msg}\n{member_msg}")
+                                else:
+                                    quest_success_cnt += 1
+                                    file = './image/クエスト成功.jpeg'
+                                    embed = discord.Embed(title="投票結果:成功",description=f"{vote_msg}\n{member_msg}")
+
                                 if quest_success_cnt == 3:
                                     game_phase = 0
                                     quest_cnt += 1
@@ -1436,14 +1445,6 @@ async def on_message(ctx):
                                             `game_otome3` = NULL \
                                             where id = 0"
                                             db.execute(sql)
-                                            if fail_cnt >= base_num:
-                                                quest_fail_cnt += 1
-                                                file = './image/クエスト失敗.jpeg'
-                                                embed = discord.Embed(title="投票結果:失敗",description=f"{vote_msg}\n{member_msg}")
-                                            else:
-                                                quest_success_cnt += 1
-                                                file = './image/クエスト成功.jpeg'
-                                                embed = discord.Embed(title="投票結果:成功",description=f"{vote_msg}\n{member_msg}")
                                             kill_member = role_find(game_member_num, avalon_user, 12)
                                             if kill_member == None:
                                                 kill_member = role_find(game_member_num, avalon_user, 16)
@@ -1458,16 +1459,6 @@ async def on_message(ctx):
                                             else:
                                                 sql = "マーリンを予想して暗殺してください"
                                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
-                                            embed.add_field(name=f"クエスト：青陣営勝利", value=sql)
-                                            await msg.send(embed=embed)
-                                            if fail_cnt >= base_num:
-                                                quest_fail_cnt += 1
-                                                file = './image/クエスト失敗.jpeg'
-                                                embed = discord.Embed(title="投票結果:失敗",description=f"{vote_msg}\n{member_msg}")
-                                            else:
-                                                quest_success_cnt += 1
-                                                file = './image/クエスト成功.jpeg'
-                                                embed = discord.Embed(title="投票結果:成功",description=f"{vote_msg}\n{member_msg}")                                            embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方が暗殺するプレイヤーを検討中です。")
                                             embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方が暗殺するプレイヤーを検討中です。")
                                             await msgch.send(embed=embed, file=File(file))
                                         else:
@@ -1482,9 +1473,10 @@ async def on_message(ctx):
                                             else:
                                                 sql = "{sql}\nマーリンを予想してください"
                                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤが暗殺される場合\n.s 1"
-                                            await msg.send(sql)
                                             embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
                                             await msgch.send(embed=embed, file=File(file))
+                                        embed = discord.Embed(title="クエスト：青陣営勝利",description=sql")
+                                        await msg.send(embed=embed)
                                     else:
                                         sql = f"update `avalon_data` set \
                                         `game_status`= 0, \
