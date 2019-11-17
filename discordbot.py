@@ -676,7 +676,7 @@ async def on_message(ctx):
                 embed.add_field(name="青陣営",value=blue_role)
                 embed.add_field(name="赤陣営",value=red_role)
                 embed.add_field(name="その他",value=other_role)
-                embed.add_field(name="コマンド例",value="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\nrole 0,1,2,11,12\n入室人数に合わせて設定が必要してください。")
+                embed.add_field(name="コマンド例",value="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\nrole 0,1,2,11,12\n入室人数に合わせて\n設定してください。")
                 await ctx.channel.send(embed=embed)
 
             # role number : 役職カスタマイズ
