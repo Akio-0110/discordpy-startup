@@ -1475,7 +1475,7 @@ async def on_message(ctx):
                                                 sql = "{sql}\nマーリンを予想してください"
                                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤが暗殺される場合\n.s 1"
                                             await msg.send(sql)
-                                            embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
+                                            embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
                                             await msgch.send(embed=embed, file=File(file))
                                     else:
                                         sql = f"update `avalon_data` set \
@@ -2308,7 +2308,7 @@ async def on_message(ctx):
                         sql = "{sql}\nママーリンを予想してください"
                         sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
                     await msg.send(sql)
-                    embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
+                    embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
                     await msgch.send(embed=embed)
 
             elif game_status == 3:
