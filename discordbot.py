@@ -1451,7 +1451,7 @@ async def on_message(ctx):
                                             msg = client.get_user(avalon_user[kill_member][2])
                                             if n8_cnt == 2:
                                                 sql = f"マーリンまたは{avalon_role[8][1]}の2人の一方を予想して暗殺してください"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺する場合\n?k 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺する場合\n?k 1,2"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤを暗殺する場合 : ?k 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤを暗殺する場合 : ?k 1,2"
                                             else:
                                                 sql = "マーリンを予想して暗殺してください"
                                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
@@ -1466,7 +1466,7 @@ async def on_message(ctx):
                                             sql = "暗殺される人を予想してください"
                                             if n8_cnt == 2:
                                                 sql = f"{sql}\nマーリンまたは{avalon_role[8][1]}の2人の一方を予想してください"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺すると予想する場合\n?s 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺すると予想する場合\n?s 1,2"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤを暗殺すると予想する場合 : ?s 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤを暗殺すると予想する場合 : ?s 1,2"
                                             else:
                                                 sql = "{sql}\nマーリンを予想してください"
                                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
@@ -2292,7 +2292,7 @@ async def on_message(ctx):
                     sql = "暗殺される人を予想してください"
                     if n8_cnt == 2:
                         sql = f"{sql}\nマーリンまたは{avalon_role[8][1]}の2人の一方を予想してください"
-                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺すると予想する場合\n?s 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺すると予想する場合\n?s 1,2"
+                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤを暗殺すると予想する場合 : ?s 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤを暗殺すると予想する場合 : ?s 1,2"
                     else:
                         sql = "{sql}\nママーリンを予想してください"
                         sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
@@ -2320,7 +2320,7 @@ async def on_message(ctx):
                 msg = client.get_user(avalon_user[kill_member][2])
                 if n8_cnt == 2:
                     sql = f"マーリンまたは{avalon_role[8][1]}の2人の一方を予想して暗殺してください"
-                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺する場合\n?k 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺する場合\n?k 1,2"
+                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤを暗殺する場合 : ?k 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤを暗殺する場合 : ?k 1,2"
                 else:
                     sql = "マーリンを予想して暗殺してください"
                     sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
