@@ -2214,9 +2214,9 @@ async def on_message(ctx):
                 dbsql = 'select `name` from `avalon_user`'
                 db.execute(dbsql)
                 rows = db.fetchone()
-                for i in range(game_member_num):
-                    if rows[0] != None:
-                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
+                # for i in range(game_member_num):
+                #     if rows[0] != None:
+                sql = f"{sql}\n{player_display(game_member_num, rows, game_member_num+1)}"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
                 await ctx.channel.send(embed=embed)
             elif game_status == 2:
