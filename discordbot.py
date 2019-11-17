@@ -1049,6 +1049,47 @@ async def on_message(ctx):
                 )"
                 db.execute(sql)
 
+            # role number : 役職カスタマイズ
+            elif comment == 'role' or comment == 'や':
+                for i in range(34):
+                    if i == 0:
+                        blue_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
+                    elif i < 9:
+                        blue_role = f"{blue_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
+                    elif i == 10:
+                        red_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
+                    elif i >= 11 and i <=16:
+                        red_role = f"{red_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
+                    elif i == 20:
+                        other_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
+                    elif (i >= 30 and i <=33) or i == 21:
+                        other_role = f"{other_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
+                embed = discord.Embed(title="",description="")
+                embed.add_field(name="青陣営",value=blue_role)
+                embed.add_field(name="赤陣営",value=red_role)
+                embed.add_field(name="その他",value=other_role)
+                embed.add_field(name="コマンド例",value="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\nrole 0,1,2,11,12\n入室人数に合わせて\n設定してください。")
+                await ctx.channel.send(embed=embed)
+
+            # role number : 役職カスタマイズ
+            elif comment[0:5] == 'role ' or comment[0:2] == 'や ':
+                deck_cmd_re = re.compile('\d+')
+                deck_cmd_match = deck_cmd_re.findall(comment)
+
+                if len(deck_cmd_match) == 1:
+                    num = int(deck_cmd_match[0])
+                    if (num >= 0 and num <=8) or (num >= 10 and num <=16) or (num >= 20 and num <= 21) or (num >= 30 and num <= 33):
+                        for i in avalon_role:
+                            if i[0] == num:
+                                embed = discord.Embed(title=f"役職説明:{i[1]}",description=i[3])
+                                if i[2] != None:
+                                    file = i[2]
+                                    await ctx.channel.send(embed=embed, file=File(file))
+                                else:
+                                    await ctx.channel.send(embed=embed)
+                    else:
+                        await ctx.channel.send("指定番号の役職はありません")
+
             elif game_phase == 0: #選出フェーズ
                 # start game : ゲームを開始する
                 if comment[0:2] == 's ' or comment[0:7] == 'select ' or comment[0:3] == 'せ ':
