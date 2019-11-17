@@ -1475,7 +1475,7 @@ async def on_message(ctx):
                                                 sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤが暗殺される場合\n.s 1"
                                             embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
                                             await msgch.send(embed=embed, file=File(file))
-                                        embed = discord.Embed(title="クエスト：青陣営勝利",description=sql")
+                                        embed = discord.Embed(title="クエスト：青陣営勝利",description=sql)
                                         await msg.send(embed=embed)
                                     else:
                                         sql = f"update `avalon_data` set \
