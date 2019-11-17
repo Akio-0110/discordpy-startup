@@ -1364,7 +1364,7 @@ async def on_message(ctx):
                         for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                             if avalon_user[game_member[i]][3] == 8:
                                 n8_cnt += 1
-
+                    print(n8_cnt)
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                         num = game_member[i]
                         if ctx.author.id == avalon_user[num][2]:
