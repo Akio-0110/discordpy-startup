@@ -2186,6 +2186,9 @@ async def on_message(ctx):
                         else:
                             await msg.send(f"暗殺メンバーは１〜{game_member_num}で選択してください。")
                     elif (n8_cnt == 2 and len(select_member_match) == 2):
+                        sql = "配役は以下の通りです。"
+                        for i in range(game_member_num):
+                            sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
                         select_member_num = [int(select_member_match[0])-1,int(select_member_match[0])-1]
                         err_flg = 0
                         if role_find(game_member_num, avalon_user, 31) != None:
