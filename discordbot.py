@@ -1409,6 +1409,7 @@ async def on_message(ctx):
                                     game_phase = 0
                                     quest_cnt += 1
                                     vote_cnt = 1
+                                    kill_flag = 0
                                     for k in range(game_member_num):
                                         if avalon_user[k][3] == 0:
                                             kill_flag = 1
@@ -1419,6 +1420,9 @@ async def on_message(ctx):
                                         for i in range(game_member_num):
                                             if avalon_user[i][3] == 8:
                                                 n8_cnt += 1
+
+                                    if n8_cnt == 2:
+                                        kill_flag = 1
 
                                     if kill_flag == 1:
                                         if role_find(game_member_num, avalon_user, 31) == None:
