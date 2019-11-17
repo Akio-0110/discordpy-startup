@@ -672,7 +672,8 @@ async def on_message(ctx):
                         other_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
                     elif (i >= 30 and i <=33) or i == 21:
                         other_role = f"{other_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
-                embed = discord.Embed(title="青陣営",description=blue_role)
+                embed = discord.Embed(title="",description="")
+                embed.add_field(name="青陣営",value=blue_role)
                 embed.add_field(name="赤陣営",value=red_role)
                 embed.add_field(name="その他",value=other_role)
                 embed.add_field(name="コマンド例",value="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\nrole 0,1,2,11,12\n入室人数に合わせて設定が必要してください。")
