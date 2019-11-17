@@ -2059,31 +2059,32 @@ async def on_message(ctx):
                                 sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
 
                             if role_find(game_member_num, avalon_user, 31) != None:
+                                kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーは{avalon_role[ex_kill_member[0]][1]}です。"
                                 if select_member_num == kill_member:
                                     if select_member_num == ex_kill_member:
-                                        kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
+                                        kill_msg = f"{kill_msg}\n{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
                                         kill_msg = f"{kill_msg}\n暗殺に疲れ自害しました。"
                                         embed = discord.Embed(title=f"暗殺失敗:青陣営と{avalon_role[31][1]}の勝利",description=f"{kill_msg}\n{sql}")
                                     else:
-                                        kill_msg = "暗殺に疲れ自害しました。"
+                                        kill_msg = f"{kill_msg}\n暗殺に疲れ自害しました。"
                                         kill_msg = f"{kill_msg}\n{avalon_role[31][1]}は予想を外しました。"
                                         embed = discord.Embed(title="暗殺失敗:青陣営の勝利",description=f"{kill_msg}\n{sql}")
                                 elif avalon_user[select_member_num][3] == 0:
                                     if select_member_num == ex_kill_member:
-                                        kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
+                                        kill_msg = f"{kill_msg}\n{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
                                         kill_msg = f"{kill_msg}\n見事マーリンを当てました。"
                                         embed = discord.Embed(title=f"暗殺成功:赤陣営と{avalon_role[31][1]}の勝利",description=f"{kill_msg}\n{sql}")
                                     else:
-                                        kill_msg = "見事マーリンを当てました。"
+                                        kill_msg = f"{kill_msg}\n見事マーリンを当てました。"
                                         kill_msg = f"{kill_msg}\n{avalon_role[31][1]}は予想を外しました。"
                                         embed = discord.Embed(title="暗殺成功:赤陣営の勝利",description=f"{kill_msg}\n{sql}")
                                 else:
                                     if select_member_num == ex_kill_member:
-                                        kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
+                                        kill_msg = f"{kill_msg}\n{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
                                         kill_msg = f"{kill_msg}\nマーリンを暗殺できませんでした。"
                                         embed = discord.Embed(title="暗殺失敗:青陣営と{avalon_role[31][1]}の勝利",description=f"{kill_msg}\n{sql}")
                                     else:
-                                        kill_msg = "マーリンを暗殺できませんでした。"
+                                        kill_msg = f"{kill_msg}\nマーリンを暗殺できませんでした。"
                                         kill_msg = f"{kill_msg}\n{avalon_role[31][1]}は予想を外しました。"
                                         embed = discord.Embed(title="暗殺失敗:青陣営の勝利",description=f"{kill_msg}\n{sql}")
                             else:
@@ -2141,22 +2142,23 @@ async def on_message(ctx):
 
                         if err_flg == 0:
                             if role_find(game_member_num, avalon_user, 31) != None:
+                                kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーは{avalon_role[ex_kill_member[0]][1]}と{avalon_role[ex_kill_member[1]][1]}です。"
                                 if avalon_user[select_member_num[0]][3] == 8 and avalon_user[select_member_num[1]][3] == 8:
                                     if (select_member_num[0] == ex_kill_member[0] and select_member_num[1] == ex_kill_member[1]):
-                                        kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
+                                        kill_msg = f"{kill_msg}\n{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
                                         kill_msg = f"{kill_msg}\n見事{avalon_role[8][1]}を2人当てました。"
                                         embed = discord.Embed(title=f"暗殺成功:赤陣営と{avalon_role[31][1]}の勝利",description=f"{kill_msg}\n{sql}")
                                     else:
-                                        kill_msg = f"見事{avalon_role[8][1]}を2人当てました。"
+                                        kill_msg = f"{kill_msg}\n見事{avalon_role[8][1]}を2人当てました。"
                                         kill_msg = f"{kill_msg}\n{avalon_role[31][1]}は予想を外しました。"
                                         embed = discord.Embed(title="暗殺成功:赤陣営の勝利",description=f"{kill_msg}\n{sql}")
                                 else:
                                     if select_member_num == ex_kill_member:
-                                        kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
+                                        kill_msg = f"{kill_msg}\n{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
                                         kill_msg = f"{kill_msg}\nマーリンを暗殺できませんでした。"
                                         embed = discord.Embed(title="暗殺失敗:青陣営と{avalon_role[31][1]}の勝利",description=f"{kill_msg}\n{sql}")
                                     else:
-                                        kill_msg = f"{avalon_role[8][1]}を2人暗殺できませんでした。"
+                                        kill_msg = f"{kill_msg}\n{avalon_role[8][1]}を2人暗殺できませんでした。"
                                         kill_msg = f"{kill_msg}\n{avalon_role[31][1]}は予想を外しました。"
                                         embed = discord.Embed(title="暗殺失敗:青陣営の勝利",description=f"{kill_msg}\n{sql}")
                             else:
@@ -2187,10 +2189,11 @@ async def on_message(ctx):
                             `game_otome3` = NULL \
                             where id = 0"
                             db.execute(sql)
-                        if int(select_member_match[0]) >= 0 and int(select_member_match[0]) <= game_member_num-1:
-                            await msg.send(f"暗殺メンバーは１〜{game_member_num}で選択してください。")
                         else:
-                            await msg.send(f"{avalon_role[8][1]}を暗殺する場合、異なる2人を選択してください。")
+                            if int(select_member_match[0]) >= 0 and int(select_member_match[0]) <= game_member_num-1:
+                                await msg.send(f"暗殺メンバーは１〜{game_member_num}で選択してください。")
+                            else:
+                                await msg.send(f"{avalon_role[8][1]}を暗殺する場合、異なる2人を選択してください。")
                     else:
                         if n8_cnt == 2:
                             msg.send("マーリンを暗殺する場合、1人だけ選択してください。\nプレイヤー1を暗殺する場合：　?k 1\n恋人の2人を暗殺する場合、2人を選択してください。\nプレイヤー１と２を暗殺したい場合：　?k 1,2")
