@@ -2307,9 +2307,11 @@ async def on_message(ctx):
                     else:
                         sql = "{sql}\nママーリンを予想してください"
                         sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
-                    # await msg.send(sql)
                     embed = discord.Embed()
-                    embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{sql}\n{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
+                    embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{sql}")
+                    await msg.send(embed=embed)
+                    embed = discord.Embed()
+                    embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
                     await msgch.send(embed=embed)
 
             elif game_status == 3:
@@ -2318,10 +2320,6 @@ async def on_message(ctx):
                     for i in range(game_member_num):
                         if avalon_user[i][3] == 8:
                             n8_cnt += 1
-
-                sql = f"暗殺フェーズです。"
-                embed = discord.Embed(title=f"現在の状況",description=f"{sql}\n")
-                await ctx.channel.send(embed=embed)
                 kill_member = role_find(game_member_num, avalon_user, 12)
                 if kill_member == None:
                     kill_member = role_find(game_member_num, avalon_user, 16)
@@ -2329,6 +2327,9 @@ async def on_message(ctx):
                     kill_member = role_find(game_member_num, avalon_user, 11)
                 if kill_member == None:
                     kill_member = role_find(game_member_num, avalon_user, 10)
+                sql = f"{avalon_user[kill_member][1]}が暗殺中です。"
+                embed = discord.Embed(title=f"暗殺フェーズ",description=f"{sql}\n")
+                await ctx.channel.send(embed=embed)
                 msg = client.get_user(avalon_user[kill_member][2])
                 if n8_cnt == 2:
                     sql = f"マーリンまたは{avalon_role[8][1]}の2人の一方を予想して暗殺してください"
@@ -2336,7 +2337,8 @@ async def on_message(ctx):
                 else:
                     sql = "マーリンを予想して暗殺してください"
                     sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
-                await msg.send(sql)
+                embed = discord.Embed(title=f"暗殺フェーズ",description=f"{sql}\n")
+                await msg.send(embed=embed)
 
         # init : 初期化
         elif comment == '.init':
