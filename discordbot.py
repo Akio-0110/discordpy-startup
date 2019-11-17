@@ -2211,11 +2211,9 @@ async def on_message(ctx):
 \n現在の入室は{game_member_num}人です。\
 \n５人以上の入室(.in)と役職(.d,.ds,.role)を選択して、\
 開始コマンド(.s)を実行してください。"
-                dbsql = 'select `name` from `avalon_user`'
+                dbsql = 'select * from `avalon_user`'
                 db.execute(dbsql)
-                rows = db.fetchone()
-                # for i in range(game_member_num):
-                #     if rows[0] != None:
+                rows = db.fetchall()
                 sql = f"{sql}\n{player_display(game_member_num, rows, game_member_num+1)}"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
                 await ctx.channel.send(embed=embed)
