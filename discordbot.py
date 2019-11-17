@@ -2210,7 +2210,7 @@ async def on_message(ctx):
                 sql = f"ゲーム開始準備の状態です。\
 \n現在の入室は{game_member_num}人です。\
 \n５人以上の入室(.in)と役職(.d,.ds,.role)を選択して、\
-開始コマンド(.s)を実行してください。"
+\n開始コマンド(.s)を実行してください。"
                 dbsql = 'select * from `avalon_user`'
                 db.execute(dbsql)
                 rows = db.fetchall()
