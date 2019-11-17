@@ -547,7 +547,7 @@ async def on_message(ctx):
                 db.execute(sql)
 
             # role number : 役職カスタマイズ
-            elif comment == "role":
+            elif comment == "?role":
                 for i in range(34):
                     if i == 0:
                         blue_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
@@ -569,7 +569,7 @@ async def on_message(ctx):
                 await ctx.channel.send(embed=embed)
 
             # role number : 役職カスタマイズ
-            elif comment[0:5] == 'role ':
+            elif comment[0:6] == '?role ':
                 deck_cmd_re = re.compile('\d+')
                 deck_cmd_match = deck_cmd_re.findall(comment)
 
