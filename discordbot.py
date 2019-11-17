@@ -2212,7 +2212,7 @@ async def on_message(ctx):
                 rows = db.fetchall()
                 sql = f"ゲーム開始準備の状態です。\
 \n現在の入室は{game_member_num}人です。\
-\n{player_display(game_member_num, rows, game_member_num+1)}
+\n{player_display(game_member_num, rows, game_member_num+1)}\
 \n５人以上の入室(.in)と役職(.d,.ds,.role)を選択して、\
 \n開始コマンド(.s)を実行してください。"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
