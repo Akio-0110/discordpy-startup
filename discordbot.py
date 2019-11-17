@@ -891,7 +891,7 @@ async def on_message(ctx):
                                 role_info = "恋人同士は"
                                 for j in range(game_member_num):
                                     if ary[j][3] == 8:
-                                        role_info = f"{j+1}：{ary[j][1]}"
+                                        role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
                                 role_info = f"{role_info}\nです。\n暗殺者に恋人同士の2人が暗殺されてしまうと、負けてしまいます。\nバレないようにプレイしてください。\n※ローカル拡張役職です。"
                                 await msg.send(f"{role_info}")
                             elif (ary[i][3] >= 10 and ary[i][3] <= 19) and ary[i][3] != 14 and ary[i][3] != 15: # 赤陣営
