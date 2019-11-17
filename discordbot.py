@@ -854,7 +854,7 @@ async def on_message(ctx):
                                 role_info = f"{role_info}\nです。"
                                 await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。\n{role_info}", file=File(avalon_role[ary[i][3]][2]))
                         sql = player_display(game_member_num, ary, game_member_num+1)
-                        embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"{sql}\nオベロンにしたいプレイヤーを選択してください。\nコマンド例：１番のプレイヤをオベロンにしたい場合\n.s 1")
+                        embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"{sql}\nオベロンにしたいプレイヤーを選択してください。\nコマンド例：１番のプレイヤーをオベロンにしたい場合\n.s 1")
                         beast_num = role_find(game_member_num, ary, 16)
                         msg = client.get_user(ary[beast_num][2])
                         await msg.send(embed=embed)
@@ -1455,10 +1455,10 @@ async def on_message(ctx):
                                             msg = client.get_user(avalon_user[kill_member][2])
                                             if n8_cnt == 2:
                                                 sql = f"マーリンまたは{avalon_role[8][1]}の2人の一方を予想して暗殺してください"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤを暗殺する場合 : .k 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤを暗殺する場合 : .k 1,2"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤーを暗殺する場合 : .k 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤーを暗殺する場合 : .k 1,2"
                                             else:
                                                 sql = "マーリンを予想して暗殺してください"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤーを暗殺する場合\n.k 1"
                                             embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方が暗殺するプレイヤーを検討中です。")
                                             await msgch.send(embed=embed, file=File(file))
                                         else:
@@ -1469,10 +1469,10 @@ async def on_message(ctx):
                                             sql = "暗殺される人を予想してください"
                                             if n8_cnt == 2:
                                                 sql = f"{sql}\n暗殺者はマーリンまたは{avalon_role[8][1]}の2人のいずれかを予想します"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺すると思う場合のコマンド例：\n１番のプレイヤを暗殺すると予想する場合 : .s 1\n{avalon_role[8][1]}を暗殺すると思う場合のコマンド例：\n１番と２番のプレイヤを暗殺すると予想する場合 : .s 1,2"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺すると思う場合のコマンド例：\n１番のプレイヤーを暗殺すると予想する場合 : .s 1\n{avalon_role[8][1]}を暗殺すると思う場合のコマンド例：\n１番と２番のプレイヤーを暗殺すると予想する場合 : .s 1,2"
                                             else:
                                                 sql = "{sql}\nマーリンを予想してください"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤが暗殺される場合\n.s 1"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤーを暗殺すると予想する場合\n.s 1"
                                             embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
                                             await msgch.send(embed=embed, file=File(file))
                                         embed = discord.Embed(title="クエスト：青陣営勝利",description=sql)
@@ -1920,10 +1920,14 @@ async def on_message(ctx):
                                 if kill_member == None:
                                     kill_member = role_find(game_member_num, avalon_user, 10)
                                 msg = client.get_user(avalon_user[kill_member][2])
-                                sql = "マーリンを予想してください"
-                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
+                                if n8_cnt == 2:
+                                    sql = f"マーリンまたは{avalon_role[8][1]}の2人の一方を予想して暗殺してください"
+                                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤーを暗殺する場合 : .k 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤーを暗殺する場合 : .k 1,2"
+                                else:
+                                    sql = "マーリンを予想して暗殺してください"
+                                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤーを暗殺する場合\n.k 1"
                                 await msg.send(sql)
-                                embed = discord.Embed(title=f"クエスト：青陣営勝利",description="暗殺者の方がマーリン暗殺中です。")
+                                embed = discord.Embed(title=f"クエスト：青陣営勝利",description="暗殺者の方が暗殺者を検討中です。")
                                 await msgch.send(embed=embed)
                         if len(select_member_match) == 2 and n8_cnt == 2:
                             select_check = 0
@@ -1972,10 +1976,14 @@ async def on_message(ctx):
                                 if kill_member == None:
                                     kill_member = role_find(game_member_num, avalon_user, 10)
                                 msg = client.get_user(avalon_user[kill_member][2])
-                                sql = "マーリンを予想してください"
-                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
+                                if n8_cnt == 2:
+                                    sql = f"マーリンまたは{avalon_role[8][1]}の2人の一方を予想して暗殺してください"
+                                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤーを暗殺する場合 : .k 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤーを暗殺する場合 : .k 1,2"
+                                else:
+                                    sql = "マーリンを予想して暗殺してください"
+                                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤーを暗殺する場合\n.k 1"
                                 await msg.send(sql)
-                                embed = discord.Embed(title=f"クエスト：青陣営勝利",description="暗殺者の方がマーリン暗殺中です。")
+                                embed = discord.Embed(title=f"クエスト：青陣営勝利",description="暗殺者の方が暗殺者を検討中です。")
                                 await msgch.send(embed=embed)
                             else:
                                 await ctx.author.send(f"選出番号は1〜{game_member_num}から選んでください。：{comment}")
@@ -2199,7 +2207,7 @@ async def on_message(ctx):
                                 await msg.send(f"{avalon_role[8][1]}を暗殺する場合、異なる2人を選択してください。")
                     else:
                         if n8_cnt == 2:
-                            msg.send("マーリンを暗殺する場合、1人だけ選択してください。\nプレイヤー1を暗殺する場合：　.k 1\n恋人の2人を暗殺する場合、2人を選択してください。\nプレイヤー１と２を暗殺したい場合：　.k 1,2")
+                            msg.send("マーリンを暗殺する場合、1人だけ選択してください。\n1番のプレイヤーを暗殺する場合：　.k 1\n恋人の2人を暗殺する場合、2人を選択してください。\n１番と２番のプレイヤーを暗殺したい場合：　.k 1,2")
                         else:
                             msg.send("暗殺メンバーは１人です。\nプレイヤー1を暗殺する場合：　.k 1")
 
@@ -2302,10 +2310,10 @@ async def on_message(ctx):
                     sql = "暗殺される人を予想してください"
                     if n8_cnt == 2:
                         sql = f"{sql}\nマーリンまたは{avalon_role[8][1]}の2人の一方を予想してください"
-                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤを暗殺すると予想する場合 : .s 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤを暗殺すると予想する場合 : .s 1,2"
+                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤーを暗殺すると予想する場合 : .s 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤーを暗殺すると予想する場合 : .s 1,2"
                     else:
-                        sql = "{sql}\nママーリンを予想してください"
-                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
+                        sql = "{sql}\nマーリンを予想してください"
+                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤーを暗殺する場合\n.k 1"
                     embed = discord.Embed()
                     embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{sql}")
                     await msg.send(embed=embed)
@@ -2332,10 +2340,10 @@ async def on_message(ctx):
                 msg = client.get_user(avalon_user[kill_member][2])
                 if n8_cnt == 2:
                     sql = f"マーリンまたは{avalon_role[8][1]}の2人の一方を予想して暗殺してください"
-                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤを暗殺する場合 : .k 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤを暗殺する場合 : .k 1,2"
+                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤーを暗殺する場合 : .k 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤーを暗殺する場合 : .k 1,2"
                 else:
                     sql = "マーリンを予想して暗殺してください"
-                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
+                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤーを暗殺する場合\n.k 1"
                 embed = discord.Embed(title=f"暗殺フェーズ",description=f"{sql}\n")
                 await msg.send(embed=embed)
 
