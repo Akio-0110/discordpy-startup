@@ -2206,8 +2206,8 @@ async def on_message(ctx):
             elif game_status == 1:
                 sql = f"ゲーム開始準備の状態です。\
 \n現在の入室は{game_member_num}人です。\
-\n５人以上の入室(in)と役職(d,ds,role)を選択して、\
-開始コマンド(s)を実行してください。"
+\n５人以上の入室(?in)と役職(?d,?ds,?role)を選択して、\
+開始コマンド(?s)を実行してください。"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
                 await ctx.channel.send(embed=embed)
             elif game_status == 2:
