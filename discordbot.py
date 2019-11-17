@@ -2031,7 +2031,6 @@ async def on_message(ctx):
             # kill : 暗殺
             elif comment[0:3] == '.k ':
                 kill_member = role_find(game_member_num, avalon_user, 12)
-
                 if kill_member == None:
                     kill_member = role_find(game_member_num, avalon_user, 16)
                 if kill_member == None:
@@ -2052,8 +2051,8 @@ async def on_message(ctx):
                     if len(select_member_match) == 1:
                         select_member_num = int(select_member_match[0])-1
                         if role_find(game_member_num, avalon_user, 31) != None:
-                            sql = f"select `ex_kill_member` from `avalon_data` where id = 0"
-                            db.execute(sql)
+                            dbsql = f"select `ex_kill_member` from `avalon_data` where id = 0"
+                            db.execute(dbsql)
                             rows = db.fetchone()
                             ex_kill_member = int(rows[0])
 
@@ -2063,7 +2062,7 @@ async def on_message(ctx):
                                 sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
 
                             if role_find(game_member_num, avalon_user, 31) != None:
-                                kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーは{avalon_role[ex_kill_member[0]][1]}です。"
+                                kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーは{avalon_user[ex_kill_member[0]][1]}です。"
                                 if select_member_num == kill_member:
                                     if select_member_num == ex_kill_member:
                                         kill_msg = f"{kill_msg}\n{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
@@ -2133,8 +2132,8 @@ async def on_message(ctx):
                         if role_find(game_member_num, avalon_user, 31) != None:
                             ex_kill_member = [0,0]
                             for i in range(2):
-                                sql = f"select `ex_kill_member{i+1}` from `avalon_data` where id = 0"
-                                db.execute(sql)
+                                dbsql = f"select `ex_kill_member{i+1}` from `avalon_data` where id = 0"
+                                db.execute(dbsql)
                                 rows = db.fetchone()
                                 ex_kill_member[i] = int(rows[0])-1
                                 if int(select_member_match[0]) >= 0 and int(select_member_match[0]) <= game_member_num-1:
@@ -2146,7 +2145,7 @@ async def on_message(ctx):
 
                         if err_flg == 0:
                             if role_find(game_member_num, avalon_user, 31) != None:
-                                kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーは{avalon_role[ex_kill_member[0]][1]}と{avalon_role[ex_kill_member[1]][1]}です。"
+                                kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーは{avalon_user[ex_kill_member[0]][1]}と{avalon_user[ex_kill_member[1]][1]}です。"
                                 if avalon_user[select_member_num[0]][3] == 8 and avalon_user[select_member_num[1]][3] == 8:
                                     if (select_member_num[0] == ex_kill_member[0] and select_member_num[1] == ex_kill_member[1]):
                                         kill_msg = f"{kill_msg}\n{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
