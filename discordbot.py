@@ -379,73 +379,6 @@ async def on_message(ctx):
 
         print(sql)
 
-        # init : 初期化
-        if comment == '?init':
-            sql = "update `avalon_data` set \
-            `game_status`= 0, \
-            `game_role`= 1, \
-            `quest_cnt`= 0, \
-            `quest_success_cnt` = 0, \
-            `quest_fail_cnt` = 0, \
-            `vote_cnt`= 0, \
-            `game_phase`= 0, \
-            `game_stop`= 1, \
-            `game_otome` = 0, \
-            `game_excalibur` = 0, \
-            `game_member_num`= 0, \
-            `game_member1`= NULL, \
-            `game_member2`= NULL, \
-            `game_member3`= NULL, \
-            `game_member4`= NULL, \
-            `game_member5`= NULL, \
-            `game_otome1` = NULL, \
-            `game_otome2` = NULL, \
-            `game_otome3` = NULL \
-            where id = 0"
-            db.execute(sql)
-            sql = 'drop table if exists avalon_user'
-            db.execute(sql)
-            # テーブル作成
-            sql = "create table if not exists `avalon_user` ( \
-            `id` int, \
-            `name` varchar(255), \
-            `user_id` bigint, \
-            `role` int, \
-            `coming_out` varchar(20), \
-            primary key (`id`) \
-            )"
-            db.execute(sql)
-            await ctx.channel.send(f"データを初期化しました。")
-
-        # help : ヘルプ
-        elif comment == '?h':
-            if game_status == 0:
-                embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon0)
-            elif game_status == 1:
-                embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon1)
-            elif game_status == 2:
-                if game_phase == 0:
-                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon20)
-                    # sql = 'select * from `avalon_user`'
-                    # db.execute(sql)
-                    # rows = db.fetchall()
-                    # print(rows)
-                elif game_phase == 1:
-                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon21)
-                elif game_phase == 2:
-                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon22)
-                elif game_phase == 3:
-                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon23)
-                elif game_phase == 4:
-                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon24)
-                elif game_phase == 5:
-                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon25)
-                elif game_phase == 6:
-                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon25)
-            elif game_status == 3:
-                embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon3)
-            await ctx.channel.send(embed=embed)
-
         if game_status == 0:
             # make : 部屋作成
             if comment == '?m':
@@ -988,7 +921,7 @@ async def on_message(ctx):
                 sql = f"select * from `avalon_user` where id = {i+1}"
                 db.execute(sql)
                 rows = db.fetchone()
-                if len(rows) == 5:
+                if rows[4] != None:
                     avalon_user.append([0, rows[1], rows[2], rows[3], rows[4]])
                 else:
                     avalon_user.append([0, rows[1], rows[2], rows[3], None])
@@ -2392,6 +2325,73 @@ async def on_message(ctx):
                     sql = "マーリンを予想して暗殺してください"
                     sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
                 await msg.send(sql)
+
+        # init : 初期化
+        elif comment == '?init':
+            sql = "update `avalon_data` set \
+            `game_status`= 0, \
+            `game_role`= 1, \
+            `quest_cnt`= 0, \
+            `quest_success_cnt` = 0, \
+            `quest_fail_cnt` = 0, \
+            `vote_cnt`= 0, \
+            `game_phase`= 0, \
+            `game_stop`= 1, \
+            `game_otome` = 0, \
+            `game_excalibur` = 0, \
+            `game_member_num`= 0, \
+            `game_member1`= NULL, \
+            `game_member2`= NULL, \
+            `game_member3`= NULL, \
+            `game_member4`= NULL, \
+            `game_member5`= NULL, \
+            `game_otome1` = NULL, \
+            `game_otome2` = NULL, \
+            `game_otome3` = NULL \
+            where id = 0"
+            db.execute(sql)
+            sql = 'drop table if exists avalon_user'
+            db.execute(sql)
+            # テーブル作成
+            sql = "create table if not exists `avalon_user` ( \
+            `id` int, \
+            `name` varchar(255), \
+            `user_id` bigint, \
+            `role` int, \
+            `coming_out` varchar(20), \
+            primary key (`id`) \
+            )"
+            db.execute(sql)
+            await ctx.channel.send(f"データを初期化しました。")
+
+        # help : ヘルプ
+        elif comment == '?h':
+            if game_status == 0:
+                embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon0)
+            elif game_status == 1:
+                embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon1)
+            elif game_status == 2:
+                if game_phase == 0:
+                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon20)
+                    # sql = 'select * from `avalon_user`'
+                    # db.execute(sql)
+                    # rows = db.fetchall()
+                    # print(rows)
+                elif game_phase == 1:
+                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon21)
+                elif game_phase == 2:
+                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon22)
+                elif game_phase == 3:
+                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon23)
+                elif game_phase == 4:
+                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon24)
+                elif game_phase == 5:
+                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon25)
+                elif game_phase == 6:
+                    embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon25)
+            elif game_status == 3:
+                embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon3)
+            await ctx.channel.send(embed=embed)
 
         # instruction : 説明書
         elif comment == '?i':
