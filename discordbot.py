@@ -2584,7 +2584,7 @@ async def on_message(ctx):
                     k += 1
 
                 if flg == 0:
-                    sql = 'まだ1回も選出されていません。'
+                    sql = 'まだ1回もクエストへ行っていません'
                 embed = discord.Embed(title="クエスト履歴",description=sql)
                 await ctx.channel.send(embed=embed)
 
