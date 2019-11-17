@@ -2212,7 +2212,7 @@ async def on_message(ctx):
 \n５人以上の入室(.in)と役職(.d,.ds,.role)を選択して、\
 開始コマンド(.s)を実行してください。"
                 dbsql = 'select `name` from `avalon_user`'
-                db.excute(dbsql)
+                db.execute(dbsql)
                 rows = db.fetchone()
                 for i in range(game_member_num):
                     if rows[0] != None:
