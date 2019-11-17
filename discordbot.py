@@ -1375,12 +1375,12 @@ async def on_message(ctx):
                             elif avalon_user[num][3] == 8 and command_accept == 16 and n8_cnt != 2:
                                 command_accept = 8
                                 await msg.send(f"恋人2人でクエストへ参加できなかったため、強制的に失敗へ変更しました。")
+                            elif avalon_user[num][3] == 7 and (quest_cnt == 2 or quest_cnt == 4) and command_accept == 16:
+                                command_accept = 8
+                                await msg.send(f"あなたは{quest_cnt}クエストに失敗しか出せません。強制的に失敗へ変更しました。")
                             elif avalon_user[num][3] < 10 and command_accept == 8:
                                 command_accept = 16
                                 await msg.send(f"あなたは青陣営のため、強制的に成功へ変更しました。")
-                            elif avalon_user[num][3] == 7 and (quest_cnt == 2 or quest_cnt == 4) and command_accept == 16:
-                                command_accept = 8
-                                await msg.send(f"あなたは{quest_cnt}は失敗しか出せません。強制的に失敗へ変更しました。")
 
                             if avalon_quest[num] < 8:
                                 sql = f"update `avalon_quest` \
