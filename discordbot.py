@@ -1362,7 +1362,7 @@ async def on_message(ctx):
                     n8_cnt = 0
                     if role_find(game_member_num, avalon_user, 8) != None:
                         for i in range(game_member_num):
-                            if avalon_user[i][3] == 8:
+                            if avalon_user[select_member[i]][3] == 8:
                                 n8_cnt += 1
 
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
