@@ -789,14 +789,14 @@ async def on_message(ctx):
                                     if (ary[j][3] >= 10 and ary[j][3] <= 19) and ary[j][3] != 14 and ary[j][3] != 15:
                                         role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
                                 role_info = f"{role_info}\nです。"
-                                if role_find(game_member_num, ary, 14) == None:
-                                    if role_find(game_member_num, ary, 15) == None:
-                                        role_info = f"{role_info}\nただし{avalon_role[14][1]}と{avalon_role[15][1]}は見えません"
+                                if role_find(game_member_num, ary, 14) != None:
+                                    if role_find(game_member_num, ary, 15) != None:
+                                        role_info = f"{role_info}\nただし{avalon_role[14][1]}と{avalon_role[15][1]}は見えません。"
                                     else:
-                                        role_info = f"{role_info}\nただし{avalon_role[14][1]}は見えません"
+                                        role_info = f"{role_info}\nただし{avalon_role[14][1]}は見えません。"
                                 else:
-                                    if role_find(game_member_num, ary, 15) == None:
-                                        role_info = f"{role_info}\nただし{avalon_role[15][1]}は見えません"
+                                    if role_find(game_member_num, ary, 15) != None:
+                                        role_info = f"{role_info}\nただし{avalon_role[15][1]}は見えません。"
                                 await msg.send(f"{role_info}")
                             elif ary[i][3] == 14: # 赤陣営
                                 role_info = f"あなたは仲間の赤陣営を知りません。"
@@ -1789,14 +1789,14 @@ async def on_message(ctx):
                                             if (avalon_user[j][3] >= 10 and avalon_user[j][3] <= 19) and avalon_user[j][3] != 14 and avalon_user[j][3] != 15:
                                                 role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                         role_info = f"{role_info}\nです。"
-                                        if role_find(game_member_num, avalon_user, 14) == None:
-                                            if role_find(game_member_num, avalon_user, 15) == None:
-                                                role_info = f"{role_info}\nただし{avalon_role[14][1]}と{avalon_role[15][1]}は見えません"
+                                        if role_find(game_member_num, avalon_user, 14) != None:
+                                            if role_find(game_member_num, avalon_user, 15) != None:
+                                                role_info = f"{role_info}\nただし{avalon_role[14][1]}と{avalon_role[15][1]}は見えません。"
                                             else:
-                                                role_info = f"{role_info}\nただし{avalon_role[14][1]}は見えません"
+                                                role_info = f"{role_info}\nただし{avalon_role[14][1]}は見えません。"
                                         else:
-                                            if role_find(game_member_num, avalon_user, 15) == None:
-                                                role_info = f"{role_info}\nただし{avalon_role[15][1]}は見えません"
+                                            if role_find(game_member_num, avalon_user, 15) != None:
+                                                role_info = f"{role_info}\nただし{avalon_role[15][1]}は見えません。"
                                         await msg.send(f"{role_info}")
                                     elif avalon_user[i][3] == 14 : # 赤陣営
                                         role_info = 'あなたは仲間の赤陣営を知りません。'
