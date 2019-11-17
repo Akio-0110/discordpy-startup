@@ -838,7 +838,7 @@ async def on_message(ctx):
                         embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=sql)
                         await msgch.send(embed=embed)
                         msg = client.get_user(ary[select_member][2])
-                        sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：s 1,2,3\n{player_display(game_member_num, ary, select_member)}"
+                        sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：?s 1,2,3\n{player_display(game_member_num, ary, select_member)}"
                         embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                         await msg.send(embed=embed)
                     else:
@@ -854,7 +854,7 @@ async def on_message(ctx):
                                 role_info = f"{role_info}\nです。"
                                 await msg.send(f"あなたの役職は{avalon_role[ary[i][3]][1]}です。\n{role_info}", file=File(avalon_role[ary[i][3]][2]))
                         sql = player_display(game_member_num, ary, game_member_num+1)
-                        embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"{sql}\nオベロンにしたいプレイヤーを選択してください。\nコマンド例：１番のプレイヤをオベロンにしたい場合\ns 1")
+                        embed = discord.Embed(title=f"{avalon_role[16][1]}能力フェーズ",description=f"{sql}\nオベロンにしたいプレイヤーを選択してください。\nコマンド例：１番のプレイヤをオベロンにしたい場合\n?s 1")
                         beast_num = role_find(game_member_num, ary, 16)
                         msg = client.get_user(ary[beast_num][2])
                         await msg.send(embed=embed)
@@ -1091,17 +1091,17 @@ async def on_message(ctx):
                                         msg = client.get_user(avalon_user[k][2])
                                         if avalon_quest[k+1]%2 == 1:
                                             if vote_cnt != 5:
-                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されています。\n承認 : a/accept\n却下 : r/reject\nを入力してください")
+                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されています。\n承認 : ?a\n却下 : ?r\nを入力してください")
                                                 await msg.send(embed=embed)
                                             else:
-                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されています。\n承認 : a/accept\n却下 : r/reject\nを入力してください\nこの選出が却下された場合、赤陣営の勝利です。")
+                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されています。\n承認 : ?a\n却下 : ?r\nを入力してください\nこの選出が却下された場合、赤陣営の勝利です。")
                                                 await msg.send(embed=embed)
                                         else:
                                             if vote_cnt != 5:
-                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されていません。\n承認 : a/accept\n却下 : r/reject\nを入力してください")
+                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されていません。\n承認 : ?a\n却下 : ?r\nを入力してください")
                                                 await msg.send(embed=embed)
                                             else:
-                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されていません。\n承認 : a/accept\n却下 : r/reject\nを入力してください\nこの選出が却下された場合、赤陣営の勝利です。")
+                                                embed = discord.Embed(title="選出メンバー",description=f"{user_name}\nあなたは選出されていません。\n承認 : ?a\n却下 : ?r\nを入力してください\nこの選出が却下された場合、赤陣営の勝利です。")
                                                 await msg.send(embed=embed)
                                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                     value (%s, %s)"
@@ -1199,7 +1199,7 @@ async def on_message(ctx):
                                 for k in range(game_member_num):
                                     if avalon_quest[k]%2 == 1:
                                         msg = client.get_user(avalon_user[k][2])
-                                        embed = discord.Embed(title="クエスト参加",description=f"{sql}\n成功の場合 : s\n失敗の場合 : f\nを入力してください")
+                                        embed = discord.Embed(title="クエスト参加",description=f"{sql}\n成功の場合 : ?s\n失敗の場合 : ?f\nを入力してください")
                                         await msg.send(embed=embed)
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                 value (%s, %s)"
@@ -1219,7 +1219,7 @@ async def on_message(ctx):
                                 for i in range(game_member_num):
                                     if avalon_quest[i]%2 == 1:
                                         msg = client.get_user(avalon_user[i][2])
-                                        embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の成功失敗:",description=f"{sql}\n成功の場合 : s\n失敗の場合 : f\nを入力してください")
+                                        embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の成功失敗:",description=f"{sql}\n成功の場合 : ?s\n失敗の場合 : ?f\nを入力してください")
                                         await msg.send(embed=embed)
 
                             # 却下
@@ -1256,7 +1256,7 @@ async def on_message(ctx):
 
                                         for i in range(game_member_num):
                                             msg = client.get_user(avalon_user[i][2])
-                                            embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の承認却下:",description=f"{sql}\n承認の場合 : a\n却下の場合 : r\nを入力してください")
+                                            embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の承認却下:",description=f"{sql}\n承認の場合 : a\n却下の場合 : ?r\nを入力してください")
                                             await msg.send(embed=embed)
                                 else:
                                     vote_cnt += 1
@@ -1451,10 +1451,10 @@ async def on_message(ctx):
                                             msg = client.get_user(avalon_user[kill_member][2])
                                             if n8_cnt == 2:
                                                 sql = f"マーリンまたは{avalon_role[8][1]}の2人の一方を予想して暗殺してください"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺する場合\nk 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺する場合\nk 1,2"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺する場合\n?k 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺する場合\n?k 1,2"
                                             else:
                                                 sql = "マーリンを予想して暗殺してください"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
                                             await msg.send(sql)
                                             embed.add_field(name=f"クエスト：青陣営勝利", value="暗殺者の方がマーリン暗殺中です。")
                                             await msgch.send(embed=embed, file=File(file))
@@ -1466,10 +1466,10 @@ async def on_message(ctx):
                                             sql = "暗殺される人を予想してください"
                                             if n8_cnt == 2:
                                                 sql = f"{sql}\nマーリンまたは{avalon_role[8][1]}の2人の一方を予想してください"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺すると予想する場合\ns 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺すると予想する場合\ns 1,2"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺すると予想する場合\n?s 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺すると予想する場合\n?s 1,2"
                                             else:
                                                 sql = "{sql}\nマーリンを予想してください"
-                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
                                             await msg.send(sql)
                                             embed.add_field(name=f"クエスト：青陣営勝利", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
                                             await msgch.send(embed=embed, file=File(file))
@@ -1552,7 +1552,7 @@ async def on_message(ctx):
                                         msg = client.get_user(avalon_user[otome_select[quest_cnt-2]][2])
                                         sql = player_display(game_member_num, avalon_user, select_member)
                                         embed = discord.Embed(title=f"通算クエスト結果",description=f"成功{quest_success_cnt}回\n失敗{quest_fail_cnt}回")
-                                        embed.add_field(name="乙女選出",value=f"{sql}\nあなたは乙女選出者です。\n選出例:1番のプレイヤーに乙女を使う場合\ns 1")
+                                        embed.add_field(name="乙女選出",value=f"{sql}\nあなたは乙女選出者です。\n選出例:1番のプレイヤーに乙女を使う場合\n?s 1")
                                         await msg.send(embed=embed)
                                         sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                         value (%s, %s)"
@@ -1581,7 +1581,7 @@ async def on_message(ctx):
                                         embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
                                         await msgch.send(embed=embed, file=File(file))
                                         msg = client.get_user(avalon_user[select_member][2])
-                                        sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
+                                        sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：?s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
                                         embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                                         await msg.send(embed=embed)
                                         sql = f"insert into `avalon_comment` (`user`, `comment`) \
@@ -1661,7 +1661,7 @@ async def on_message(ctx):
                                 embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
                                 await msgch.send(f"乙女を{avalon_user[otome_num][1]}に使用しました。", embed=embed)
                                 msg = client.get_user(avalon_user[select_member][2])
-                                sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
+                                sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：?s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
                                 embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                                 await msg.send(embed=embed)
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
@@ -1840,7 +1840,7 @@ async def on_message(ctx):
                                 embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=sql)
                                 await msgch.send(embed=embed)
                                 msg = client.get_user(avalon_user[select_member][2])
-                                sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
+                                sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：?s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
                                 embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                                 await msg.send(embed=embed)
                                 sql = f"insert into `avalon_comment` (`user`, `comment`) \
@@ -1917,7 +1917,7 @@ async def on_message(ctx):
                                     kill_member = role_find(game_member_num, avalon_user, 10)
                                 msg = client.get_user(avalon_user[kill_member][2])
                                 sql = "マーリンを予想してください"
-                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
                                 await msg.send(sql)
                                 embed = discord.Embed(title=f"クエスト：青陣営勝利",description="暗殺者の方がマーリン暗殺中です。")
                                 await msgch.send(embed=embed)
@@ -1969,7 +1969,7 @@ async def on_message(ctx):
                                     kill_member = role_find(game_member_num, avalon_user, 10)
                                 msg = client.get_user(avalon_user[kill_member][2])
                                 sql = "マーリンを予想してください"
-                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                                sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
                                 await msg.send(sql)
                                 embed = discord.Embed(title=f"クエスト：青陣営勝利",description="暗殺者の方がマーリン暗殺中です。")
                                 await msgch.send(embed=embed)
@@ -2193,9 +2193,9 @@ async def on_message(ctx):
                             await msg.send(f"{avalon_role[8][1]}を暗殺する場合、異なる2人を選択してください。")
                     else:
                         if n8_cnt == 2:
-                            msg.send("マーリンを暗殺する場合、1人だけ選択してください。\nプレイヤー1を暗殺する場合：　k 1\n恋人の2人を暗殺する場合、2人を選択してください。\nプレイヤー１と２を暗殺したい場合：　k 1,2")
+                            msg.send("マーリンを暗殺する場合、1人だけ選択してください。\nプレイヤー1を暗殺する場合：　?k 1\n恋人の2人を暗殺する場合、2人を選択してください。\nプレイヤー１と２を暗殺したい場合：　?k 1,2")
                         else:
-                            msg.send("暗殺メンバーは１人です。\nプレイヤー1を暗殺する場合：　k 1")
+                            msg.send("暗殺メンバーは１人です。\nプレイヤー1を暗殺する場合：　?k 1")
 
         # status : 状態表示
         if comment == '?' or comment == '？':
@@ -2225,7 +2225,7 @@ async def on_message(ctx):
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
                     await msgch.send(embed=embed)
                     msg = client.get_user(avalon_user[select_member][2])
-                    sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
+                    sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：?s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                     await msg.send(embed=embed)
                 elif game_phase == 1:
@@ -2240,7 +2240,7 @@ async def on_message(ctx):
                     for i in range(game_member_num):
                         if avalon_quest[i] < 2:
                             msg = client.get_user(avalon_user[i][2])
-                            embed = discord.Embed(title="クエストメンバー承認却下中",description=f"{sql}\n承認の場合 : a\n却下の場合 : r\nを入力してください")
+                            embed = discord.Embed(title="クエストメンバー承認却下中",description=f"{sql}\n承認の場合 : a\n却下の場合 : ?r\nを入力してください")
                             await msg.send(embed=embed)
 
                 elif game_phase == 2:
@@ -2254,7 +2254,7 @@ async def on_message(ctx):
                     for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                         if avalon_quest[game_member[i]] < 8:
                             msg = client.get_user(avalon_user[game_member[i]][2])
-                            embed = discord.Embed(title="クエスト中",description=f"{sql}\n成功の場合 : s\n失敗の場合 : f\nを入力してください")
+                            embed = discord.Embed(title="クエスト中",description=f"{sql}\n成功の場合 : ?s\n失敗の場合 : ?f\nを入力してください")
                             await msg.send(embed=embed)
                 elif game_phase == 3:
                     sql = f"{sql}\n{quest_cnt-1}の乙女選択中です。\n{player_display(game_member_num, avalon_user, game_member_num+1)}"
@@ -2267,7 +2267,7 @@ async def on_message(ctx):
                     otome_member = otome_select[quest_cnt-2]
                     msg = client.get_user(avalon_user[otome_member][2])
                     sql = player_display(game_member_num, avalon_user, select_member)
-                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の乙女選出中:",description=f"現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\n{sql}\nあなたは乙女選出者です。\n選出例:1番のプレイヤーを暗殺する場合\ns 1")
+                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の乙女選出中:",description=f"現在の状況：\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\n{sql}\nあなたは乙女選出者です。\n選出例:1番のプレイヤーを暗殺する場合\n?s 1")
                     await msg.send(embed=embed)
                 # ビーストフェーズ：オベロン化するプレイヤー選択
                 elif game_phase == 5:
@@ -2277,7 +2277,7 @@ async def on_message(ctx):
                     beast_num = role_find(game_member_num, avalon_user, 16)
                     msg = client.get_user(avalon_user[beast_num][2])
                     sql = player_display(game_member_num, avalon_user, select_member)
-                    embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nあなたは{avalon_role[16][1]}です。オベロンにするプレイヤーを選出してください。\n選出例:1番のプレイヤーをオベロンにしたい場合\ns 1")
+                    embed = discord.Embed(title=f"{avalon_role[16][1]}の能力使用フェーズ",description=f"{sql}\nあなたは{avalon_role[16][1]}です。オベロンにするプレイヤーを選出してください。\n選出例:1番のプレイヤーをオベロンにしたい場合\n?s 1")
                     await msg.send(embed=embed)
                 # 漁夫フェーズ：暗殺予想
                 elif game_phase == 6:
@@ -2292,10 +2292,10 @@ async def on_message(ctx):
                     sql = "暗殺される人を予想してください"
                     if n8_cnt == 2:
                         sql = f"{sql}\nマーリンまたは{avalon_role[8][1]}の2人の一方を予想してください"
-                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺すると予想する場合\ns 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺すると予想する場合\ns 1,2"
+                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺すると予想する場合\n?s 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺すると予想する場合\n?s 1,2"
                     else:
                         sql = "{sql}\nママーリンを予想してください"
-                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                        sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
                     await msg.send(sql)
                     embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{avalon_role[31][1]}が暗殺者を予想中です")
                     await msgch.send(embed=embed)
@@ -2320,10 +2320,10 @@ async def on_message(ctx):
                 msg = client.get_user(avalon_user[kill_member][2])
                 if n8_cnt == 2:
                     sql = f"マーリンまたは{avalon_role[8][1]}の2人の一方を予想して暗殺してください"
-                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺する場合\nk 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺する場合\nk 1,2"
+                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：１番のプレイヤを暗殺する場合\n?k 1\n{avalon_role[8][1]}を暗殺するコマンド例：１番と２番のプレイヤを暗殺する場合\n?k 1,2"
                 else:
                     sql = "マーリンを予想して暗殺してください"
-                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\nk 1"
+                    sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n?k 1"
                 await msg.send(sql)
 
         # init : 初期化
