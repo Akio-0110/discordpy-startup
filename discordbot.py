@@ -2307,9 +2307,9 @@ async def on_message(ctx):
                     else:
                         sql = "{sql}\nママーリンを予想してください"
                         sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤを暗殺する場合\n.k 1"
-                    await msg.send(sql)
+                    # await msg.send(sql)
                     embed = discord.Embed()
-                    embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
+                    embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{sql}\n{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
                     await msgch.send(embed=embed)
 
             elif game_status == 3:
