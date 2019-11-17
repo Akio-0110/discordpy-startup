@@ -901,15 +901,19 @@ async def on_message(ctx):
                                         role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
                                 role_info = f"{role_info}\nです。"
                                 await msg.send(f"{role_info}")
+                            elif ary[i][3] == 14: # 赤陣営
+                                role_info = f"あなたは仲間の赤陣営を知りません。"
+                                if role_find(game_member_num, ary, 15) != None:
+                                    role_info = f"{role_info}\n{avalon_role[15][1]}を除いて赤陣営はあなたを知りません。"
+                                else:
+                                    role_info = f"{role_info}\n赤陣営はあなたを知りません。"
+                                await msg.send(f"{role_info}")
                             elif ary[i][3] == 15: # 赤陣営
                                 role_info = '赤陣営は\n'
                                 for j in range(game_member_num):
                                     if ary[j][3] >= 10 and ary[j][3] <= 19:
                                         role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
-                                role_info = f"{role_info}\nです。"
-                                await msg.send(f"{role_info}")
-                            elif ary[i][3] == 14: # 赤陣営
-                                role_info = 'あなたは仲間の赤陣営を知りません。'
+                                role_info = f"{role_info}\nです。\n他の赤陣営にはあなたは知らされていません。"
                                 await msg.send(f"{role_info}")
                             elif ary[i][3] >= 30 and ary[i][3] <= 33: # 赤陣営
                                 if ary[i][3] == 31:
@@ -1864,6 +1868,10 @@ async def on_message(ctx):
                                         await msg.send(f"{role_info}")
                                     elif avalon_user[i][3] == 14 : # 赤陣営
                                         role_info = 'あなたは仲間の赤陣営を知りません。'
+                                        if role_find(game_member_num, avalon_user, 15) != None:
+                                            role_info = f"{role_info}\n{avalon_role[15][1]}を除いて赤陣営はあなたを知りません。"
+                                        else:
+                                            role_info = f"{role_info}\n赤陣営はあなたを知りません。"
                                         await msg.send(f"{role_info}")
                                     elif avalon_user[i][3] == 15: # 赤陣営
                                         role_info = '赤陣営は\n'
