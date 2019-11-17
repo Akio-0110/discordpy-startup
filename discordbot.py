@@ -1929,7 +1929,7 @@ async def on_message(ctx):
                             select_check = 0
                             select_num = [int(select_member_match[0])-1,int(select_member_match[1])-1]
                             err_flg = 0
-                            for i in 2:
+                            for i in range(2):
                                 if select_num[i] >= 0 and select_num[i] <= game_member_num-1:
                                     continue
                                 else:
