@@ -2288,11 +2288,18 @@ async def on_message(ctx):
                 dbsql = 'select * from `avalon_user`'
                 db.execute(dbsql)
                 rows = db.fetchall()
-                sql = f"ゲーム開始準備の状態です。\
+                if game_member_num < 5:
+                    sql = f"ゲーム開始準備の状態です。\
 \n現在の入室は{game_member_num}人です。\
 \n{player_display(game_member_num, rows, game_member_num+1)}\
 \n５人以上の入室(.in)と役職(.d,.ds,.role)を選択して、\
 \n開始コマンド(.s)を実行してください。"
+                else:
+                    sql = f"ゲーム開始準備の状態です。\
+\n現在の入室は{game_member_num}人です。\
+\n{player_display(game_member_num, rows, game_member_num+1)}\
+\n役職(.d,.ds,.role)を選択して、\
+\n開始コマンド(.s)を実行することが可能です。"
                 embed = discord.Embed(title=f"現在の状況",description=sql)
                 await ctx.channel.send(embed=embed)
             elif game_status == 2:
