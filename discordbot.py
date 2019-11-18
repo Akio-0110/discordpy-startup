@@ -2135,7 +2135,7 @@ async def on_message(ctx):
                         sql = "配役は以下の通りです。"
                         for i in range(game_member_num):
                             sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
-                        select_member_num = [int(select_member_match[0])-1,int(select_member_match[0])-1]
+                        select_member_num = [int(select_member_match[0])-1,int(select_member_match[1])-1]
                         err_flg = 0
                         if role_find(game_member_num, avalon_user, 31) != None:
                             ex_kill_member = [0,0]
@@ -2153,6 +2153,8 @@ async def on_message(ctx):
 
                         if err_flg == 0:
                             if role_find(game_member_num, avalon_user, 31) != None:
+                                select_member_num.sort()
+                                ex_kill_member.sort()
                                 kill_msg = f"{avalon_role[31][1]}が予想したプレイヤーは{avalon_user[ex_kill_member[0]][1]}と{avalon_user[ex_kill_member[1]][1]}です。"
                                 if avalon_user[select_member_num[0]][3] == 8 and avalon_user[select_member_num[1]][3] == 8:
                                     if (select_member_num[0] == ex_kill_member[0] and select_member_num[1] == ex_kill_member[1]):
@@ -2164,7 +2166,7 @@ async def on_message(ctx):
                                         kill_msg = f"{kill_msg}\n{avalon_role[31][1]}は予想を外しました。"
                                         embed = discord.Embed(title="暗殺成功:赤陣営の勝利",description=f"{kill_msg}\n{sql}")
                                 else:
-                                    if select_member_num == ex_kill_member:
+                                    if (select_member_num[0] == ex_kill_member[0] and select_member_num[1] == ex_kill_member[1]):
                                         kill_msg = f"{kill_msg}\n{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
                                         kill_msg = f"{kill_msg}\nマーリンを暗殺できませんでした。"
                                         embed = discord.Embed(title="暗殺失敗:青陣営と{avalon_role[31][1]}の勝利",description=f"{kill_msg}\n{sql}")
