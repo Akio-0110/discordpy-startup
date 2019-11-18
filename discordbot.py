@@ -992,7 +992,7 @@ async def on_message(ctx):
                         red_role = f"{red_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
                     elif i == 20:
                         other_role = f"{avalon_role[i][0]}:{avalon_role[i][1]}"
-                    elif (i >= 30 and i <=33) or i == 21:
+                    elif (i >= 30 and i <=33) or i == 21 or i == 22:
                         other_role = f"{other_role}\n{avalon_role[i][0]}:{avalon_role[i][1]}"
                 embed = discord.Embed(title="",description="")
                 embed.add_field(name="青陣営",value=blue_role)
@@ -1008,7 +1008,7 @@ async def on_message(ctx):
 
                 if len(deck_cmd_match) == 1:
                     num = int(deck_cmd_match[0])
-                    if (num >= 0 and num <=8) or (num >= 10 and num <=16) or (num >= 20 and num <= 21) or (num >= 30 and num <= 33):
+                    if (num >= 0 and num <=8) or (num >= 10 and num <=16) or (num >= 20 and num <= 22) or (num >= 30 and num <= 33):
                         for i in avalon_role:
                             if i[0] == num:
                                 embed = discord.Embed(title=f"役職説明:{i[1]}",description=i[3])
