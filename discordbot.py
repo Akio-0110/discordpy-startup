@@ -2209,7 +2209,7 @@ async def on_message(ctx):
                                 db.execute(dbsql)
                                 rows = db.fetchone()
                                 ex_kill_member[i] = int(rows[0])
-                                if int(select_member_match[i]) >= 0 and int(select_member_match[i]) <= game_member_num-1:
+                                if int(select_member_num[i]) >= 0 and int(select_member_num[i]) <= game_member_num-1:
                                     continue
                                 else:
                                     err_flg = 1
