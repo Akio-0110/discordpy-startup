@@ -2208,7 +2208,7 @@ async def on_message(ctx):
                                 dbsql = f"select `ex_kill_member{i+1}` from `avalon_data` where id = 0"
                                 db.execute(dbsql)
                                 rows = db.fetchone()
-                                ex_kill_member[i] = int(rows[0])-1
+                                ex_kill_member[i] = int(rows[0])
                                 if int(select_member_match[i]) >= 0 and int(select_member_match[i]) <= game_member_num-1:
                                     continue
                                 else:
