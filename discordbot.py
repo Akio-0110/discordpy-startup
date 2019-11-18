@@ -1637,6 +1637,14 @@ async def on_message(ctx):
                                     otome_msg = f"{avalon_user[otome_num][1]}は赤陣営です"
                                     file="./image/忠誠カード赤.jpeg"
                                     flg = 1
+                                elif avalon_user[otome_num][3] == 21:
+                                    if quest_cnt%2 == 1:
+                                        otome_msg = f"{avalon_user[otome_num][1]}は青陣営です。"
+                                        file="./image/忠誠カード青.jpeg"
+                                    else:
+                                        otome_msg = f"{avalon_user[otome_num][1]}は赤陣営です。"
+                                        file="./image/忠誠カード赤.jpeg"
+                                    flg = 1
                                 elif avalon_user[otome_num][3] <30:
                                     otome_msg = f"{avalon_user[otome_num][1]}はどちらの陣営でもありません"
                                     flg = 0
