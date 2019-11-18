@@ -497,7 +497,7 @@ async def on_message(ctx):
                     if gm_num < 5:
                         await msgch.send(f"{gm_num}人目:{ctx.author.display_name}が入室しました。")
                     else:
-                        await msgch.send(f"{gm_num}人目:{ctx.author.display_name}が入室しました。\n5人以上入室したため、開始コマンド(s)でゲームを開始することができます。")
+                        await msgch.send(f"{gm_num}人目:{ctx.author.display_name}が入室しました。\n5人以上入室したため、開始コマンド(.s)でゲームを開始することができます。")
                     sql = f"update `avalon_data` set `game_member_num` = {gm_num} where id = 0"
                     db.execute(sql)
                     sql = f"insert into `avalon_user` (`id`, `name`, `user_id`, `role`) \
@@ -565,7 +565,7 @@ async def on_message(ctx):
                 embed.add_field(name="青陣営",value=blue_role)
                 embed.add_field(name="赤陣営",value=red_role)
                 embed.add_field(name="その他",value=other_role)
-                embed.add_field(name="コマンド例",value="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\nrole 0,1,2,11,12\n入室人数に合わせて\n設定してください。")
+                embed.add_field(name="コマンド例",value="0:マーリン\n1:パーシヴァル\n3:情弱\n11:モルガナ\n12:暗殺者\nの場合\n.role 0,1,2,11,12\n入室人数に合わせて\n設定してください。")
                 await ctx.channel.send(embed=embed)
 
             # role number : 役職カスタマイズ
