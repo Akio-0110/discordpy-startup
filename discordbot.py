@@ -2243,7 +2243,7 @@ async def on_message(ctx):
                 if game_phase == 0:
                     sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{player_display(game_member_num, avalon_user, select_member)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
-                    await msgch.send(embed=embed)
+                    await ctx.channel.send(embed=embed)
                     msg = client.get_user(avalon_user[select_member][2])
                     sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：.s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
                     embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
@@ -2321,7 +2321,7 @@ async def on_message(ctx):
                     await msg.send(embed=embed)
                     embed = discord.Embed()
                     embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{avalon_role[31][1]}が暗殺されるプレイヤーを予想中です")
-                    await msgch.send(embed=embed)
+                    await ctx.channel.send(embed=embed)
 
             elif game_status == 3:
                 n8_cnt = 0
