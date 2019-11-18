@@ -62,7 +62,7 @@ avalon_role = [
 [29, None, None, None],
 [30, 'シャロット姫', './image/シャロット姫.jpeg', '陣営：第３陣営\nシャロット姫は役職に関係なく赤陣営全員を知っています。\n暗殺されると単独勝利します。赤陣営のクエスト勝利時は敗北となります。\n※ローカル拡張役職です。'],
 [31, '漁夫王', './image/漁夫王.jpeg', '陣営：第３陣営\n漁夫王はクエストが3回成功時に暗殺される人を予想して選択します。\n選択した人が暗殺された場合、勝利した陣営と一緒に勝利します。\n※ローカル拡張役職です。'],
-[32, 'タークィン(未対応)', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nタークィンは役職に関係なく赤陣営全員を知っています。\nクエストを失敗に導き、3回目の失敗時に選出されていた場合、単独勝利します。\n※ローカル拡張役職です。'],
+[32, 'タークィン', './image/モードレッドの手下３.jpeg', '陣営：第３陣営\nタークィンは役職に関係なく赤陣営全員を知っています。\nクエストを失敗に導き、3回目の失敗時に選出されていた場合、単独勝利します。\n※ローカル拡張役職です。'],
 [33, '聖ミカエル山の巨人(未対応)', './image/聖ミカエル山の巨人.jpeg', '陣営：第３陣営\n聖ミカエル山の巨人は役職に関係なく赤陣営全員を知っています。\nクエストに一度も選ばれずに終了した場合、または参加したクエストで累計３枚以上の失敗を出されることで単独勝利します。\n※ローカル拡張役職です。']
 ]
 
@@ -481,8 +481,7 @@ async def on_message(ctx):
                     db.execute(sql)
                     sql = f"update `avalon_data` set `channel_id`={ctx.channel.id} where id = 0"
                     db.execute(sql)
-                    await ctx.channel.send(f"{ctx.author.display_name}が部屋を作成し、入室しました。 \
-                    \n現在１人です。\n５人以上集まればゲームを開始できます。")
+                    await ctx.channel.send(f"{ctx.author.display_name}が部屋を作成し、入室しました。\n現在１人です。\n５人以上集まればゲームを開始できます。")
                     embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon1)
                     await ctx.channel.send(embed=embed)
                 else :
@@ -822,6 +821,8 @@ async def on_message(ctx):
                                             role_info = f"{role_info}\n{j+1}：{ary[j][1]}"
                                     if ary[i][3] == 30:
                                         role_info = f"{role_info}\nです。\n勝利条件は暗殺されることです。"
+                                    elif ary[i][3] == 32:
+                                        role_info = f"{role_info}\nです。\n3回目の失敗でクエストに参加していると単独勝利します。"
                                 await msg.send(f"{role_info}")
 
                         role.sort()
@@ -1542,9 +1543,13 @@ async def on_message(ctx):
                                     sql = "配役は以下の通りです。"
                                     for i in range(game_member_num):
                                         sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
-                                    if role_find(game_member_num, avalon_user, 21) != None and quest_cnt%2 == 0:
-                                        sql = f"{sql}\n偶数クエストのため、{avalon_role[21][1]}は赤陣営で勝利です。"
-                                    embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
+                                    if role_find(game_member_num, avalon_user, 32) != None and avalon_quest[int(role_find(game_member_num, avalon_user, 32))]%2 == 1:
+                                        sql = f"{sql}\n最終失敗クエストに参加していたため、{avalon_user[int(role_find(game_member_num, avalon_user, 32))][1]}の単独勝利です。"
+                                        embed.add_field(name=f"クエスト：{avalon_role[32][1]}単独勝利", value=f"{sql}")
+                                    else:
+                                        if role_find(game_member_num, avalon_user, 21) != None and quest_cnt%2 == 0:
+                                            sql = f"{sql}\n偶数クエストのため、{avalon_role[21][1]}は赤陣営で勝利です。"
+                                        embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
                                     await msgch.send(embed=embed, file=File(file))
                                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
                                     value (%s, %s)"
@@ -1843,6 +1848,8 @@ async def on_message(ctx):
                                                     role_info = f"{role_info}\n{j+1}：{avalon_user[j][1]}"
                                             if avalon_user[i][3] == 30:
                                                 role_info = f"{role_info}\nです。\n勝利条件は暗殺されることです。"
+                                            elif avalon_user[i][3] == 32:
+                                                role_info = f"{role_info}\nです。\n3回目の失敗でクエストに参加していると単独勝利します。"
                                         await msg.send(f"{role_info}")
 
                                 role = [1]*game_member_num
