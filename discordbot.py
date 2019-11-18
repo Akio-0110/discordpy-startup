@@ -1316,7 +1316,7 @@ async def on_message(ctx):
                                 if command_accept == 8:
                                     command_accept = 16
                                     await msg.send(f"あなたは青陣営のため、強制的に成功へ変更しました。")
-                            elif avalon_user[num][3] < 21:
+                            elif avalon_user[num][3] == 21:
                                 if quest_cnt%2 == 1 and command_accept == 8:
                                     command_accept = 16
                                     await msg.send(f"あなたは{quest_cnt}クエストでは青陣営のため、強制的に成功へ変更しました。")
