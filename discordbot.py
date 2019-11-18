@@ -51,7 +51,7 @@ avalon_role = [
 [18, None, None, None],
 [19, None, None, None],
 [20, 'ロット王(未対応)', './image/ロット.jpeg', '陣営：青陣営または赤陣営または陣営無\nロット王は2回目の失敗が出た直後に任意のプレイヤー1人を選択し、そのプレイヤーと同じ陣営となります。\n選ばれたプレイヤーは明かされるが、ロット王が誰かは知られません。\n陣営が決まる前にクエストが終了すると敗北です。\n陣営が決まるまで成功でも失敗でも出すことができます。\n※ローカル拡張役職です。'],
-[21, 'ケイ(未対応)', './image/ケイ.jpeg', '陣営：青陣営または赤陣営\nケイは奇数クエストでは青陣営、偶数クエストでは赤陣営です。\n偶数クエストでクエストに参加した場合、失敗しか出すことができません。\nゲーム終了時の陣営に従って勝利条件も変わります。\n４クエストで終了した場合、暗殺議論に加わってください。\n※ローカル拡張役職です。'],
+[21, 'ケイ', './image/ケイ.jpeg', '陣営：青陣営または赤陣営\nケイは奇数クエストでは青陣営、偶数クエストでは赤陣営です。\n偶数クエストでクエストに参加した場合、失敗しか出すことができません。\nゲーム終了時の陣営に従って勝利条件も変わります。\n４クエストで終了した場合、暗殺議論に加わってください。\n※ローカル拡張役職です。'],
 [22, None, None, None],
 [23, None, None, None],
 [24, None, None, None],
@@ -1309,6 +1309,13 @@ async def on_message(ctx):
                             elif avalon_user[num][3] < 10 and command_accept == 8:
                                 command_accept = 16
                                 await msg.send(f"あなたは青陣営のため、強制的に成功へ変更しました。")
+                            elif avalon_user[num][3] < 21:
+                                if quest_cnt%2 == 1 and command_accept == 8:
+                                    command_accept = 16
+                                    await msg.send(f"あなたは{quest_cnt}クエストでは青陣営のため、強制的に成功へ変更しました。")
+                                elif quest_cnt%2 == 0 and command_accept == 16:
+                                    command_accept = 8
+                                    await msg.send(f"あなたは{quest_cnt}クエストでは赤陣営のため、強制的に失敗へ変更しました。")
 
                             if avalon_quest[num] < 8:
                                 sql = f"update `avalon_quest` \
@@ -1429,7 +1436,6 @@ async def on_message(ctx):
                                             sql = f"update `avalon_data` set \
                                             `game_status`= 3, \
                                             `game_role`= 1, \
-                                            `quest_cnt`= 0, \
                                             `quest_success_cnt` = 0, \
                                             `quest_fail_cnt` = 0, \
                                             `vote_cnt`= 0, \
@@ -1481,7 +1487,6 @@ async def on_message(ctx):
                                         sql = f"update `avalon_data` set \
                                         `game_status`= 0, \
                                         `game_role`= 1, \
-                                        `quest_cnt`= 0, \
                                         `quest_success_cnt` = 0, \
                                         `quest_fail_cnt` = 0, \
                                         `vote_cnt`= 0, \
@@ -1501,6 +1506,8 @@ async def on_message(ctx):
                                         sql = "配役は以下の通りです。"
                                         for i in range(game_member_num):
                                             sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
+                                        if role_find(game_member_num, avalon_user, 21) != None and quest_cnt%2 == 1:
+                                            sql = f"{sql}\n奇数クエストのため、{avalon_role[21][1]}は青陣営で勝利です。"
                                         embed.add_field(name=f"クエスト：青陣営勝利",value=f"{sql}")
                                         await msgch.send(embed=embed, file=File(file))
                                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
@@ -1535,6 +1542,8 @@ async def on_message(ctx):
                                     sql = "配役は以下の通りです。"
                                     for i in range(game_member_num):
                                         sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
+                                    if role_find(game_member_num, avalon_user, 21) != None and quest_cnt%2 == 0:
+                                        sql = f"{sql}\n偶数クエストのため、{avalon_role[21][1]}は赤陣営で勝利です。"
                                     embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
                                     await msgch.send(embed=embed, file=File(file))
                                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
