@@ -8,9 +8,8 @@ import discord
 import mysql.connector
 from mysql.connector import errorcode
 from discord import File
-#from mysql.connector import pooling
-
-#from discord import Game
+from discord.ext import tasks
+from datetime import datetime
 
 TOKEN = os.environ['DISCORD_BOT_TOKEN']
 client = discord.Client()
