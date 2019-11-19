@@ -2806,6 +2806,7 @@ async def on_message(ctx):
 
 @client.event
 async def time_check(ctx):
+    print(ctx.channel.id)
     if ctx.content == '???':
         print(datetime.now().strftime('%H:%M'))
         print(datetime.now().strftime('%w'))
