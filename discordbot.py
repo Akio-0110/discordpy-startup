@@ -661,7 +661,7 @@ async def on_message(ctx):
                     ]
                     i = 0
                     for num in rows:
-                        print(num)
+                        #print(num)
                         q_num = int(int(num[0]-1)/5)+1
                         s_cnt = 0
                         f_cnt = 0
@@ -686,7 +686,7 @@ async def on_message(ctx):
 
                         i += 1
 
-                    # print(game_info)
+                    print(game_info)
                     i = 0
                     flg = 0
                     for num in rows:
