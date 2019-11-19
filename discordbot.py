@@ -326,6 +326,12 @@ async def on_ready():
 
 @client.event
 async def on_message(ctx):
+    print("イベントを受け付けました。")
+    print(ctx.content)
+    print(ctx.channel.id)
+    if ctx.content == '???':
+        print(datetime.now().strftime('%H:%M'))
+        print(datetime.now().strftime('%w'))
     if ctx.author != client.user:
         comment = ctx.content
         if comment[0] == '.':
@@ -2803,14 +2809,5 @@ async def on_message(ctx):
 #
 # #ループ処理実行
 # loop.start()
-
-@client.event
-async def time_check(ctx):
-    print("イベントを受け付けました。")
-    print(ctx.content)
-    print(ctx.channel.id)
-    if ctx.content == '???':
-        print(datetime.now().strftime('%H:%M'))
-        print(datetime.now().strftime('%w'))
 
 client.run(TOKEN)
