@@ -660,12 +660,12 @@ async def on_message(ctx):
                         [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None]
                     ]
                     i = 0
+                    a_cnt = 0
                     for num in rows:
                         #print(num)
                         q_num = int(int(num[0]-1)/5)+1
                         s_cnt = 0
                         f_cnt = 0
-                        a_cnt = 0
                         if num[0] == None:
                             break
                         for k in range(game_member_num):
