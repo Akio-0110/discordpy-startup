@@ -462,6 +462,7 @@ async def on_message(ctx):
 
                         for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                             print(game_member[i])
+                            print(avalon_quest)
                             print(avalon_quest[game_member[i]+1])
                             if avalon_quest[game_member[i]+1] < 8:
                                 msg = client.get_user(avalon_user[game_member[i]][2])
