@@ -634,6 +634,10 @@ async def on_message(ctx):
                     await ctx.channel.send(embed=embed)
 
                 elif game_status >= 2:
+                    dbsql = 'select * from `avalon_user`'
+                    db.execute(dbsql)
+                    rows = db.fetchall()
+                    avalon_user = rows
                     sql = 'select * from `avalon_quest`'
                     db.execute(sql)
                     rows = db.fetchall()
@@ -723,6 +727,10 @@ async def on_message(ctx):
 
             elif comment == '.lq':
                 if game_status >= 2:
+                    dbsql = 'select * from `avalon_user`'
+                    db.execute(dbsql)
+                    rows = db.fetchall()
+                    avalon_user = rows
                     sql = 'select * from `avalon_quest`'
                     db.execute(sql)
                     rows = db.fetchall()
