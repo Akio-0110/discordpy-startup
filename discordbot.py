@@ -326,12 +326,12 @@ async def on_ready():
 
 @client.event
 async def on_message(ctx):
-    print("イベントを受け付けました。")
-    print(ctx.content)
-    print(ctx.channel.id)
-    if ctx.content == '???':
-        print(datetime.now().strftime('%H:%M'))
-        print(datetime.now().strftime('%w'))
+    # print("イベントを受け付けました。")
+    # print(ctx.content)
+    # print(ctx.channel.id)
+    # if ctx.content == '???':
+    #     print(datetime.now().strftime('%H:%M'))
+    #     print(datetime.now().strftime('%w'))
     if ctx.author != client.user:
         comment = ctx.content
         if comment[0] == '.':
@@ -2795,19 +2795,22 @@ async def on_message(ctx):
 
 
 # 60秒に一回ループ
-# @tasks.loop(seconds=60)
-# async def loop():
-#     # 現在の時刻
-#     now = datetime.now().strftime('%H:%M')
-#     day = datetime.now().strftime('%w')
-#     if now == '21:00':
-#         channel = client.get_channel(CHANNEL_ID)
-#         if day == '2':
-#             await channel.send('明日は水曜日です。\nアヴァロンできる人はいますか？')
-#         if day == '3':
-#             await channel.send('今日は水曜日です。\nアヴァロンできる人はいますか？')
-#
-# #ループ処理実行
-# loop.start()
+@tasks.loop(seconds=60)
+async def loop():
+    # 現在の時刻
+    now = datetime.now().strftime('%H:%M')
+    day = datetime.now().strftime('%w')
+    channel = client.get_channel(646047618849439744)
+    if now == '21:00':
+        if day == '2':
+            await channel.send('明日は水曜日です。\nアヴァロンできる人はいますか？')
+        if day == '3':
+            await channel.send('今日は水曜日です。\nアヴァロンできる人はいますか？')
+    elif now == '22:00':
+        if day == '3':
+            await channel.send('☆☆アヴァロンの時間です☆☆')
+
+#ループ処理実行
+loop.start()
 
 client.run(TOKEN)
