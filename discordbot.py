@@ -669,6 +669,7 @@ async def on_message(ctx):
                         if num[0] == None:
                             break
                         for k in range(game_member_num):
+                            print(num[1+k])
                             if int(num[1+k]) >= 16:
                                 s_cnt += 1
                             elif int(num[1+k]) > 8:
