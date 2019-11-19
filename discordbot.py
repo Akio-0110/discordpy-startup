@@ -661,7 +661,6 @@ async def on_message(ctx):
                     ]
                     i = 0
                     for num in rows:
-                        print(num)
                         q_num = int(int(num[0]-1)/5)+1
                         s_cnt = 0
                         f_cnt = 0
@@ -669,12 +668,11 @@ async def on_message(ctx):
                         if num[0] == None:
                             break
                         for k in range(game_member_num):
-                            print(num[1+k])
                             if int(num[1+k]) >= 16:
                                 s_cnt += 1
                             elif int(num[1+k]) > 8:
                                 f_cnt += 1
-                            elif int(num[1+k]) >= 2:
+                            if int(num[1+k]) >= 2:
                                 a_cnt += 1
 
                         if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
@@ -686,15 +684,12 @@ async def on_message(ctx):
                                 game_info[i][3] = 2
                         else:
                             game_info[i][3] = 0
-                        print(a_cnt)
                         if a_cnt == game_member_num:
                             game_info[i][0] = 1
                         else:
                             game_info[i][0] = 0
-
                         i += 1
 
-                    print(game_info)
                     i = 0
                     flg = 0
                     for num in rows:
@@ -703,6 +698,7 @@ async def on_message(ctx):
                         q_num = int(int(num[0]-1)/5)+1
                         v_num = (int(num[0]-1)%5)+1
                         if game_info[i][0] == 1:
+                            flg = 1
                             if i == 0:
                                 sql = f"{q_num}クエ、{v_num}回目 : "
                             else:
@@ -713,18 +709,16 @@ async def on_message(ctx):
                             elif game_info[i][0] == 1:
                                 sql = f"{sql}失敗：成功{game_info[i][1]},失敗{game_info[i][2]}"
                         for k in range(game_member_num):
-                            if game_info[i][0] == 1:
-                                flg = 1
-                                if int(num[1+k])%2 == 1:
-                                    if int(num[1+k])%8 >= 4:
-                                        sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：承認"
-                                    else:
-                                        sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：却下"
+                            if int(num[1+k])%2 == 1:
+                                if int(num[1+k])%8 >= 4:
+                                    sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：承認"
                                 else:
-                                    if int(num[1+k])%8 >= 4:
-                                        sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：承認"
-                                    else:
-                                        sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：却下"
+                                    sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：却下"
+                            else:
+                                if int(num[1+k])%8 >= 4:
+                                    sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：承認"
+                                else:
+                                    sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：却下"
 
                         i += 1
 
@@ -759,20 +753,29 @@ async def on_message(ctx):
                         s_cnt = 0
                         f_cnt = 0
                         a_cnt = 0
-                        if num[0] == None or num[1] == None or num[2] == None:
+                        if num[0] == None:
                             break
+                        for k in range(game_member_num):
+                            if int(num[1+k]) >= 16:
+                                s_cnt += 1
+                            elif int(num[1+k]) > 8:
+                                f_cnt += 1
+                            if int(num[1+k]) >= 2:
+                                a_cnt += 1
+
                         if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
                             game_info[i][1] = s_cnt
                             game_info[i][2] = f_cnt
-                            game_info[i][3] = 1
                             if f_cnt >= quest_member_num[game_member_num][q_num-1][1]:
-                                game_info[i][0] = 1
+                                game_info[i][3] = 1
                             else:
-                                game_info[i][0] = 2
+                                game_info[i][3] = 2
                         else:
                             game_info[i][3] = 0
+                        if a_cnt == game_member_num:
+                            game_info[i][0] = 1
+                        else:
                             game_info[i][0] = 0
-
                         i += 1
 
                     # print(game_info)
@@ -784,7 +787,7 @@ async def on_message(ctx):
                         # print(num)
                         if num[0] == None or num[1] == None or num[2] == None:
                             break
-                        if game_info[i][0] != 0:
+                        if game_info[i][3] >= 1:
                             flg = 1
                         q_num = int(int(num[0])/5)+1
                         v_num = int(num[0])%game_member_num
@@ -792,10 +795,10 @@ async def on_message(ctx):
                             sql = f"{q_num}クエ: "
                         else:
                             sql = f"{sql}\n{q_num}クエ: "
-                        if game_info[i][3] == 1:
-                            if game_info[i][0] == 2:
+                        if game_info[i][3] >= 1:
+                            if game_info[i][3] == 2:
                                 sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
-                            elif game_info[i][0] == 1:
+                            elif game_info[i][3] == 1:
                                 sql = f"{sql}失敗：成功{game_info[i][1]},失敗{game_info[i][2]}"
                         sql = f"{sql}\n"
                         sql_member = f"メンバー："
