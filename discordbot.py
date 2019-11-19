@@ -735,8 +735,8 @@ async def on_message(ctx):
                     db.execute(dbsql)
                     rows = db.fetchall()
                     avalon_user = rows
-                    sql = 'select * from `avalon_quest`'
-                    db.execute(sql)
+                    dbsql = 'select * from `avalon_quest`'
+                    db.execute(dbsql)
                     rows = db.fetchall()
                     # print(len(rows))
 
@@ -790,7 +790,7 @@ async def on_message(ctx):
                             flg = 1
                             q_num = int(int(num[0])/5)+1
                             v_num = int(num[0])%game_member_num
-                            if k == 0:
+                            if i == 0:
                                 sql = f"{q_num}クエ: "
                             else:
                                 sql = f"{sql}\n{q_num}クエ: "
