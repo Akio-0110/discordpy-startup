@@ -672,15 +672,11 @@ async def on_message(ctx):
                                 s_cnt += 1
                             elif int(num[1+k]) > 8:
                                 f_cnt += 1
-                        print(s_cnt)
-                        print(f_cnt)
-                        print(q_num)
-                        print(avalon_role_auto[game_member_num][q_num-1][0])
-                        if s_cnt + f_cnt == avalon_role_auto[game_member_num][q_num][0]:
+                        if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
                             game_info[i][1] = s_cnt
                             game_info[i][2] = f_cnt
                             game_info[i][3] = 1
-                            if f_cnt >= avalon_role_auto[game_member_num][q_num][1]:
+                            if f_cnt >= quest_member_num[game_member_num][q_num-1][1]:
                                 game_info[i][0] = 1
                             else:
                                 game_info[i][0] = 2
@@ -761,11 +757,11 @@ async def on_message(ctx):
                         a_cnt = 0
                         if num[0] == None or num[1] == None or num[2] == None:
                             break
-                        if s_cnt + f_cnt == avalon_role_auto[game_member_num][q_num][0]:
+                        if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
                             game_info[i][1] = s_cnt
                             game_info[i][2] = f_cnt
                             game_info[i][3] = 1
-                            if f_cnt >= avalon_role_auto[game_member_num][q_num][1]:
+                            if f_cnt >= quest_member_num[game_member_num][q_num-1][1]:
                                 game_info[i][0] = 1
                             else:
                                 game_info[i][0] = 2
