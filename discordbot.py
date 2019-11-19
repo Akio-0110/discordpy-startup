@@ -780,7 +780,7 @@ async def on_message(ctx):
                     # print(game_info)
                     for num in rows:
                         # print(num)
-                        if num[0] == None:
+                        if num[0] == None or num[1] == None or num[2] == None:
                             break
                         if game_info[i][0] != 0:
                             flg = 1
