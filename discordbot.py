@@ -692,6 +692,7 @@ async def on_message(ctx):
 
                         i += 1
 
+                    print(game_info)
                     i = 0
                     flg = 0
                     for num in rows:
