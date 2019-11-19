@@ -463,9 +463,9 @@ async def on_message(ctx):
                             sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
 
                         for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                            print(game_member[i])
-                            print(avalon_quest)
-                            print(avalon_quest[0][game_member[i]+1])
+                            # print(game_member[i])
+                            # print(avalon_quest)
+                            # print(avalon_quest[0][game_member[i]+1])
                             if avalon_quest[0][game_member[i]+1] < 8:
                                 msg = client.get_user(avalon_user[game_member[i]][2])
                                 embed = discord.Embed(title="クエスト中",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
@@ -1769,11 +1769,17 @@ async def on_message(ctx):
                                         command_accept = 16
                                         await msg.send(f"成功が2回出てないため、強制的に成功へ変更しました。")
                                 elif avalon_user[num][3] == 8:
-                                    if command_accept == 16 and n8_cnt != 2:
+                                    if command_accept == 8 and n8_cnt == 2:
+                                        command_accept = 16
+                                        await msg.send(f"あなたは青陣営のため、強制的に成功へ変更しました。")                                    
+                                    elif command_accept == 16 and n8_cnt != 2:
                                         command_accept = 8
                                         await msg.send(f"恋人2人でクエストへ参加できなかったため、強制的に失敗へ変更しました。")
                                 elif avalon_user[num][3] == 7:
-                                    if(quest_cnt == 2 or quest_cnt == 4) and command_accept == 16:
+                                    if quest_cnt%2 == 1 and command_accept == 8:
+                                        command_accept = 16
+                                        await msg.send(f"あなたは青陣営のため、強制的に成功へ変更しました。")
+                                    elif(quest_cnt == 2 or quest_cnt == 4) and command_accept == 16:
                                         command_accept = 8
                                         await msg.send(f"あなたは{quest_cnt}クエストに失敗しか出せません。強制的に失敗へ変更しました。")
                                 elif avalon_user[num][3] < 10:
