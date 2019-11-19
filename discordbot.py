@@ -415,7 +415,7 @@ async def on_message(ctx):
                     db.execute(dbsql)
                     rows = db.fetchall()
                     avalon_user = rows
-                    print(avalon_user)
+                    # print(avalon_user)
                     if game_phase != 5:
                         sql = "クエスト情報："
                         for i in range(5):
@@ -426,11 +426,11 @@ async def on_message(ctx):
                     else:
                         sql = "現在の状況："
                     if quest_cnt >= 2 or game_phase >= 1:
-                        fdbsql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
+                        dbsql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
                         db.execute(dbsql)
                         rows = db.fetchall()
                         avalon_quest = rows
-                        print(avalon_quest)
+                        # print(avalon_quest)
                     if game_phase == 0:
                         sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}\nリーダは{avalon_user[select_member][1]}です。\n{player_display(game_member_num, avalon_user, select_member)}"
                         embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
@@ -463,9 +463,9 @@ async def on_message(ctx):
                             sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
 
                         for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                            print(game_member[i])
-                            print(avalon_quest)
-                            print(avalon_quest[game_member[i]+1])
+                            # print(game_member[i])
+                            # print(avalon_quest)
+                            # print(avalon_quest[game_member[i]+1])
                             if avalon_quest[game_member[i]+1][3] < 8:
                                 msg = client.get_user(avalon_user[game_member[i]][2])
                                 embed = discord.Embed(title="クエスト中",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
