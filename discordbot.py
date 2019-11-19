@@ -466,7 +466,7 @@ async def on_message(ctx):
                             # print(game_member[i])
                             # print(avalon_quest)
                             # print(avalon_quest[game_member[i]+1])
-                            if avalon_quest[game_member[i]+1][3] < 8:
+                            if avalon_quest[game_member[i]+1] < 8:
                                 msg = client.get_user(avalon_user[game_member[i]][2])
                                 embed = discord.Embed(title="クエスト中",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
                                 await msg.send(embed=embed)
