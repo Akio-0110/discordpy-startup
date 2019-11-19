@@ -665,6 +665,7 @@ async def on_message(ctx):
                         q_num = int(int(num[0]-1)/5)+1
                         s_cnt = 0
                         f_cnt = 0
+                        a_cnt = 0
                         if num[0] == None:
                             break
                         for k in range(game_member_num):
@@ -672,6 +673,9 @@ async def on_message(ctx):
                                 s_cnt += 1
                             elif int(num[1+k]) > 8:
                                 f_cnt += 1
+                            elif int(num[1+k]) >= 2:
+                                a_cnt += 1
+
                         if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
                             game_info[i][1] = s_cnt
                             game_info[i][2] = f_cnt
@@ -686,7 +690,6 @@ async def on_message(ctx):
 
                         i += 1
 
-                    print(game_info)
                     i = 0
                     flg = 0
                     for num in rows:
@@ -694,7 +697,7 @@ async def on_message(ctx):
                             break
                         q_num = int(int(num[0]-1)/5)+1
                         v_num = (int(num[0]-1)%5)+1
-                        if game_info[i][3] == 1:
+                        if a_cnt == game_member_num:
                             if i == 0:
                                 sql = f"{q_num}クエ、{v_num}回目 : "
                             else:
@@ -705,11 +708,7 @@ async def on_message(ctx):
                             elif game_info[i][0] == 1:
                                 sql = f"{sql}失敗：成功{game_info[i][1]},失敗{game_info[i][2]}"
                         for k in range(game_member_num):
-                            if int(num[1+k]) >= 16:
-                                s_cnt += 1
-                            else:
-                                f_cnt += 1
-                            if game_info[i][3] == 1:
+                            if a_cnt == game_member_num:
                                 flg = 1
                                 if int(num[1+k])%2 == 1:
                                     if int(num[1+k])%8 >= 4:
