@@ -518,6 +518,10 @@ async def on_message(ctx):
                         await ctx.channel.send(embed=embed)
 
                 elif game_status == 3:
+                    dbsql = 'select * from `avalon_user`'
+                    db.execute(dbsql)
+                    rows = db.fetchall()
+                    avalon_user = rows
                     n8_cnt = 0
                     if role_find(game_member_num, avalon_user, 8) != None:
                         for i in range(game_member_num):
