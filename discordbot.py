@@ -824,7 +824,7 @@ async def on_message(ctx):
                                     elif ary[i][3] == 32:
                                         role_info = f"{role_info}\nです。\n3回目の失敗でクエストに参加していると単独勝利します。\n{avalon_role[33][1]}の勝利条件と同時成立した場合、同時勝利です。"
                                     elif ary[i][3] == 33:
-                                        role_info = f"{role_info}\nです。\n一度もクエストに選ばれない、または参加したクエストの失敗数の累計が3枚数以上の場合、単独勝利します。\n{avalon_role[32][1]}の勝利条件と同時成立した場合、同時勝利です。"
+                                        role_info = f"{role_info}\nです。\n一度もクエストに選ばれない、または参加したクエストの失敗数の累計が3枚以上の場合、単独勝利します。\n{avalon_role[32][1]}の勝利条件と同時成立した場合、同時勝利です。"
                                 await msg.send(f"{role_info}")
 
                         role.sort()
@@ -1431,8 +1431,8 @@ async def on_message(ctx):
 
                                     n8_cnt = 0
                                     if role_find(game_member_num, avalon_user, 8) != None:
-                                        for i in range(game_member_num):
-                                            if avalon_user[i][3] == 8:
+                                        for l in range(game_member_num):
+                                            if avalon_user[l][3] == 8:
                                                 n8_cnt += 1
 
                                     if n8_cnt == 2:
@@ -1524,7 +1524,6 @@ async def on_message(ctx):
 
                                 elif quest_fail_cnt == 3:
                                     game_phase = 0
-                                    quest_cnt += 1
                                     vote_cnt = 1
                                     sql = f"update `avalon_data` set \
                                     `game_status`= 0, \
@@ -1564,27 +1563,44 @@ async def on_message(ctx):
                                                     if rows[l+1] < 16 and rows[l+1] > 8:
                                                         fail_num += 1
 
-                                    if role_find(game_member_num, avalon_user, 32) != None and avalon_quest[int(role_find(game_member_num, avalon_user, 32))+1]%2 == 1:
-                                        if num != None:
-                                            if sel_num == 0:
-                                                sql = f"{sql}\n最終失敗クエストに参加していた{avalon_user[int(role_find(game_member_num, avalon_user, 32))][1]}とクエストに一度も参加していない{avalon_user[num][1]}の勝利です。"
-                                                embed.add_field(name=f"{avalon_role[32][1]}と{avalon_role[num][1]}勝利", value=f"{sql}")
-                                            elif fail_num >= 3:
-                                                sql = f"{sql}\n最終失敗クエストに参加していた{avalon_user[int(role_find(game_member_num, avalon_user, 32))][1]}と参加したクエストで３枚以上の失敗がでた{avalon_user[num][1]}の勝利です。"
-                                                embed.add_field(name=f"{avalon_role[32][1]}と{avalon_role[num][1]}勝利", value=f"{sql}")
+                                    if role_find(game_member_num, avalon_user, 32) != None:
+                                        if avalon_quest[num+1]%2 == 1:
+                                            if role_find(game_member_num, avalon_user, 33) != None :
+                                                if sel_num == 0:
+                                                    sql = f"{sql}\n最終失敗クエストに参加していた{avalon_user[num][1]}とクエストに一度も参加していない{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の勝利です。"
+                                                    embed.add_field(name=f"{avalon_role[num][1]}と{avalon_role[33][1]}勝利", value=f"{sql}")
+                                                elif fail_num >= 3:
+                                                    sql = f"{sql}\n最終失敗クエストに参加していた{avalon_user[num][1]}と参加したクエストで３枚以上の失敗がでた{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の勝利です。"
+                                                    embed.add_field(name=f"{avalon_role[num][1]}と{avalon_role[33][1]}勝利", value=f"{sql}")
+                                                else:
+                                                    sql = f"{sql}\n最終失敗クエストに参加していたため、{avalon_user[int(role_find(game_member_num, avalon_user, 32))][1]}の単独勝利です。"
+                                                    embed.add_field(name=f"{avalon_role[num][1]}単独勝利", value=f"{sql}")
                                             else:
                                                 sql = f"{sql}\n最終失敗クエストに参加していたため、{avalon_user[int(role_find(game_member_num, avalon_user, 32))][1]}の単独勝利です。"
                                                 embed.add_field(name=f"{avalon_role[32][1]}単独勝利", value=f"{sql}")
                                         else:
-                                            sql = f"{sql}\n最終失敗クエストに参加していたため、{avalon_user[int(role_find(game_member_num, avalon_user, 32))][1]}の単独勝利です。"
-                                            embed.add_field(name=f"{avalon_role[32][1]}単独勝利", value=f"{sql}")
-                                    elif role_find(game_member_num, avalon_user, 33) != None and (sel_num == 0 or fail_num >= 3):
+                                            if sel_num == 0:
+                                                sql = f"{sql}\nクエストに一度も参加していない{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の単独勝利です。"
+                                                embed.add_field(name=f"{avalon_role[33][1]}単独勝利", value=f"{sql}")
+                                            elif fail_num >= 3:
+                                                sql = f"{sql}\n参加したクエストで３枚以上の失敗がでた{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の単独勝利です。"
+                                                embed.add_field(name=f"{avalon_role[33][1]}単独勝利", value=f"{sql}")
+                                            else:
+                                                if role_find(game_member_num, avalon_user, 21) != None and quest_cnt%2 == 0:
+                                                    sql = f"{sql}\n偶数クエストのため、{avalon_role[21][1]}は赤陣営で勝利です。"
+                                                embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
+                                    elif role_find(game_member_num, avalon_user, 33) != None:
+                                        num = int(role_find(game_member_num, avalon_user, 33))
                                         if sel_num == 0:
-                                            sql = f"{sql}\nクエストに一度も参加していない{avalon_user[num][1]}の勝利です。"
+                                            sql = f"{sql}\nクエストに一度も参加していない{avalon_user[num][1]}の単独勝利です。"
                                             embed.add_field(name=f"{avalon_role[num][1]}単独勝利", value=f"{sql}")
                                         elif fail_num >= 3:
-                                            sql = f"{sql}\n参加したクエストで３枚以上の失敗がでた{avalon_user[num][1]}の勝利です。"
+                                            sql = f"{sql}\n参加したクエストで３枚以上の失敗がでた{avalon_user[num][1]}の単独勝利です。"
                                             embed.add_field(name=f"{avalon_role[num][1]}単独勝利", value=f"{sql}")
+                                        else:
+                                            if role_find(game_member_num, avalon_user, 21) != None and quest_cnt%2 == 0:
+                                                sql = f"{sql}\n偶数クエストのため、{avalon_role[21][1]}は赤陣営で勝利です。"
+                                            embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
                                     else:
                                         if role_find(game_member_num, avalon_user, 21) != None and quest_cnt%2 == 0:
                                             sql = f"{sql}\n偶数クエストのため、{avalon_role[21][1]}は赤陣営で勝利です。"
@@ -1890,7 +1906,7 @@ async def on_message(ctx):
                                             elif avalon_user[i][3] == 32:
                                                 role_info = f"{role_info}\nです。\n3回目の失敗でクエストに参加していると単独勝利します。\n{avalon_role[33][1]}の勝利条件と同時成立した場合、同時勝利です。"
                                             elif avalon_user[i][3] == 33:
-                                                role_info = f"{role_info}\nです。\n一度もクエストに選ばれない、または参加したクエストの失敗数の累計が3枚数以上の場合、単独勝利します。\n{avalon_role[32][1]}の勝利条件と同時成立した場合、同時勝利です。"
+                                                role_info = f"{role_info}\nです。\n一度もクエストに選ばれない、または参加したクエストの失敗数の累計が3枚以上の場合、単独勝利します。\n{avalon_role[32][1]}の勝利条件と同時成立した場合、同時勝利です。"
                                         await msg.send(f"{role_info}")
 
                                 role = [1]*game_member_num
