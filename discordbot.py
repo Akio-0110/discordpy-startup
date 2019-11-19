@@ -10,6 +10,7 @@ from mysql.connector import errorcode
 from discord import File
 from discord.ext import tasks
 from datetime import datetime
+# from tkinter import messagebox
 
 TOKEN = os.environ['DISCORD_BOT_TOKEN']
 client = discord.Client()
@@ -424,8 +425,8 @@ async def on_message(ctx):
                     else:
                         sql = "現在の状況："
                     if quest_cnt >= 2 or game_phase >= 1:
-                        sql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
-                        db.execute(sql)
+                        dbsql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
+                        db.execute(dbsql)
                         rows = db.fetchall()
                         avalon_quest = rows
                     if game_phase == 0:
