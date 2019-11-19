@@ -2804,15 +2804,15 @@ async def loop():
     channel = client.get_channel(612821919971934230)
     if now == '21:00':
         if day == '3':
-            await channel.send('今日は水曜日です。\nアヴァロンできる人はいますか？')
+            await channel.send('今日は水曜日です。\nアヴァロンやりませんか？')
     elif now == '22:00':
         if day == '2':
-            await channel.send('明日は水曜日です。\nアヴァロンできる人はいますか？')
+            await channel.send('明日は水曜日です。\nアヴァロンやりませんか？')
         elif day == '3':
             await channel.send('☆☆アヴァロンの時間です☆☆')
-    elif now == '22:31':
+    elif now == '22:40':
         if day == '2':
-            await channel.send('明日は水曜日です。\nアヴァロンできる人はいますか？')
+            await channel.send(f"@everyone 明日は水曜日です。\nアヴァロンやりませんか？")
 
 #ループ処理実行
 loop.start()
