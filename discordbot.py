@@ -2806,6 +2806,8 @@ async def on_message(ctx):
 
 @client.event
 async def time_check(ctx):
+    print("イベントを受け付けました。")
+    print(ctx.content)
     print(ctx.channel.id)
     if ctx.content == '???':
         print(datetime.now().strftime('%H:%M'))
