@@ -658,9 +658,9 @@ async def on_message(ctx):
                     i = 0
                     for num in rows:
                         # print(num)
+                        q_num = int(int(num[0]-1)/5)+1
                         s_cnt = 0
                         f_cnt = 0
-                        a_cnt = 0
                         if num[0] == None:
                             break
                         for k in range(game_member_num):
@@ -668,20 +668,17 @@ async def on_message(ctx):
                                 s_cnt += 1
                             elif int(num[1+k]) > 8:
                                 f_cnt += 1
-                            if int(num[1+k])%8 >= 2:
-                                a_cnt += 1
-                        if a_cnt >= game_member_num:
+                        if s_cnt + f_cnt == avalon_role_auto[game_member_num][q_num][0]:
                             game_info[i][1] = s_cnt
                             game_info[i][2] = f_cnt
                             game_info[i][3] = 1
+                            if f_cnt >= avalon_role_auto[game_member_num][q_num][1]:
+                                game_info[i][0] = 1
+                            else:
+                                game_info[i][0] = 2
                         else:
                             game_info[i][3] = 0
-                        if f_cnt == 0 and s_cnt == 0:
                             game_info[i][0] = 0
-                        elif f_cnt >= quest_member_num[game_member_num][i][1]:
-                            game_info[i][0] = 1
-                        else:
-                            game_info[i][0] = 2
 
                         i += 1
 
@@ -698,7 +695,7 @@ async def on_message(ctx):
                                 sql = f"{q_num}クエ、{v_num}回目 : "
                             else:
                                 sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
-                        if game_info[i][1]+game_info[i][2] == quest_member_num[game_member_num][i][0]:
+                        if game_info[i][3] == 1:
                             if game_info[i][0] == 2:
                                 sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
                             elif game_info[i][0] == 1:
@@ -756,25 +753,17 @@ async def on_message(ctx):
                         a_cnt = 0
                         if num[0] == None or num[1] == None or num[2] == None:
                             break
-                        for k in range(game_member_num):
-                            if int(num[1+k]) >= 16:
-                                s_cnt += 1
-                            elif int(num[1+k]) > 8:
-                                f_cnt += 1
-                            if int(num[1+k])%8 >= 2:
-                                a_cnt += 1
-                        if a_cnt >= game_member_num:
+                        if s_cnt + f_cnt == avalon_role_auto[game_member_num][q_num][0]:
                             game_info[i][1] = s_cnt
                             game_info[i][2] = f_cnt
                             game_info[i][3] = 1
+                            if f_cnt >= avalon_role_auto[game_member_num][q_num][1]:
+                                game_info[i][0] = 1
+                            else:
+                                game_info[i][0] = 2
                         else:
                             game_info[i][3] = 0
-                        if f_cnt == 0 and s_cnt == 0:
                             game_info[i][0] = 0
-                        elif f_cnt >= quest_member_num[game_member_num][i][1]:
-                            game_info[i][0] = 1
-                        else:
-                            game_info[i][0] = 2
 
                         i += 1
 
@@ -795,7 +784,7 @@ async def on_message(ctx):
                             sql = f"{q_num}クエ: "
                         else:
                             sql = f"{sql}\n{q_num}クエ: "
-                        if game_info[i][1]+game_info[i][2] == quest_member_num[game_member_num][i][0]:
+                        if game_info[i][3] == 1:
                             if game_info[i][0] == 2:
                                 sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
                             elif game_info[i][0] == 1:
@@ -1771,7 +1760,7 @@ async def on_message(ctx):
                                 elif avalon_user[num][3] == 8:
                                     if command_accept == 8 and n8_cnt == 2:
                                         command_accept = 16
-                                        await msg.send(f"あなたは青陣営のため、強制的に成功へ変更しました。")                                    
+                                        await msg.send(f"あなたは青陣営のため、強制的に成功へ変更しました。")
                                     elif command_accept == 16 and n8_cnt != 2:
                                         command_accept = 8
                                         await msg.send(f"恋人2人でクエストへ参加できなかったため、強制的に失敗へ変更しました。")
