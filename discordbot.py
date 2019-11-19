@@ -2787,4 +2787,27 @@ async def on_message(ctx):
             else:
                 await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
+
+# 60秒に一回ループ
+# @tasks.loop(seconds=60)
+# async def loop():
+#     # 現在の時刻
+#     now = datetime.now().strftime('%H:%M')
+#     day = datetime.now().strftime('%w')
+#     if now == '21:00':
+#         channel = client.get_channel(CHANNEL_ID)
+#         if day == '2':
+#             await channel.send('明日は水曜日です。\nアヴァロンできる人はいますか？')
+#         if day == '3':
+#             await channel.send('今日は水曜日です。\nアヴァロンできる人はいますか？')
+#
+# #ループ処理実行
+# loop.start()
+
+@client.event
+async def time_check(ctx):
+    if ctx.content == ???:
+        print(datetime.now().strftime('%H:%M'))
+        print(datetime.now().strftime('%w'))
+
 client.run(TOKEN)
