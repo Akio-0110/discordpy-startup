@@ -2810,7 +2810,7 @@ async def loop():
             await channel.send('明日は水曜日です。\nアヴァロンやりませんか？')
         elif day == '3':
             await channel.send('☆☆アヴァロンの時間です☆☆')
-    elif now == '22:40':
+    elif now == '22:41':
         if day == '2':
             await channel.send(f"@everyone 明日は水曜日です。\nアヴァロンやりませんか？")
 
