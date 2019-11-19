@@ -685,6 +685,7 @@ async def on_message(ctx):
                                 game_info[i][3] = 2
                         else:
                             game_info[i][3] = 0
+                        print(a_cnt)
                         if a_cnt == game_member_num:
                             game_info[i][0] = 1
                         else:
