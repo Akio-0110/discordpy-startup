@@ -1548,8 +1548,8 @@ async def on_message(ctx):
                                     sql = "配役は以下の通りです。"
                                     for i in range(game_member_num):
                                         sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
-                                    if role_find(game_member_num, avalon_user, 32) != None:
-                                        num = int(role_find(game_member_num, avalon_user, 32))
+                                    if role_find(game_member_num, avalon_user, 33) != None:
+                                        num = int(role_find(game_member_num, avalon_user, 33))
                                         dbsql = 'select * from `avalon_quest`'
                                         db.execute(dbsql)
                                         rows = db.fetchall()
@@ -1564,33 +1564,33 @@ async def on_message(ctx):
                                                         fail_num += 1
 
                                     if role_find(game_member_num, avalon_user, 32) != None:
-                                        if avalon_quest[num+1]%2 == 1:
+                                        num32 = int(role_find(game_member_num, avalon_user, 32))
+                                        if avalon_quest[num32+1]%2 == 1:
                                             if role_find(game_member_num, avalon_user, 33) != None :
                                                 if sel_num == 0:
-                                                    sql = f"{sql}\n最終失敗クエストに参加していた{avalon_user[num][1]}とクエストに一度も参加していない{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の勝利です。"
-                                                    embed.add_field(name=f"{avalon_role[num][1]}と{avalon_role[33][1]}勝利", value=f"{sql}")
+                                                    sql = f"{sql}\n最終失敗クエストに参加していた{avalon_user[num32][1]}とクエストに一度も参加していない{avalon_user[num][1]}の勝利です。"
+                                                    embed.add_field(name=f"{avalon_role[num32][1]}と{avalon_role[num][1]}勝利", value=f"{sql}")
                                                 elif fail_num >= 3:
-                                                    sql = f"{sql}\n最終失敗クエストに参加していた{avalon_user[num][1]}と参加したクエストで３枚以上の失敗がでた{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の勝利です。"
-                                                    embed.add_field(name=f"{avalon_role[num][1]}と{avalon_role[33][1]}勝利", value=f"{sql}")
+                                                    sql = f"{sql}\n最終失敗クエストに参加していた{avalon_user[num32][1]}と参加したクエストで３枚以上の失敗がでた{avalon_user[num][1]}の勝利です。"
+                                                    embed.add_field(name=f"{avalon_role[num32][1]}と{avalon_role[num][1]}勝利", value=f"{sql}")
                                                 else:
-                                                    sql = f"{sql}\n最終失敗クエストに参加していたため、{avalon_user[int(role_find(game_member_num, avalon_user, 32))][1]}の単独勝利です。"
-                                                    embed.add_field(name=f"{avalon_role[num][1]}単独勝利", value=f"{sql}")
+                                                    sql = f"{sql}\n最終失敗クエストに参加していたため、{avalon_user[num32][1]}の単独勝利です。"
+                                                    embed.add_field(name=f"{avalon_role[num32][1]}単独勝利", value=f"{sql}")
                                             else:
-                                                sql = f"{sql}\n最終失敗クエストに参加していたため、{avalon_user[int(role_find(game_member_num, avalon_user, 32))][1]}の単独勝利です。"
-                                                embed.add_field(name=f"{avalon_role[32][1]}単独勝利", value=f"{sql}")
+                                                sql = f"{sql}\n最終失敗クエストに参加していたため、{avalon_user[num32][1]}の単独勝利です。"
+                                                embed.add_field(name=f"{avalon_role[num32][1]}単独勝利", value=f"{sql}")
                                         else:
                                             if sel_num == 0:
-                                                sql = f"{sql}\nクエストに一度も参加していない{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の単独勝利です。"
-                                                embed.add_field(name=f"{avalon_role[33][1]}単独勝利", value=f"{sql}")
+                                                sql = f"{sql}\nクエストに一度も参加していない{avalon_user[num][1]}の単独勝利です。"
+                                                embed.add_field(name=f"{avalon_role[num][1]}単独勝利", value=f"{sql}")
                                             elif fail_num >= 3:
-                                                sql = f"{sql}\n参加したクエストで３枚以上の失敗がでた{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の単独勝利です。"
-                                                embed.add_field(name=f"{avalon_role[33][1]}単独勝利", value=f"{sql}")
+                                                sql = f"{sql}\n参加したクエストで３枚以上の失敗がでた{avalon_user[num][1]}の単独勝利です。"
+                                                embed.add_field(name=f"{avalon_role[num][1]}単独勝利", value=f"{sql}")
                                             else:
                                                 if role_find(game_member_num, avalon_user, 21) != None and quest_cnt%2 == 0:
                                                     sql = f"{sql}\n偶数クエストのため、{avalon_role[21][1]}は赤陣営で勝利です。"
                                                 embed.add_field(name=f"クエスト：赤陣営勝利", value=f"{sql}")
                                     elif role_find(game_member_num, avalon_user, 33) != None:
-                                        num = int(role_find(game_member_num, avalon_user, 33))
                                         if sel_num == 0:
                                             sql = f"{sql}\nクエストに一度も参加していない{avalon_user[num][1]}の単独勝利です。"
                                             embed.add_field(name=f"{avalon_role[num][1]}単独勝利", value=f"{sql}")
@@ -1611,6 +1611,7 @@ async def on_message(ctx):
                                     value = ('bot', f"{quest_cnt-1}クエ：失敗\n")
                                     db.execute(sql, value)
                                 else:
+
                                     if game_otome == 1 and (quest_cnt >= 2 and quest_cnt <= 4):
                                         game_phase = 4
                                         sql = f"update `avalon_data` set \
@@ -1636,34 +1637,88 @@ async def on_message(ctx):
                                         db.execute(sql, value)
 
                                     else:
-                                        game_phase = 0
-                                        quest_cnt += 1
-                                        vote_cnt = 1
-                                        sql = f"update `avalon_data` set \
-                                        `game_phase`= {game_phase}, \
-                                        `select_member`= {select_member}, \
-                                        `quest_cnt`= {quest_cnt}, \
-                                        `quest_success_cnt` = {quest_success_cnt}, \
-                                        `quest_fail_cnt` = {quest_fail_cnt}, \
-                                        `vote_cnt` = {vote_cnt} \
-                                        where id = 0"
-                                        db.execute(sql)
-                                        msg = client.get_user(avalon_user[select_member][2])
-                                        await msg.send(embed=embed)
-                                        sql = player_display(game_member_num, avalon_user, select_member)
-                                        embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
-                                        await msgch.send(embed=embed, file=File(file))
-                                        msg = client.get_user(avalon_user[select_member][2])
-                                        sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：.s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
-                                        embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
-                                        await msg.send(embed=embed)
-                                        sql = f"insert into `avalon_comment` (`user`, `comment`) \
-                                        value (%s, %s)"
+                                        fail_num = 0
                                         if fail_cnt >= base_num:
-                                            value = ('bot', f"{quest_cnt-1}クエ：失敗\n")
+                                            if role_find(game_member_num, avalon_user, 33) != None:
+                                                num = int(role_find(game_member_num, avalon_user, 33))
+                                                dbsql = 'select * from `avalon_quest`'
+                                                db.execute(dbsql)
+                                                rows = db.fetchall()
+                                                for i in rows:
+                                                    if i[num+1]%2 == 1:
+                                                        for l in range(game_member_num):
+                                                            if rows[l+1] < 16 and rows[l+1] > 8:
+                                                                fail_num += 1
+                                        if fail_num >= 3:
+                                            sql = f"update `avalon_data` set \
+                                            `game_status`= 0, \
+                                            `game_role`= 1, \
+                                            `quest_cnt`= 0, \
+                                            `quest_success_cnt` = 0, \
+                                            `quest_fail_cnt` = 0, \
+                                            `vote_cnt`= 0, \
+                                            `game_phase`= 0, \
+                                            `game_stop`= 1, \
+                                            `game_member_num`= 0, \
+                                            `game_member1`= NULL, \
+                                            `game_member2`= NULL, \
+                                            `game_member3`= NULL, \
+                                            `game_member4`= NULL, \
+                                            `game_member5`= NULL, \
+                                            `game_otome1` = NULL, \
+                                            `game_otome2` = NULL, \
+                                            `game_otome3` = NULL \
+                                            where id = 0"
+                                            db.execute(sql)
+                                            sql = "配役は以下の通りです。"
+                                            for i in range(game_member_num):
+                                                sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
+                                            num = int(role_find(game_member_num, avalon_user, 33))
+
+                                            if role_find(game_member_num, avalon_user, 32) != None:
+                                                if avalon_quest[num+1]%2 == 1:
+                                                    sql = f"{sql}\n最終失敗クエストに参加していたため、{avalon_user[int(role_find(game_member_num, avalon_user, 32))][1]}と{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の勝利です。"
+                                                    embed.add_field(name=f"{avalon_role[32][1]}と{avalon_role[33][1]}勝利", value=f"{sql}")
+                                                else:
+                                                    sql = f"{sql}\n{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の単独勝利です。"
+                                                    embed.add_field(name=f"{avalon_role[33][1]}単独勝利", value=f"{sql}")
+                                            else:
+                                                sql = f"{sql}\n{avalon_user[int(role_find(game_member_num, avalon_user, 33))][1]}の単独勝利です。"
+                                                embed.add_field(name=f"{avalon_role[33][1]}単独勝利", value=f"{sql}")
+                                            await msgch.send(embed=embed, file=File(file))
+                                            sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                            value (%s, %s)"
+                                            value = ('bot', f"{quest_cnt-1}クエ：失敗\n\nゲーム終了")
+                                            db.execute(sql, value)
                                         else:
-                                            value = ('bot', f"{quest_cnt-1}クエ：成功\n")
-                                        db.execute(sql, value)
+                                            game_phase = 0
+                                            quest_cnt += 1
+                                            vote_cnt = 1
+                                            sql = f"update `avalon_data` set \
+                                            `game_phase`= {game_phase}, \
+                                            `select_member`= {select_member}, \
+                                            `quest_cnt`= {quest_cnt}, \
+                                            `quest_success_cnt` = {quest_success_cnt}, \
+                                            `quest_fail_cnt` = {quest_fail_cnt}, \
+                                            `vote_cnt` = {vote_cnt} \
+                                            where id = 0"
+                                            db.execute(sql)
+                                            msg = client.get_user(avalon_user[select_member][2])
+                                            await msg.send(embed=embed)
+                                            sql = player_display(game_member_num, avalon_user, select_member)
+                                            embed.add_field(name=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",value=f"リーダは{avalon_user[select_member][1]}です。\n{sql}")
+                                            await msgch.send(embed=embed, file=File(file))
+                                            msg = client.get_user(avalon_user[select_member][2])
+                                            sql = f"あなたはリーダです。\n{quest_member_num[game_member_num][quest_cnt-1][0]}人選出してください\n1番〜3番の3人の選出例：.s 1,2,3\n{player_display(game_member_num, avalon_user, select_member)}"
+                                            embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
+                                            await msg.send(embed=embed)
+                                            sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                            value (%s, %s)"
+                                            if fail_cnt >= base_num:
+                                                value = ('bot', f"{quest_cnt-1}クエ：失敗\n")
+                                            else:
+                                                value = ('bot', f"{quest_cnt-1}クエ：成功\n")
+                                            db.execute(sql, value)
 
             elif game_phase == 4: #乙女フェーズ
                 otome_select = [game_otome1, game_otome2, game_otome3]
