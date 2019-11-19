@@ -425,7 +425,7 @@ async def on_message(ctx):
                     else:
                         sql = "現在の状況："
                     if quest_cnt >= 2 or game_phase >= 1:
-                        dbsql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
+                        fdbsql = f"select * from `avalon_quest` where id = {int((quest_cnt-1)*5+vote_cnt)}"
                         db.execute(dbsql)
                         rows = db.fetchall()
                         avalon_quest = rows
@@ -2098,7 +2098,7 @@ async def on_message(ctx):
                                                     for i in rows:
                                                         if i[num+1]%2 == 1:
                                                             for l in range(game_member_num):
-                                                                if rows[l+1] < 16 and rows[l+1] > 8:
+                                                                if int(rows[l+1]) < 16 and int(rows[l+1]) > 8:
                                                                     fail_num += 1
                                             if fail_num >= 3:
                                                 sql = f"update `avalon_data` set \
