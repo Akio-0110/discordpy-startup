@@ -790,10 +790,6 @@ async def on_message(ctx):
                             sql = f"{q_num}クエ: "
                         else:
                             sql = f"{sql}\n{q_num}クエ: "
-                        print(i)
-                        print(game_info[i][1])
-                        print(game_info[i][2])
-                        print(quest_member_num[game_member_num][i][0])
                         if game_info[i][1]+game_info[i][2] == quest_member_num[game_member_num][i][0]:
                             if game_info[i][0] == 2:
                                 sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
