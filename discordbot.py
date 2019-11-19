@@ -781,6 +781,7 @@ async def on_message(ctx):
                     # print(game_info)
                     flg = 0
                     i = 0
+                    cflg = 0
                     # print(game_info)
                     for num in rows:
                         # print(num)
@@ -790,8 +791,9 @@ async def on_message(ctx):
                             flg = 1
                             q_num = int(int(num[0])/5)+1
                             v_num = int(num[0])%game_member_num
-                            if i == 0:
+                            if cflg == 0:
                                 sql = f"{q_num}クエ: "
+                                cflg = 1
                             else:
                                 sql = f"{sql}\n{q_num}クエ: "
                             if game_info[i][3] == 2:
