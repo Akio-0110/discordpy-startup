@@ -449,7 +449,7 @@ async def on_message(ctx):
                         await ctx.channel.send(embed=embed)
 
                         for i in range(game_member_num):
-                            if avalon_quest[i] < 2:
+                            if avalon_quest[0][i] < 2:
                                 msg = client.get_user(avalon_user[i][2])
                                 embed = discord.Embed(title="クエストメンバー承認却下中",description=f"{sql}\n承認の場合 : a\n却下の場合 : .r\nを入力してください")
                                 await msg.send(embed=embed)
