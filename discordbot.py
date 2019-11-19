@@ -713,7 +713,7 @@ async def on_message(ctx):
                     embed = discord.Embed(title="クエスト履歴",description=sql)
                     await ctx.channel.send(embed=embed)
                 else:
-                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                    await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
             elif comment == '.lq':
                 if game_status >= 2:
@@ -795,7 +795,7 @@ async def on_message(ctx):
                     embed = discord.Embed(title="クエスト履歴",description=sql)
                     await ctx.channel.send(embed=embed)
                 else:
-                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                    await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
             elif game_status == 0:
                 # make : 部屋作成
@@ -903,9 +903,9 @@ async def on_message(ctx):
                         embed = discord.Embed(title="現在使用可能なコマンド一覧",description=usage_avalon1)
                         await ctx.channel.send(embed=embed)
                     else :
-                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}")
                 else:
-                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                    await ctx.channel.send(f"このコマンドは無効です。：{comment}")
             elif game_status == 1:
                 msgch = client.get_channel(channel_id)
                 # login : 部屋入室
@@ -959,7 +959,7 @@ async def on_message(ctx):
                         sql = f"update `avalon_data` set `game_role`={game_role} where id = 0"
                         await msgch.send(f"デッキを{game_role}に設定しました。")
                     else:
-                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}")
                         sql = f"update `avalon_data` set `game_role`=1 where id = 0"
                         await msgch.send(f"デッキを1に設定しました。")
                     db.execute(sql)
@@ -1297,7 +1297,7 @@ async def on_message(ctx):
                         db.execute(sql)
 
                     else :
-                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}\
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}\
                         \n現在の入室人数は{game_member_num}人です。\
                         \nあと{5-game_member_num}以上入室してからsコマンドを実行してください。")
 
@@ -1335,7 +1335,7 @@ async def on_message(ctx):
                     )"
                     db.execute(sql)
                 else:
-                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                    await ctx.channel.send(f"このコマンドは無効です。：{comment}")
             elif game_status == 2:
                 msgch = client.get_channel(channel_id)
                 quest_id = int((quest_cnt-1)*5+vote_cnt)
@@ -1473,7 +1473,7 @@ async def on_message(ctx):
                             # 重複チェック
                             if len(select_member_match) == len(set(select_member_match)):
                                 if len(select_member_match) != quest_member_num[game_member_num][quest_cnt-1][0]:
-                                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}\
+                                    await ctx.channel.send(f"このコマンドは無効です。：{comment}\
                                     \n選出人数は{quest_member_num[game_member_num][quest_cnt-1][0]}人です。")
                                 else :
                                     select_list = [0,1]
@@ -1559,7 +1559,7 @@ async def on_message(ctx):
                         else:
                             await ctx.channel.send(f"あなたは選出リーダではありません。")
                     else:
-                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
                 elif game_phase == 1: #承認却下フェーズ
                     command_accept = 0
@@ -1725,7 +1725,7 @@ async def on_message(ctx):
                                     value = ('bot', f"{quest_cnt}クエ、{vote_cnt-1}回目却下\n")
                                     db.execute(sql, value)
                     else:
-                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
                 elif game_phase == 2: #成功失敗フェーズ
                     command_accept = 0
@@ -2165,7 +2165,7 @@ async def on_message(ctx):
                                                     value = ('bot', f"{quest_cnt-1}クエ：成功\n")
                                                 db.execute(sql, value)
                     else:
-                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
                 elif game_phase == 4: #乙女フェーズ
                     otome_select = [game_otome1, game_otome2, game_otome3]
@@ -2262,7 +2262,7 @@ async def on_message(ctx):
                         else:
                             await ctx.channel.send(f"あなたは乙女の選出者ではありません。")
                     else:
-                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
                 elif game_phase == 5: #ビースト能力(オベロン化)フェーズ
                     # select : 選択
@@ -2444,7 +2444,7 @@ async def on_message(ctx):
                         else:
                             await ctx.author.send(f"あなたは{avalon_role[16][1]}ではありません。")
                     else:
-                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}")
                 # 漁夫王 暗殺予想フェーズ
                 elif game_phase == 6:
 
@@ -2582,9 +2582,9 @@ async def on_message(ctx):
                         else:
                             await ctx.author.send(f"あなたは{avalon_role[31][1]}ではありません。")
                     else:
-                        await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}")
                 else:
-                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                    await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
             elif game_status == 3:
                 msgch = client.get_channel(channel_id)
@@ -2783,8 +2783,8 @@ async def on_message(ctx):
                             else:
                                 msg.send("暗殺メンバーは１人です。\nプレイヤー1を暗殺する場合：　.k 1")
                 else:
-                    await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                    await ctx.channel.send(f"このコマンドは無効です。：{comment}")
             else:
-                await ctx.channel.send(f"現在このコマンドは無効です。：{comment}")
+                await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
 client.run(TOKEN)
