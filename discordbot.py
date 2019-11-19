@@ -2800,19 +2800,16 @@ async def loop():
     # 現在の時刻
     now = datetime.now().strftime('%H:%M')
     day = datetime.now().strftime('%w')
-    # channel = client.get_channel(646047618849439744)
-    channel = client.get_channel(612821919971934230)
+    channel = client.get_channel(646047618849439744)
     if now == '21:00':
         if day == '3':
-            await channel.send('今日は水曜日です。\nアヴァロンやりませんか？')
+            await channel.send('@everyone 今日は水曜日です。\nアヴァロンやりませんか？')
     elif now == '22:00':
         if day == '2':
-            await channel.send('明日は水曜日です。\nアヴァロンやりませんか？')
+            await channel.send('@everyone 明日は水曜日です。\nアヴァロンやりませんか？')
         elif day == '3':
-            await channel.send('☆☆アヴァロンの時間です☆☆')
-    elif now == '22:41':
-        if day == '2':
-            await channel.send(f"@everyone 明日は水曜日です。\nアヴァロンやりませんか？")
+            await channel.send('@everyone ☆☆アヴァロンの時間です☆☆')
+
 
 #ループ処理実行
 loop.start()
