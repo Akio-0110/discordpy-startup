@@ -618,7 +618,6 @@ async def on_message(ctx):
                     rows = db.fetchall()
                     flg = 0
                     for i in rows:
-                        print(i)
                         if i[0] == None:
                             break
                         if flg == 0:
