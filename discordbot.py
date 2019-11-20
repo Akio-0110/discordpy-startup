@@ -712,13 +712,17 @@ async def on_message(ctx):
                             if int(num[1+k])%2 == 1:
                                 if int(num[1+k])%8 >= 4:
                                     sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：承認"
-                                else:
+                                elif int(num[1+k])%8 >= 2:
                                     sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：却下"
+                                else:
+                                    sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}："
                             else:
                                 if int(num[1+k])%8 >= 4:
                                     sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：承認"
-                                else:
+                                elif int(num[1+k])%8 >= 2:
                                     sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：却下"
+                                else:
+                                    sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}："
 
                         i += 1
 
