@@ -673,7 +673,7 @@ async def on_message(ctx):
                                 s_cnt += 1
                             elif int(num[1+k]) > 8:
                                 f_cnt += 1
-                            if int(num[1+k]) >= 2:
+                            if int(num[1+k])%2 == 1:
                                 a_cnt += 1
 
                         if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
@@ -685,7 +685,7 @@ async def on_message(ctx):
                                 game_info[i][3] = 2
                         else:
                             game_info[i][3] = 0
-                        if a_cnt == game_member_num:
+                        if a_cnt == quest_member_num[game_member_num][q_num-1][0]:
                             game_info[i][0] = 1
                         else:
                             game_info[i][0] = 0
@@ -698,9 +698,6 @@ async def on_message(ctx):
                             break
                         q_num = int(int(num[0]-1)/5)+1
                         v_num = (int(num[0]-1)%5)+1
-                        print(game_info[i][0])
-                        print(game_info[i][1])
-                        print(game_info[i][2])
                         if game_info[i][0] == 1:
                             flg = 1
                             if i == 0:
