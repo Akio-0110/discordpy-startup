@@ -698,6 +698,9 @@ async def on_message(ctx):
                             break
                         q_num = int(int(num[0]-1)/5)+1
                         v_num = (int(num[0]-1)%5)+1
+                        print(game_info[i][0])
+                        print(game_info[i][1])
+                        print(game_info[i][2])
                         if game_info[i][0] == 1:
                             flg = 1
                             if i == 0:
