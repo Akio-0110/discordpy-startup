@@ -661,7 +661,6 @@ async def on_message(ctx):
                     ]
                     i = 0
                     for num in rows:
-                        print(num)
                         q_num = int(int(num[0]-1)/5)+1
                         s_cnt = 0
                         f_cnt = 0
@@ -1683,9 +1682,9 @@ async def on_message(ctx):
                                             for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                                                 sql = f"{sql}\n{game_member[k]+1}：{avalon_user[game_member[k]][1]}"
 
-                                            msg = client.get_user(avalon_user[select_member][2])
-                                            embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の成功失敗:",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
-                                            await msg.send(embed=embed)
+                                            # msg = client.get_user(avalon_user[select_member][2])
+                                            # embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の成功失敗:",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
+                                            # await msg.send(embed=embed)
 
                                         # 却下
                                         else:
