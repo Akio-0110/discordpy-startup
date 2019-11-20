@@ -508,7 +508,7 @@ async def on_message(ctx):
                             sql = f"{sql}\nマーリンまたは{avalon_role[8][1]}の2人の一方を予想してください"
                             sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤーを暗殺すると予想する場合 : .s 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤーを暗殺すると予想する場合 : .s 1,2"
                         else:
-                            sql = "{sql}\nマーリンを予想してください"
+                            sql = f"{sql}\nマーリンを予想してください"
                             sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤーを暗殺する場合\n.k 1"
                         embed = discord.Embed()
                         embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{sql}")
@@ -2699,7 +2699,7 @@ async def on_message(ctx):
                                         if select_member_num == ex_kill_member:
                                             kill_msg = f"{kill_msg}\n{avalon_role[31][1]}が予想したプレイヤーが暗殺されました。"
                                             kill_msg = f"{kill_msg}\nマーリンを暗殺できませんでした。"
-                                            embed = discord.Embed(title="暗殺失敗:青陣営と{avalon_role[31][1]}の勝利",description=f"{kill_msg}\n{sql}")
+                                            embed = discord.Embed(title=f"暗殺失敗:青陣営と{avalon_role[31][1]}の勝利",description=f"{kill_msg}\n{sql}")
                                         else:
                                             kill_msg = f"{kill_msg}\nマーリンを暗殺できませんでした。"
                                             kill_msg = f"{kill_msg}\n{avalon_role[31][1]}は予想を外しました。"
