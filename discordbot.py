@@ -1586,9 +1586,10 @@ async def on_message(ctx):
                             command_accept = 4
                         elif comment == '.r':
                             command_accept = 2
-
+                        check = 0
                         for i in range(game_member_num):
                             if ctx.author.id == avalon_user[i][2]:
+                                check = 1
                                 msg = client.get_user(avalon_user[i][2])
                                 if avalon_quest[i] < 2:
                                     sql = f"update `avalon_quest` \
@@ -1629,119 +1630,121 @@ async def on_message(ctx):
                                 db.execute(sql)
                                 # break
 
-                        # judge next phase
-                        reject_cnt = 0
-                        accept_cnt = 0
-                        vote_msg = f"第{quest_cnt}クエスト：{vote_cnt}回目"
-                        for i in range(game_member_num):
-                            if avalon_quest[i] > 1:
-                                if avalon_quest[i] == 2 or avalon_quest[i] == 3:
-                                    reject_cnt += 1
-                                    vote_msg = f"{vote_msg}\n{i+1} : {avalon_user[i][1]} : 却下"
-                                elif avalon_quest[i] == 4 or avalon_quest[i] == 5:
-                                    accept_cnt += 1
-                                    vote_msg = f"{vote_msg}\n{i+1} : {avalon_user[i][1]} : 承認"
-                            else:
-                                break
-                            if i == game_member_num-1:
-                                select_member = int((select_member+1)%game_member_num)
-                                # 承認
-                                if accept_cnt > reject_cnt:
-                                    game_phase = 2
-                                    sql = f"update `avalon_data` set \
-                                    `game_phase`= {game_phase} \
-                                    where id = 0"
-                                    # print(sql)
-                                    db.execute(sql)
+                                # judge next phase
+                                reject_cnt = 0
+                                accept_cnt = 0
+                                vote_msg = f"第{quest_cnt}クエスト：{vote_cnt}回目"
+                                for l in range(game_member_num):
+                                    if avalon_quest[l] > 1:
+                                        if avalon_quest[l] == 2 or avalon_quest[l] == 3:
+                                            reject_cnt += 1
+                                            vote_msg = f"{vote_msg}\n{l+1} : {avalon_user[l][1]} : 却下"
+                                        elif avalon_quest[l] == 4 or avalon_quest[l] == 5:
+                                            accept_cnt += 1
+                                            vote_msg = f"{vote_msg}\n{l+1} : {avalon_user[l][1]} : 承認"
+                                    else:
+                                        break
+                                    if l == game_member_num-1:
+                                        select_member = int((select_member+1)%game_member_num)
+                                        # 承認
+                                        if accept_cnt > reject_cnt:
+                                            game_phase = 2
+                                            sql = f"update `avalon_data` set \
+                                            `game_phase`= {game_phase} \
+                                            where id = 0"
+                                            # print(sql)
+                                            db.execute(sql)
 
-                                    sql = f"選出メンバー："
-                                    for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                                        sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
-                                    embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n{sql}\n選出メンバーが成功失敗の投票中です。")
-                                    file = "./image/承認.jpeg"
-                                    await msgch.send(embed=embed, file=File(file))
+                                            sql = f"選出メンバー："
+                                            for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
+                                                sql = f"{sql}\n{game_member[k]+1}：{avalon_user[game_member[k]][1]}"
+                                            embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n{sql}\n選出メンバーが成功失敗の投票中です。")
+                                            file = "./image/承認.jpeg"
+                                            await msgch.send(embed=embed, file=File(file))
 
-                                    for k in range(game_member_num):
-                                        if avalon_quest[k]%2 == 1:
-                                            msg = client.get_user(avalon_user[k][2])
-                                            embed = discord.Embed(title="クエスト参加",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
-                                            await msg.send(embed=embed)
-                                    sql = f"insert into `avalon_comment` (`user`, `comment`) \
-                                    value (%s, %s)"
-                                    value = ('bot', f"{quest_cnt}クエ、{vote_cnt}回目承認\n")
-                                    db.execute(sql, value)
-                                    sql = "クエスト情報："
-                                    for i in range(5):
-                                        if i+1 == quest_cnt:
-                                            sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                                        else:
-                                            sql = f"{sql}\n□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                                    sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}"
-                                    sql = f"{sql}\n選出メンバー："
-                                    for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                                        sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
-
-                                    for i in range(game_member_num):
-                                        if avalon_quest[i]%2 == 1:
-                                            msg = client.get_user(avalon_user[i][2])
-                                            embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の成功失敗:",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
-                                            await msg.send(embed=embed)
-
-                                # 却下
-                                else:
-                                    if vote_cnt != 5:
-                                        game_phase = 0
-                                        vote_cnt += 1
-                                        sql = f"update `avalon_data` set \
-                                        `game_phase`= {game_phase}, \
-                                        `select_member`= {select_member}, \
-                                        `vote_cnt` = {vote_cnt} \
-                                        where id = 0"
-                                        # print(sql)
-                                        db.execute(sql)
-                                        sql = f"選出メンバー："
-                                        for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                                            sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
-
-                                        if vote_cnt == 5:
-                                            sql = f"{sql}\n次の選出が却下された場合、赤陣営の勝利です。\nリーダは{avalon_user[select_member][1]}です。\n{player_display(game_member_num, avalon_user, select_member)}"
-                                        embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n{sql}")
-                                        file = "./image/却下.jpeg"
-                                        await msgch.send(embed=embed, file = File(file))
-                                        sql = "クエスト情報："
-                                        for i in range(5):
-                                            if i+1 == quest_cnt:
-                                                sql = f"{sql}\n■{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
-                                            else:
-                                                sql = f"{sql}\n□{i+1}クエ：{quest_member_num[game_member_num][i][0]}人"
+                                            for k in range(game_member_num):
+                                                if avalon_quest[k]%2 == 1:
+                                                    msg = client.get_user(avalon_user[k][2])
+                                                    embed = discord.Embed(title="クエスト参加",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
+                                                    await msg.send(embed=embed)
+                                            sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                            value (%s, %s)"
+                                            value = ('bot', f"{quest_cnt}クエ、{vote_cnt}回目承認\n")
+                                            db.execute(sql, value)
+                                            sql = "クエスト情報："
+                                            for k in range(5):
+                                                if k+1 == quest_cnt:
+                                                    sql = f"{sql}\n■{k+1}クエ：{quest_member_num[game_member_num][k][0]}人"
+                                                else:
+                                                    sql = f"{sql}\n□{k+1}クエ：{quest_member_num[game_member_num][k][0]}人"
                                             sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}"
                                             sql = f"{sql}\n選出メンバー："
-                                            for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                                                sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
+                                            for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
+                                                sql = f"{sql}\n{game_member[k]+1}：{avalon_user[game_member[k]][1]}"
 
-                                            for i in range(game_member_num):
-                                                msg = client.get_user(avalon_user[i][2])
-                                                embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の承認却下:",description=f"{sql}\n承認の場合 : a\n却下の場合 : .r\nを入力してください")
-                                                await msg.send(embed=embed)
-                                    else:
-                                        vote_cnt += 1
-                                        sql = "update `avalon_data` set \
-                                        `game_status` = 0, \
-                                        `game_role` = 1, \
-                                        `select_member` = 0, \
-                                        `quest_cnt` = 0, \
-                                        `vote_cnt` = 0, \
-                                        `game_phase` = 0, \
-                                        `game_stop` = 1, \
-                                        `game_member_num` = 0 where id = 0"
-                                        db.execute(sql)
-                                        sql = player_role_display(game_member_num, avalon_user)
-                                        embed = discord.Embed(title="ゲーム終了",description=f"選出が5回却下されたため赤陣営の勝利です。\n{sql}")
-                                        await msgch.send(embed=embed)
-                                    sql = f"insert into `avalon_comment` (`user`, `comment`) \
-                                    value (%s, %s)"
-                                    value = ('bot', f"{quest_cnt}クエ、{vote_cnt-1}回目却下\n")
-                                    db.execute(sql, value)
+                                            for k in range(game_member_num):
+                                                if avalon_quest[k]%2 == 1:
+                                                    msg = client.get_user(avalon_user[k][2])
+                                                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の成功失敗:",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
+                                                    await msg.send(embed=embed)
+
+                                        # 却下
+                                        else:
+                                            if vote_cnt != 5:
+                                                game_phase = 0
+                                                vote_cnt += 1
+                                                sql = f"update `avalon_data` set \
+                                                `game_phase`= {game_phase}, \
+                                                `select_member`= {select_member}, \
+                                                `vote_cnt` = {vote_cnt} \
+                                                where id = 0"
+                                                # print(sql)
+                                                db.execute(sql)
+                                                sql = f"選出メンバー："
+                                                for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
+                                                    sql = f"{sql}\n{game_member[k]+1}：{avalon_user[game_member[k]][1]}"
+
+                                                if vote_cnt == 5:
+                                                    sql = f"{sql}\n次の選出が却下された場合、赤陣営の勝利です。\nリーダは{avalon_user[select_member][1]}です。\n{player_display(game_member_num, avalon_user, select_member)}"
+                                                embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n{sql}")
+                                                file = "./image/却下.jpeg"
+                                                await msgch.send(embed=embed, file = File(file))
+                                                sql = "クエスト情報："
+                                                for k in range(5):
+                                                    if k+1 == quest_cnt:
+                                                        sql = f"{sql}\n■{k+1}クエ：{quest_member_num[game_member_num][k][0]}人"
+                                                    else:
+                                                        sql = f"{sql}\n□{k+1}クエ：{quest_member_num[game_member_num][k][0]}人"
+                                                    sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}"
+                                                    sql = f"{sql}\n選出メンバー："
+                                                    for m in range(quest_member_num[game_member_num][quest_cnt-1][0]):
+                                                        sql = f"{sql}\n{game_member[m]+1}：{avalon_user[game_member[m]][1]}"
+
+                                                    for m in range(game_member_num):
+                                                        msg = client.get_user(avalon_user[m][2])
+                                                        embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の承認却下:",description=f"{sql}\n承認の場合 : a\n却下の場合 : .r\nを入力してください")
+                                                        await msg.send(embed=embed)
+                                            else:
+                                                vote_cnt += 1
+                                                sql = "update `avalon_data` set \
+                                                `game_status` = 0, \
+                                                `game_role` = 1, \
+                                                `select_member` = 0, \
+                                                `quest_cnt` = 0, \
+                                                `vote_cnt` = 0, \
+                                                `game_phase` = 0, \
+                                                `game_stop` = 1, \
+                                                `game_member_num` = 0 where id = 0"
+                                                db.execute(sql)
+                                                sql = player_role_display(game_member_num, avalon_user)
+                                                embed = discord.Embed(title="ゲーム終了",description=f"選出が5回却下されたため赤陣営の勝利です。\n{sql}")
+                                                await msgch.send(embed=embed)
+                                            sql = f"insert into `avalon_comment` (`user`, `comment`) \
+                                            value (%s, %s)"
+                                            value = ('bot', f"{quest_cnt}クエ、{vote_cnt-1}回目却下\n")
+                                            db.execute(sql, value)
+                        if check == 0:
+                            await ctx.channel.send(f"あなたはゲームに参加していません。：{comment}")
                     else:
                         await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
@@ -1759,9 +1762,12 @@ async def on_message(ctx):
                             for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                                 if avalon_user[game_member[i]][3] == 8:
                                     n8_cnt += 1
+
+                        check = 0
                         for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                             num = game_member[i]
                             if ctx.author.id == avalon_user[num][2]:
+                                check = 1
                                 msg = client.get_user(avalon_user[num][2])
                                 if avalon_user[num][3] == 15:
                                     if command_accept == 8 and quest_success_cnt < 2:
@@ -2118,7 +2124,7 @@ async def on_message(ctx):
                                                             for m in range(game_member_num):
                                                                 if int(rows[m+1]) < 16 and int(rows[m+1]) > 8:
                                                                     fail_num += 1
-                                                                    
+
                                             if fail_num >= 3:
                                                 sql = f"update `avalon_data` set \
                                                 `game_status`= 0, \
@@ -2189,6 +2195,8 @@ async def on_message(ctx):
                                                 else:
                                                     value = ('bot', f"{quest_cnt-1}クエ：成功\n")
                                                 db.execute(sql, value)
+                        if check == 0:
+                            await ctx.channel.send(f"あなたはクエストに参加していません。：{comment}")
                     else:
                         await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
