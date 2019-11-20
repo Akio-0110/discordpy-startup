@@ -2833,7 +2833,7 @@ async def loop():
     channel = client.get_channel(646047618849439744)
     if now == '21:00':
         if day == '3':
-            await channel.send('@everyone 今日は水曜日です。\nアヴァロンやりませんか？')
+            await channel.send('@everyone 今日は水曜日です。\nアヴァロンやれる人はできる時間を書き込んでください。')
     elif now == '22:00':
         if day == '2':
             await channel.send('@everyone 明日は水曜日です。\nアヴァロンやりませんか？')
