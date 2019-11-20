@@ -1715,15 +1715,15 @@ async def on_message(ctx):
                                                         sql = f"{sql}\n■{k+1}クエ：{quest_member_num[game_member_num][k][0]}人"
                                                     else:
                                                         sql = f"{sql}\n□{k+1}クエ：{quest_member_num[game_member_num][k][0]}人"
-                                                    sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}"
-                                                    sql = f"{sql}\n選出メンバー："
-                                                    for m in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                                                        sql = f"{sql}\n{game_member[m]+1}：{avalon_user[game_member[m]][1]}"
+                                                sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}"
+                                                sql = f"{sql}\n選出メンバー："
+                                                for m in range(quest_member_num[game_member_num][quest_cnt-1][0]):
+                                                    sql = f"{sql}\n{game_member[m]+1}：{avalon_user[game_member[m]][1]}"
 
-                                                    for m in range(game_member_num):
-                                                        msg = client.get_user(avalon_user[m][2])
-                                                        embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の承認却下:",description=f"{sql}\n承認の場合 : a\n却下の場合 : .r\nを入力してください")
-                                                        await msg.send(embed=embed)
+                                                for m in range(game_member_num):
+                                                    msg = client.get_user(avalon_user[m][2])
+                                                    embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の承認却下:",description=f"{sql}\n承認の場合 : a\n却下の場合 : .r\nを入力してください")
+                                                    await msg.send(embed=embed)
                                             else:
                                                 vote_cnt += 1
                                                 sql = "update `avalon_data` set \
