@@ -327,12 +327,6 @@ async def on_ready():
 
 @client.event
 async def on_message(ctx):
-    # print("イベントを受け付けました。")
-    # print(ctx.content)
-    # print(ctx.channel.id)
-    # if ctx.content == '???':
-    #     print(datetime.now().strftime('%H:%M'))
-    #     print(datetime.now().strftime('%w'))
     if ctx.author != client.user:
         comment = ctx.content
         if comment[0] == '.':
@@ -509,7 +503,7 @@ async def on_message(ctx):
                             sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nマーリンを暗殺するコマンド例：\n１番のプレイヤーを暗殺すると予想する場合 : .s 1\n{avalon_role[8][1]}を暗殺するコマンド例：\n１番と２番のプレイヤーを暗殺すると予想する場合 : .s 1,2"
                         else:
                             sql = f"{sql}\nマーリンを予想してください"
-                            sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤーを暗殺する場合\n.k 1"
+                            sql = f"{sql}\n{player_display(game_member_num, avalon_user, game_member_num+1)}\nコマンド例：１番のプレイヤーを暗殺すると予想する場合\n.s 1"
                         embed = discord.Embed()
                         embed.add_field(name=f"暗殺者の予想フェーズ", value=f"{sql}")
                         await msg.send(embed=embed)
