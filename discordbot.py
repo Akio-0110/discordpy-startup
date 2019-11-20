@@ -2118,6 +2118,7 @@ async def on_message(ctx):
                                                             for m in range(game_member_num):
                                                                 if int(rows[m+1]) < 16 and int(rows[m+1]) > 8:
                                                                     fail_num += 1
+                                                                    
                                             if fail_num >= 3:
                                                 sql = f"update `avalon_data` set \
                                                 `game_status`= 0, \
