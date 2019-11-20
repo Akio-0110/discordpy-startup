@@ -1587,6 +1587,7 @@ async def on_message(ctx):
                         elif comment == '.r':
                             command_accept = 2
                         check = 0
+                        fin_flg = 0
                         for i in range(game_member_num):
                             if ctx.author.id == avalon_user[i][2]:
                                 check = 1
@@ -1645,6 +1646,7 @@ async def on_message(ctx):
                                     else:
                                         break
                                     if l == game_member_num-1:
+                                        fin_flg = 1
                                         select_member = int((select_member+1)%game_member_num)
                                         # 承認
                                         if accept_cnt > reject_cnt:
@@ -1743,6 +1745,8 @@ async def on_message(ctx):
                                             value (%s, %s)"
                                             value = ('bot', f"{quest_cnt}クエ、{vote_cnt-1}回目却下\n")
                                             db.execute(sql, value)
+                                if fin_flg == 1
+                                    break
                         if check == 0:
                             await ctx.channel.send(f"あなたはゲームに参加していません。：{comment}")
                     else:
