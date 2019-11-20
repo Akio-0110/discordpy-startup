@@ -409,7 +409,6 @@ async def on_message(ctx):
                     db.execute(dbsql)
                     rows = db.fetchall()
                     avalon_user = rows
-                    # print(avalon_user)
                     if game_phase != 5:
                         sql = "クエスト情報："
                         for i in range(5):
