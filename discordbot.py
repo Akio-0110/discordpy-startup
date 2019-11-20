@@ -1589,6 +1589,8 @@ async def on_message(ctx):
                         check = 0
                         fin_flg = 0
                         for i in range(game_member_num):
+                            if game_phase != 1 or fin_flg == 1:
+                                break
                             if ctx.author.id == avalon_user[i][2]:
                                 check = 1
                                 msg = client.get_user(avalon_user[i][2])
@@ -1646,7 +1648,6 @@ async def on_message(ctx):
                                     else:
                                         break
                                     if l == game_member_num-1:
-                                        fin_flg = 1
                                         select_member = int((select_member+1)%game_member_num)
                                         # 承認
                                         if accept_cnt > reject_cnt:
@@ -1692,6 +1693,7 @@ async def on_message(ctx):
 
                                         # 却下
                                         else:
+                                            fin_flg = 1
                                             if vote_cnt != 5:
                                                 game_phase = 0
                                                 vote_cnt += 1
@@ -1745,8 +1747,6 @@ async def on_message(ctx):
                                             value (%s, %s)"
                                             value = ('bot', f"{quest_cnt}クエ、{vote_cnt-1}回目却下\n")
                                             db.execute(sql, value)
-                                if fin_flg == 1
-                                    break
                         if check == 0:
                             await ctx.channel.send(f"あなたはゲームに参加していません。：{comment}")
                     else:
