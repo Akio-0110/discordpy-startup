@@ -155,6 +155,7 @@ usage_avalon0 ="""
 .?:現在の状態
 .h:コマンド一覧
 .l:隠しコメントを表示(プレイ終了後)
+.i:アヴァロン説明書
 .m:作成
 """
 # ゲーム開始待ち : start -> ゲーム開始
@@ -168,109 +169,249 @@ usage_avalon1="""
 .role 番号:役職説明
 .role プレイ人数分の数字:役職カスタマイズ
 .s:開始
+.i:アヴァロン説明書
 .stop:停止
 """
 usage_avalon20="""
 .?:現在の状態
 .h:コマンド一覧
+.c 名称:名称カミングアウト
 .s 数字:選出
+.n コメント:隠しコメント
 .l:クエスト履歴(選出情報＋クエ結果)
 .lq:クエスト結果履歴(クエ結果)
 .role:役職一覧
 .role 番号:役職説明
+.i:アヴァロン説明書
 .stop:ゲーム停止
 """
 usage_avalon21="""
 .?:現在の状態
 .h:コマンド一覧
+.c 名称:名称カミングアウト
 .a:承認
 .r:却下
+.n コメント:隠しコメント
 .l:クエスト履歴(選出情報＋クエ結果)
 .lq:クエスト結果履歴(クエ結果)
 .role:役職一覧
 .role 番号:役職説明
+.i:アヴァロン説明書
 .stop:ゲーム停止
 """
 usage_avalon22="""
 .?:現在の状態
 .h:コマンド一覧
+.c 名称:名称カミングアウト
 .s:成功
 .f/fail:失敗
+.n コメント:隠しコメント
 .l:クエスト履歴(選出情報＋クエ結果)
 .lq:クエスト結果履歴(クエ結果)
 .role:役職一覧
 .role 番号:役職説明
+.i:アヴァロン説明書
 .stop:ゲーム停止
 """
 usage_avalon23="""
 .?:現在の状態
 .h:コマンド一覧
+.c 名称:名称カミングアウト
 .s:選択
+.n コメント:隠しコメント
 .l:クエスト履歴(選出情報＋クエ結果)
 .lq:クエスト結果履歴(クエ結果)
 .role:役職一覧
 .role 番号:役職説明
+.i:アヴァロン説明書
 .stop:ゲーム停止
 """
 usage_avalon24="""
 .?:現在の状態
 .h:コマンド一覧
+.c 名称:名称カミングアウト
 .s 番号:調査
+.n コメント:隠しコメント
 .l:クエスト履歴(選出情報＋クエ結果)
 .lq:クエスト結果履歴(クエ結果)
 .role:役職一覧
 .role 番号:役職説明
+.i:アヴァロン説明書
 .stop:ゲーム停止
 """
 usage_avalon25="""
 .?:現在の状態
 .h:コマンド一覧
+.c 名称:名称カミングアウト
 .s 番号:選択
+.n コメント:隠しコメント
 .l:クエスト履歴(選出情報＋クエ結果)
 .lq:クエスト結果履歴(クエ結果)
 .role:役職一覧
 .role 番号:役職説明
+.i:アヴァロン説明書
 .stop:ゲーム停止
 """
 usage_avalon26="""
 .?:現在の状態
 .h:コマンド一覧
+.c 名称:名称カミングアウト
 .s 番号:選択
+.n コメント:隠しコメント
 .l:クエスト履歴(選出情報＋クエ結果)
 .lq:クエスト結果履歴(クエ結果)
 .role:役職一覧
 .role 番号:役職説明
+.i:アヴァロン説明書
 .stop:ゲーム停止
 """
 usage_avalon3="""
 .?:現在の状態
 .h:コマンド一覧
 .k 数字:暗殺
+.n コメント:隠しコメント
 .l:クエスト履歴(選出情報＋クエ結果)
 .lq:クエスト結果履歴(クエ結果)
 .role:役職一覧
 .role 番号:役職説明
+.i:アヴァロン説明書
 .stop:ゲーム停止
 """
+success_value = 16
+fail_value = 8
+accept_value = 4
+reject_value = 2
+selection_value = 1
+
+def get_history(select, num, cnt):
+### select = 0 : クエスト情報のみ
+### select = 1 : クエスト情報＋選出メンバー＋失敗数
+### select = 2 : 投票情報のみ
+    dbsql = 'select * from `avalon_user`'
+    db.execute(dbsql)
+    user = db.fetchall()
+    dbsql = 'select * from `avalon_quest`'
+    db.execute(dbsql)
+    quest = db.fetchall()
+
+    quest_info = [None] * 5
+    quest_result = [None] * 5
+    quest_member = [None] * 5
+    quest_vote = [None] * 5
+    for i in range(len(quest)):
+        q_num = int(i/5)+1
+        s_cnt = 0
+        f_cnt = 0
+        a_cnt = 0
+        if quest[i][0] == None:
+            break
+
+        for j in range(num):
+            if int(quest[i][1+j]) > 8:
+                if quest_member[i] == None:
+                    quest_member[i] = f"[{i+1}]{user[i][1]}"
+                else:
+                    quest_member[i] = f"{quest_member[i]},[{i+1}]{user[i][1]}"
+                if int(quest[i][1+j]) >= 16:
+                    s_cnt += 1
+                elif int(quest[i][1+j]) > 8:
+                    f_cnt += 1
+            if int(quest[i][1+j])%2 == 1:
+                a_cnt += 1
+
+        if a_cnt == quest_member_num[num][q_num-1][0]:
+            if quest_vote[i] == None:
+                quest_vote[i] = f"{q_num}クエ：{(i%5)+1}回目投票"
+            else:
+                quest_vote[i] = f"{quest_vote[i]}\n{q_num}クエ：{(i%5)+1}回目投票"
+            if s_cnt + f_cnt == quest_member_num[num][q_num-1][0]:
+                if f_cnt >= quest_member_num[num][q_num-1][1]:
+                    quest_vote[i] = f"{quest_vote[i]}：失敗({s_cnt}成功,{f_cnt}失敗)"
+                else:
+                    quest_vote[i] = f"{quest_vote[i]}：成功({s_cnt}成功,{f_cnt}失敗)"
+
+            for j in range(num):
+                if quest[i][j+1]%2 == 1:
+                    quest_vote[i] = f"{quest_vote[i]}\n■[{j+1}]{user[j][1]}"
+                else:
+                    quest_vote[i] = f"{quest_vote[i]}\n□[{j+1}]{user[j][1]}"
+                if quest[i][j+1]%8 >= 4:
+                    quest_vote[i] = f"{quest_vote[i]}：承認"
+                elif quest[i][j+1]%8 >= 2:
+                    quest_vote[i] = f"{quest_vote[i]}：却下"
+
+        if s_cnt + f_cnt == quest_member_num[num][q_num-1][0]:
+            if f_cnt >= quest_member_num[num][q_num-1][1]:
+                quest_result[i] = 0
+                quest_member[i] = f"{quest_member[i]}：失敗({s_cnt}成功,{f_cnt}失敗)"
+            else:
+                quest_result[i] = 1
+                quest_member[i] = f"{quest_member[i]}：成功({s_cnt}成功,{f_cnt}失敗)"
+
+    for i in range(5):
+        if i+1 == cnt:
+            if num >= 7 and cnt == 4:
+                quest_info[i] = f"■{i+1}クエ：{quest_member_num[num][i][0]}人[2失敗で失敗]"
+            else:
+                quest_info[i] = f"■{i+1}クエ：{quest_member_num[num][i][0]}人"
+        else:
+            if num >= 7 and cnt == 4:
+                quest_info[i] = f"□{i+1}クエ：{quest_member_num[num][i][0]}人[2失敗で失敗]"
+            else:
+                quest_info[i] = f"□{i+1}クエ：{quest_member_num[num][i][0]}人"
+        if quest_result[i] == 0:
+            quest_info[i] = f"{quest_info[i]}：失敗"
+        elif quest_result[i] == 1:
+            quest_info[i] = f"{quest_info[i]}：成功"
+        if select == 1 and quest_member[i] != None:
+            quest_info[i] = f"{quest_info[i]}\n{quest_member[i]}"
+
+    if select <= 1:
+        sql = "■：現在のクエスト、□：その他クエスト"
+        for i in range(5):
+            if quest_info[i] == None:
+                continue
+            else:
+                sql = f"{sql}\n{quest_info[i]}"
+        if sql == "■：現在のクエスト、□：その他クエスト":
+            sql = "まだ一度もクエストへ行っていません。"
+    else:
+        sql = "■：選出者、□：未選出者"
+        for i in range(5):
+            if quest_vote[i] == None:
+                continue
+            else:
+                sql = f"{sql}\n{quest_vote[i]}"
+        if sql == "■：選出者、□：未選出者":
+            sql = "まだ一度も選出されていません。"
+    return sql
+
+def get_phase1_info(num,qary,uary):
+    sql = "■：選出者、□未選出者"
+    for i in range(num):
+        if qary[i+1]%2 == 1:
+            sql = f"{sql}\n■　{i+1}：{uary[i][1]}"
+        else:
+            sql = f"{sql}\n□　{i+1}：{uary[i][1]}"
+        if qary[i+1]%8 >= 2:
+            sql = f"{sql}：完"
+        else:
+            sql = f"{sql}：未"
+    return sql
 
 def role_list_display(num):
     role = 'xxx'
     role_out = [role, role]
-    # print(avalon_role_auto[num])
     for j in avalon_role_auto[num]:
         i=1
         for k in j:
-            # print(k)
             if i%num == 1:
                 role = f"{avalon_role[k][1]}"
             else:
                 role = f"{role}\n{avalon_role[k][1]}"
-            # print(role)
             if i%num == 0:
-                # print(role)
                 role_out.append(role)
             i += 1
-        # print(role_out)
     role_out.pop(0)
     role_out.pop(0)
     return role_out
@@ -398,10 +539,10 @@ async def on_message(ctx):
     \n開始コマンド(.s)を実行してください。"
                     else:
                         sql = f"ゲーム開始準備の状態です。\
-    \n現在の入室は{game_member_num}人です。\
-    \n{player_display(game_member_num, rows, game_member_num+1)}\
-    \n役職(.d,.ds,.role)を選択して、\
-    \n開始コマンド(.s)を実行することが可能です。"
+                        \n現在の入室は{game_member_num}人です。\
+                        \n{player_display(game_member_num, rows, game_member_num+1)}\
+                        \n役職(.d,.ds,.role)を選択して、\
+                        \n開始コマンド(.s)を実行することが可能です。"
                     embed = discord.Embed(title=f"現在の状況",description=sql)
                     await ctx.channel.send(embed=embed)
                 elif game_status == 2:
@@ -433,18 +574,28 @@ async def on_message(ctx):
                         embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の選出:",description=sql)
                         await msg.send(embed=embed)
                     elif game_phase == 1:
-                        sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}"
-                        sql = f"{sql}\n選出メンバー："
+                        # sql = f"{sql}\n成功{quest_success_cnt}\n失敗{quest_fail_cnt}"
+                        # sql = f"{sql}\n選出メンバー："
                         for i in range(quest_member_num[game_member_num][quest_cnt-1][0]):
-                            sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
+                            if i == 0:
+                                sql = f"{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
+                            else:
+                                sql = f"{sql}\n{game_member[i]+1}：{avalon_user[game_member[i]][1]}"
 
-                        embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の承認却下:",description=f"{sql}")
+                        embed = discord.Embed()
+                        embed.add_field(name=f"クエスト情報", value=get_history(1,game_member_num,quest_cnt))
+                        embed.add_field(name=f"選出メンバー", value=sql)
+                        embed.add_field(name=f"投票状況", value=get_phase1_info(game_member_num,avalon_quest[len(avalon_quest)-1],avalon_user))
+
                         await ctx.channel.send(embed=embed)
+                        embed = discord.Embed()
+                        embed.add_field(name=f"クエスト情報", value=get_history(1,game_member_num,quest_cnt))
+                        embed.add_field(name=f"選出メンバー", value=sql)
+                        embed.add_field(name=f"{vote_cnt}回目：承認却下のお願い", value="承認の場合 : .a\n却下の場合 : .r\nを入力してください")
 
                         for i in range(game_member_num):
                             if avalon_quest[0][i] < 2:
                                 msg = client.get_user(avalon_user[i][2])
-                                embed = discord.Embed(title="クエストメンバー承認却下中",description=f"{sql}\n承認の場合 : .a\n却下の場合 : .r\nを入力してください")
                                 await msg.send(embed=embed)
 
                     elif game_phase == 2:
@@ -636,178 +787,178 @@ async def on_message(ctx):
                     await ctx.channel.send(embed=embed)
 
                 elif game_status >= 2:
-                    dbsql = 'select * from `avalon_user`'
-                    db.execute(dbsql)
-                    rows = db.fetchall()
-                    avalon_user = rows
-                    sql = 'select * from `avalon_quest`'
-                    db.execute(sql)
-                    rows = db.fetchall()
-                    # print(len(rows))
-
-                    game_info = [
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None]
-                    ]
-                    i = 0
-                    for num in rows:
-                        q_num = int(int(num[0]-1)/5)+1
-                        s_cnt = 0
-                        f_cnt = 0
-                        a_cnt = 0
-                        if num[0] == None:
-                            break
-                        for k in range(game_member_num):
-                            if int(num[1+k]) >= 16:
-                                s_cnt += 1
-                            elif int(num[1+k]) > 8:
-                                f_cnt += 1
-                            if int(num[1+k])%2 == 1:
-                                a_cnt += 1
-
-                        if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
-                            game_info[i][1] = s_cnt
-                            game_info[i][2] = f_cnt
-                            if f_cnt >= quest_member_num[game_member_num][q_num-1][1]:
-                                game_info[i][3] = 1
-                            else:
-                                game_info[i][3] = 2
-                        else:
-                            game_info[i][3] = 0
-                        if a_cnt == quest_member_num[game_member_num][q_num-1][0]:
-                            game_info[i][0] = 1
-                        else:
-                            game_info[i][0] = 0
-                        i += 1
-
-                    i = 0
-                    flg = 0
-                    for num in rows:
-                        if num[0] == None:
-                            break
-                        q_num = int(int(num[0]-1)/5)+1
-                        v_num = (int(num[0]-1)%5)+1
-                        if game_info[i][0] == 1:
-                            flg = 1
-                            if i == 0:
-                                sql = f"{q_num}クエ、{v_num}回目 : "
-                            else:
-                                sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
-                        if game_info[i][3] >= 1:
-                            if game_info[i][3] == 2:
-                                sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
-                            elif game_info[i][3] == 1:
-                                sql = f"{sql}失敗：成功{game_info[i][1]},失敗{game_info[i][2]}"
-                        for k in range(game_member_num):
-                            if int(num[1+k])%2 == 1:
-                                if int(num[1+k])%8 >= 4:
-                                    sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：承認"
-                                elif int(num[1+k])%8 >= 2:
-                                    sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：却下"
-                                else:
-                                    sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}："
-                            else:
-                                if int(num[1+k])%8 >= 4:
-                                    sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：承認"
-                                elif int(num[1+k])%8 >= 2:
-                                    sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：却下"
-                                else:
-                                    sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}："
-
-                        i += 1
-
-                    if flg == 0:
-                        sql = 'まだ1回も選出されていません。'
-                    embed = discord.Embed(title="クエスト履歴",description=sql)
+                    # dbsql = 'select * from `avalon_user`'
+                    # db.execute(dbsql)
+                    # rows = db.fetchall()
+                    # avalon_user = rows
+                    # sql = 'select * from `avalon_quest`'
+                    # db.execute(sql)
+                    # rows = db.fetchall()
+                    # # print(len(rows))
+                    #
+                    # game_info = [
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None]
+                    # ]
+                    # i = 0
+                    # for num in rows:
+                    #     q_num = int(int(num[0]-1)/5)+1
+                    #     s_cnt = 0
+                    #     f_cnt = 0
+                    #     a_cnt = 0
+                    #     if num[0] == None:
+                    #         break
+                    #     for k in range(game_member_num):
+                    #         if int(num[1+k]) >= 16:
+                    #             s_cnt += 1
+                    #         elif int(num[1+k]) > 8:
+                    #             f_cnt += 1
+                    #         if int(num[1+k])%2 == 1:
+                    #             a_cnt += 1
+                    #
+                    #     if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
+                    #         game_info[i][1] = s_cnt
+                    #         game_info[i][2] = f_cnt
+                    #         if f_cnt >= quest_member_num[game_member_num][q_num-1][1]:
+                    #             game_info[i][3] = 1
+                    #         else:
+                    #             game_info[i][3] = 2
+                    #     else:
+                    #         game_info[i][3] = 0
+                    #     if a_cnt == quest_member_num[game_member_num][q_num-1][0]:
+                    #         game_info[i][0] = 1
+                    #     else:
+                    #         game_info[i][0] = 0
+                    #     i += 1
+                    #
+                    # i = 0
+                    # flg = 0
+                    # for num in rows:
+                    #     if num[0] == None:
+                    #         break
+                    #     q_num = int(int(num[0]-1)/5)+1
+                    #     v_num = (int(num[0]-1)%5)+1
+                    #     if game_info[i][0] == 1:
+                    #         flg = 1
+                    #         if i == 0:
+                    #             sql = f"{q_num}クエ、{v_num}回目 : "
+                    #         else:
+                    #             sql = f"{sql}\n{q_num}クエ、{v_num}回目 : "
+                    #     if game_info[i][3] >= 1:
+                    #         if game_info[i][3] == 2:
+                    #             sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
+                    #         elif game_info[i][3] == 1:
+                    #             sql = f"{sql}失敗：成功{game_info[i][1]},失敗{game_info[i][2]}"
+                    #     for k in range(game_member_num):
+                    #         if int(num[1+k])%2 == 1:
+                    #             if int(num[1+k])%8 >= 4:
+                    #                 sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：承認"
+                    #             elif int(num[1+k])%8 >= 2:
+                    #                 sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}：却下"
+                    #             else:
+                    #                 sql = f"{sql}\n■{k+1} : {avalon_user[k][1]}："
+                    #         else:
+                    #             if int(num[1+k])%8 >= 4:
+                    #                 sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：承認"
+                    #             elif int(num[1+k])%8 >= 2:
+                    #                 sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}：却下"
+                    #             else:
+                    #                 sql = f"{sql}\n□{k+1} : {avalon_user[k][1]}："
+                    #
+                    #     i += 1
+                    #
+                    # if flg == 0:
+                    #     sql = 'まだ1回も選出されていません。'
+                    embed = discord.Embed(title="クエスト履歴",description=get_history(2,game_member_num,quest_cnt))
                     await ctx.channel.send(embed=embed)
                 else:
                     await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
             elif comment == '.lq':
                 if game_status >= 2:
-                    dbsql = 'select * from `avalon_user`'
-                    db.execute(dbsql)
-                    rows = db.fetchall()
-                    avalon_user = rows
-                    dbsql = 'select * from `avalon_quest`'
-                    db.execute(dbsql)
-                    rows = db.fetchall()
-                    # print(len(rows))
-
-                    game_info = [
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
-                        [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None]
-                    ]
-                    i = 0
-                    for num in rows:
-                        q_num = int(int(num[0]-1)/5)+1
-                        s_cnt = 0
-                        f_cnt = 0
-                        a_cnt = 0
-                        if num[0] == None:
-                            break
-                        for k in range(game_member_num):
-                            if int(num[1+k]) >= 16:
-                                s_cnt += 1
-                            elif int(num[1+k]) > 8:
-                                f_cnt += 1
-                            if int(num[1+k]) >= 2:
-                                a_cnt += 1
-
-                        if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
-                            game_info[i][1] = s_cnt
-                            game_info[i][2] = f_cnt
-                            if f_cnt >= quest_member_num[game_member_num][q_num-1][1]:
-                                game_info[i][3] = 1
-                            else:
-                                game_info[i][3] = 2
-                        else:
-                            game_info[i][3] = 0
-                        if a_cnt == game_member_num:
-                            game_info[i][0] = 1
-                        else:
-                            game_info[i][0] = 0
-                        i += 1
-
-                    # print(game_info)
-                    flg = 0
-                    i = 0
-                    cflg = 0
-                    # print(game_info)
-                    for num in rows:
-                        # print(num)
-                        if num[0] == None or num[1] == None or num[2] == None:
-                            break
-                        if game_info[i][3] >= 1:
-                            flg = 1
-                            q_num = int(int(num[0])/5)+1
-                            v_num = int(num[0])%game_member_num
-                            if cflg == 0:
-                                sql = f"{q_num}クエ: "
-                                cflg = 1
-                            else:
-                                sql = f"{sql}\n{q_num}クエ: "
-                            if game_info[i][3] == 2:
-                                sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
-                            elif game_info[i][3] == 1:
-                                sql = f"{sql}失敗：成功{game_info[i][1]},失敗{game_info[i][2]}"
-                            sql = f"{sql}\n"
-                            sql_member = f"メンバー："
-                            for k in range(game_member_num):
-                                if int(num[1+k])%2 == 1:
-                                    sql_member = f"{sql_member}[{k+1}]{avalon_user[k][1]}"
-                            sql = f"{sql}{sql_member}"
-                        i += 1
-
-                    if flg == 0:
-                        sql = 'まだ1回もクエストへ行っていません'
-                    embed = discord.Embed(title="クエスト履歴",description=sql)
+                    # dbsql = 'select * from `avalon_user`'
+                    # db.execute(dbsql)
+                    # rows = db.fetchall()
+                    # avalon_user = rows
+                    # dbsql = 'select * from `avalon_quest`'
+                    # db.execute(dbsql)
+                    # rows = db.fetchall()
+                    # # print(len(rows))
+                    #
+                    # game_info = [
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],
+                    #     [None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None],[None,None,None,None]
+                    # ]
+                    # i = 0
+                    # for num in rows:
+                    #     q_num = int(int(num[0]-1)/5)+1
+                    #     s_cnt = 0
+                    #     f_cnt = 0
+                    #     a_cnt = 0
+                    #     if num[0] == None:
+                    #         break
+                    #     for k in range(game_member_num):
+                    #         if int(num[1+k]) >= 16:
+                    #             s_cnt += 1
+                    #         elif int(num[1+k]) > 8:
+                    #             f_cnt += 1
+                    #         if int(num[1+k]) >= 2:
+                    #             a_cnt += 1
+                    #
+                    #     if s_cnt + f_cnt == quest_member_num[game_member_num][q_num-1][0]:
+                    #         game_info[i][1] = s_cnt
+                    #         game_info[i][2] = f_cnt
+                    #         if f_cnt >= quest_member_num[game_member_num][q_num-1][1]:
+                    #             game_info[i][3] = 1
+                    #         else:
+                    #             game_info[i][3] = 2
+                    #     else:
+                    #         game_info[i][3] = 0
+                    #     if a_cnt == game_member_num:
+                    #         game_info[i][0] = 1
+                    #     else:
+                    #         game_info[i][0] = 0
+                    #     i += 1
+                    #
+                    # # print(game_info)
+                    # flg = 0
+                    # i = 0
+                    # cflg = 0
+                    # # print(game_info)
+                    # for num in rows:
+                    #     # print(num)
+                    #     if num[0] == None or num[1] == None or num[2] == None:
+                    #         break
+                    #     if game_info[i][3] >= 1:
+                    #         flg = 1
+                    #         q_num = int(int(num[0])/5)+1
+                    #         v_num = int(num[0])%game_member_num
+                    #         if cflg == 0:
+                    #             sql = f"{q_num}クエ: "
+                    #             cflg = 1
+                    #         else:
+                    #             sql = f"{sql}\n{q_num}クエ: "
+                    #         if game_info[i][3] == 2:
+                    #             sql = f"{sql}成功：成功{game_info[i][1]},失敗{game_info[i][2]}"
+                    #         elif game_info[i][3] == 1:
+                    #             sql = f"{sql}失敗：成功{game_info[i][1]},失敗{game_info[i][2]}"
+                    #         sql = f"{sql}\n"
+                    #         sql_member = f"メンバー："
+                    #         for k in range(game_member_num):
+                    #             if int(num[1+k])%2 == 1:
+                    #                 sql_member = f"{sql_member}[{k+1}]{avalon_user[k][1]}"
+                    #         sql = f"{sql}{sql_member}"
+                    #     i += 1
+                    #
+                    # if flg == 0:
+                    #     sql = 'まだ1回もクエストへ行っていません'
+                    embed = discord.Embed(title="クエスト履歴",description=get_history(1,game_member_num,quest_cnt))
                     await ctx.channel.send(embed=embed)
                 else:
                     await ctx.channel.send(f"このコマンドは無効です。：{comment}")
@@ -1375,7 +1526,7 @@ async def on_message(ctx):
                         avalon_quest[i] = int(rows[i+1])
 
                 if comment[0:3] == '.n ':
-                    cmd = comment.lstrip("n ")
+                    cmd = comment.lstrip(".n ")
                     sql = f"insert into `avalon_comment` (`user`, `comment`) \
                     value (%s, %s)"
                     value = (f"{ctx.author.display_name}", f"{cmd}")
@@ -1589,23 +1740,12 @@ async def on_message(ctx):
                                     set `member{i+1}` = {avalon_quest[i]+command_accept} \
                                     where id = {quest_id}"
                                     avalon_quest[i] = avalon_quest[i] + command_accept
-                                    for k in range(game_member_num):
-                                        if k == 0:
-                                            if avalon_quest[k] > 1 or i == k:
-                                                vote_msg = f"1 : {avalon_user[k][1]} : 投票完了"
-                                            else:
-                                                vote_msg = f"1 : {avalon_user[k][1]} : 投票未完"
-                                        else:
-                                            if avalon_quest[k] > 1 or i == k:
-                                                vote_msg = f"{vote_msg}\n{k+1} : {avalon_user[k][1]} : 投票完了"
-                                            else:
-                                                vote_msg = f"{vote_msg}\n{k+1} : {avalon_user[k][1]} : 投票未完"
                                     if command_accept == 2:
                                         await msg.send(f"却下を受け付けました。")
                                     else:
                                         await msg.send(f"承認を受け付けました。")
 
-                                    embed = discord.Embed(title="投票状況",description=vote_msg)
+                                    embed = discord.Embed(title=f"{avalon_user[i][1]}",description="投票を受け付けました")
                                     await msgch.send(embed=embed)
                                 else:
                                     sql = f"update `avalon_quest` \
@@ -1614,16 +1754,13 @@ async def on_message(ctx):
                                     avalon_quest[i] = avalon_quest[i]%2 + command_accept
                                     if command_accept == 2:
                                         await msg.send(f"却下へ上書きしました。")
-                                        await msgch.send(f"{ctx.author.display_name}が上書きしました。")
+                                        await msgch.send(f"{avalon_user[i][1]}が上書きしました。")
                                     else:
                                         await msg.send(f"承認へ上書きしました。")
-                                        await msgch.send(f"{ctx.author.display_name}が上書きしました。")
-                                # print(avalon_quest)
-                                # print(sql)
+                                        await msgch.send(f"{avalon_user[i][1]}が上書きしました。")
                                 db.execute(sql)
                                 # break
 
-                                # judge next phase
                                 reject_cnt = 0
                                 accept_cnt = 0
                                 vote_msg = f"第{quest_cnt}クエスト：{vote_cnt}回目"
@@ -1651,7 +1788,8 @@ async def on_message(ctx):
                                             sql = f"選出メンバー："
                                             for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                                                 sql = f"{sql}\n{game_member[k]+1}：{avalon_user[game_member[k]][1]}"
-                                            embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n{sql}\n選出メンバーが成功失敗の投票中です。")
+                                            embed = discord.Embed(title="投票結果",description=f"{vote_msg}\n")
+                                            embed.add_field(name=f"クエストフェーズ", value=sql)
                                             file = "./image/承認.jpeg"
                                             await msgch.send(embed=embed, file=File(file))
 
@@ -1674,10 +1812,6 @@ async def on_message(ctx):
                                             sql = f"{sql}\n選出メンバー："
                                             for k in range(quest_member_num[game_member_num][quest_cnt-1][0]):
                                                 sql = f"{sql}\n{game_member[k]+1}：{avalon_user[game_member[k]][1]}"
-
-                                            # msg = client.get_user(avalon_user[select_member][2])
-                                            # embed = discord.Embed(title=f"第{quest_cnt}クエスト：{vote_cnt}回目の成功失敗:",description=f"{sql}\n成功の場合 : .s\n失敗の場合 : .f\nを入力してください")
-                                            # await msg.send(embed=embed)
 
                                         # 却下
                                         else:
@@ -2659,7 +2793,7 @@ async def on_message(ctx):
                                 rows = db.fetchone()
                                 ex_kill_member = int(rows[0])
 
-                            if int(select_member_match[0]) >= 0 and int(select_member_match[0]) <= game_member_num-1:
+                            if select_member_num >= 0 and select_member_num <= game_member_num-1:
                                 sql = "配役は以下の通りです。"
                                 for i in range(game_member_num):
                                     sql = f"{sql}\n{i+1} : {avalon_user[i][1]} : {avalon_role[avalon_user[i][3]][1]}"
@@ -2739,7 +2873,7 @@ async def on_message(ctx):
                                     db.execute(dbsql)
                                     rows = db.fetchone()
                                     ex_kill_member[i] = int(rows[0])
-                                    if int(select_member_num[i]) >= 0 and int(select_member_num[i]) <= game_member_num-1:
+                                    if select_member_num[i] >= 0 and select_member_num[i] <= game_member_num-1:
                                         continue
                                     else:
                                         err_flg = 1
@@ -2807,8 +2941,10 @@ async def on_message(ctx):
                                 msg.send("マーリンを暗殺する場合、1人だけ選択してください。\n1番のプレイヤーを暗殺する場合：　.k 1\n恋人の2人を暗殺する場合、2人を選択してください。\n１番と２番のプレイヤーを暗殺したい場合：　.k 1,2")
                             else:
                                 msg.send("暗殺メンバーは１人です。\nプレイヤー1を暗殺する場合：　.k 1")
+                    else:
+                        await ctx.channel.send(f"あなたは暗殺者ではありません。")
                 else:
-                    await ctx.channel.send(f"このコマンドは無効です。：{comment}")
+                        await ctx.channel.send(f"このコマンドは無効です。：{comment}")
             else:
                 await ctx.channel.send(f"このコマンドは無効です。：{comment}")
 
@@ -2822,10 +2958,10 @@ async def loop():
     channel = client.get_channel(646047618849439744)
     if now == '21:00':
         if day == '3':
-            await channel.send('@everyone 今日は水曜日です。\nアヴァロンやれる人はできる時間を書き込んでください。')
+            await channel.send('@everyone 今日は水曜日です。\nアヴァロンできる人はできる時間を書き込んでください。')
     elif now == '22:00':
         if day == '2':
-            await channel.send('@everyone 明日は水曜日です。\nアヴァロンやりませんか？')
+            await channel.send('@everyone 明日は水曜日です。\nアヴァロンできる人はできる時間を書き込んでください。')
         elif day == '3':
             await channel.send('@everyone ☆☆アヴァロンの時間です☆☆')
 
