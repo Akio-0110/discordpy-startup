@@ -332,7 +332,7 @@ def get_history(select, num, cnt):
 
             for j in range(num):
                 if quest[i][j+1]%2 == 1:
-                    quest_vote[i] = f"{quest_vote[i]}\n■[{j+1}]{user[j][1]}"
+                    quest_vote[i] = f"{quest_vote[i]}\n**■[{j+1}]{user[j][1]}**"
                 else:
                     quest_vote[i] = f"{quest_vote[i]}\n□[{j+1}]{user[j][1]}"
                 if quest[i][j+1]%8 >= 4:
@@ -351,9 +351,9 @@ def get_history(select, num, cnt):
     for i in range(5):
         if i+1 == cnt:
             if num >= 7 and cnt == 4:
-                quest_info[i] = f"■{i+1}クエ：{quest_member_num[num][i][0]}人[2失敗で失敗]"
+                quest_info[i] = f"**■{i+1}クエ：{quest_member_num[num][i][0]}人[2失敗で失敗]**"
             else:
-                quest_info[i] = f"■{i+1}クエ：{quest_member_num[num][i][0]}人"
+                quest_info[i] = f"**■{i+1}クエ：{quest_member_num[num][i][0]}人**"
         else:
             if num >= 7 and cnt == 4:
                 quest_info[i] = f"□{i+1}クエ：{quest_member_num[num][i][0]}人[2失敗で失敗]"
